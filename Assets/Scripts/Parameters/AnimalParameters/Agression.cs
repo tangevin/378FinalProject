@@ -1,5 +1,5 @@
 ﻿using System;
 
-public enum Agression {
+public enum Aggression {
     LOW, MEDIUM, HIGH
 }

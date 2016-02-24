@@ -1,5 +1,5 @@
 ﻿using System;
 
-public enum TemperatureTollerance {
+public enum TemperatureTolerance {
     LOW, MEDIUM, HIGH
 }

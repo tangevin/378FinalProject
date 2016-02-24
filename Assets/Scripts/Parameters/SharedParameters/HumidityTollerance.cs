@@ -1,5 +1,5 @@
 ﻿using System;
 
-public enum HumidityTollerance {
+public enum HumidityTolerance {
     LOW, MEDIUM, HIGH
 }

@@ -1,5 +1,5 @@
 ﻿using System;
 
-public enum BiomeType {
+public enum SpaceNeeded {
     SMALL, MEDIUM, LARGE, EXTRALARGE
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 
-public enum BaseHumidity {
+public enum BaseHumidity
+{
     LOW, MEDIUM, HIGH
 }

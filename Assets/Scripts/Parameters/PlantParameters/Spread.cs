@@ -1,5 +1,6 @@
 ﻿using System;
 
-public enum Spread {
+public enum Spread
+{
     LOW, MEDIUM, HIGH
 }

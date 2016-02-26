@@ -1,5 +1,6 @@
 ﻿using System;
 
-public enum BaseTemperature {
+public enum BaseTemperature
+{
     LOW, MEDIUM, HIGH
 }

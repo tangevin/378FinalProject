@@ -1,5 +1,6 @@
 ﻿using System;
 
-public enum FoodNeeded {
+public enum FoodNeeded
+{
     LOW, MEDIUM, HIGH
 }

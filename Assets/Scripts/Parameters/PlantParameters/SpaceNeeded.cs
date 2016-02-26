@@ -1,5 +1,6 @@
 ﻿using System;
 
-public enum SpaceNeeded {
+public enum SpaceNeeded
+{
     SMALL, MEDIUM, LARGE, EXTRALARGE
 }

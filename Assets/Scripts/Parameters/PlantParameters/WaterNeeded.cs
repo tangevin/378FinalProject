@@ -1,5 +1,6 @@
 ﻿using System;
 
-public enum WaterNeeded {
+public enum WaterNeeded
+{
     LOW, MEDIUM, HIGH
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 
-public enum PlantType {
+public enum PlantType
+{
     TREE, BUSH, GRASS
 }

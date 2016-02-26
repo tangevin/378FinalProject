@@ -1,6 +1,7 @@
 ﻿using System;
 
-public enum FoodType {
+public enum FoodType
+{
     HERBIVORE, CARNIVORE, OMNIVORE
 }
 

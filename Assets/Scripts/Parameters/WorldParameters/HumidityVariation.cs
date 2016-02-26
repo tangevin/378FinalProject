@@ -1,5 +1,6 @@
 ﻿using System;
 
-public enum HumidityVariation {
+public enum HumidityVariation
+{
     LOW, MEDIUM, HIGH
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 
-public enum Lifespan {
+public enum Lifespan
+{
     SHORT, MEDIUM, LONG
 }

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Animal : Organism {
+public class Animal : Organism
+{
     private SpriteRenderer sprite;
 
     public Aggression aggression;
@@ -16,7 +17,8 @@ public class Animal : Organism {
     public Babies babies;
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         //Randomly select an enum value and assign it to each parameter
         System.Random random = new System.Random();
 
@@ -49,7 +51,8 @@ public class Animal : Organism {
     }
 
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 	
 	}
 }

@@ -16,6 +16,9 @@ public class Tile : MonoBehaviour
     public HumidityVariation humidityVariation;
     public TemperatureVariation temperatureVariation;
 
+    public Dictionary<Plant, int> plants = new Dictionary<Plant,int>();
+    public Dictionary<Animal, int> animals = new Dictionary<Animal,int>();
+
     void Start()
     {
         sprite = GetComponent<SpriteRenderer>();

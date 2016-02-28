@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class World : MonoBehaviour
@@ -6,6 +7,8 @@ public class World : MonoBehaviour
     GameObject[,] map;
     public int height, width;
     public GameObject tilePrefab, worldPrefab;
+
+    public bool gameTick = true;
 
     // Use this for initialization
     void Start()
@@ -30,6 +33,23 @@ public class World : MonoBehaviour
                 map[y, x] = go;
             }
         }
+    }
+
+    void Update() {
+        if (gameTick) {
+            gameTick = false;
+            StartCoroutine(updatePlants());
+        }
+    }
+
+    private IEnumerator updatePlants() {
+        yield return new WaitForSeconds(4);
+
+        foreach (GameObject tileObject in this.map) {
+            tileObject.GetComponent<Tile>().onGameTick();
+        }
+
+        this.gameTick = true;
     }
 
     public void GetTilesInRange(List<GameObject> list, int x, int y, int range)

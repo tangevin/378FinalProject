@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed2768a18dda5724886d85352121a3c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantPrefab: {fileID: 11485252, guid: 4e1e52493d9861244bdf85644ffdb004, type: 2}
+  plantPrefab: {fileID: 117272, guid: 4e1e52493d9861244bdf85644ffdb004, type: 2}
   range: 2
   amountOfWater: 2
   baseHumidity: 1

@@ -10,6 +10,7 @@ public class Tile : MonoBehaviour
     public int y { get; private set; }
 
     public GameObject plantPrefab;
+    public GameObject animalPrefab;
 
     public int range;
     public AmountOfWater amountOfWater;
@@ -34,12 +35,21 @@ public class Tile : MonoBehaviour
         if (this.plants.Keys.Count > 0) {
             sprite.color = Color.green;
         }
+        else if (this.animals.Keys.Count > 0) {
+            sprite.color = Color.red;
+        }
     }
 
     void OnMouseOver() {
         if (Input.GetMouseButtonUp(0)) {
+            Debug.Log("Plants:");
             foreach (Plant p in this.plants.Keys) {
                 Debug.Log(p.name + " " + this.plants[p]);
+            }
+
+            Debug.Log("Animals:");
+            foreach (Animal a in this.animals.Keys) {
+                Debug.Log(a.name + " " + this.animals[a]);
             }
         }
         else if (Input.GetMouseButtonUp(1)) {
@@ -50,6 +60,23 @@ public class Tile : MonoBehaviour
                 SpaceNeeded.MEDIUM, false, false, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG);
 
             this.addPlant(p, 1);
+        }
+        else if (Input.GetKeyUp(KeyCode.A)) {
+            GameObject newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
+            Animal a = newAnimal.GetComponent<Animal>();
+
+            a.initialize("Test animal", Aggression.LOW, FoodNeeded.LOW, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.MALE, 
+                Perception.FAR, 2, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
+
+            this.addAnimal(a);
+
+            newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
+            a = newAnimal.GetComponent<Animal>();
+
+            a.initialize("Test animal", Aggression.LOW, FoodNeeded.LOW, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.FEMALE,
+                Perception.FAR, 2, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
+
+            this.addAnimal(a);
         }
     }
 
@@ -281,8 +308,8 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void addAnimal(Animal p)
+    public void addAnimal(Animal a)
     {
-        this.animals.Add(p, 1);
+        this.animals.Add(a, 1);
     }
 }

@@ -9,22 +9,24 @@ public class Animal : Organism
     private int highGes = 20;
     private int hungerMax = 100;
 
-    public int speciesID;
-    public int pregnancy;
-    public int hunger;
-    public bool ready;
+    public string name { get; private set; }
 
-    public Aggression aggression;
-    public FoodNeeded foodNeeded;
-    public FoodType foodType;
-    public AnimalSize animalSize;
-    public BodyType bodyType;
-    public Gender gender;
-    public int gestation;
-    public Perception perception;
-    public Speed speed;
-    public Babies babies;
-    public bool pregnant;
+    public int speciesID { get; private set; }
+    public int pregnancy { get; private set; }
+    public int hunger { get; private set; }
+    public bool ready { get; private set; }
+
+    public Aggression aggression { get; private set; }
+    public FoodNeeded foodNeeded { get; private set; }
+    public FoodType foodType { get; private set; }
+    public AnimalSize animalSize { get; private set; }
+    public BodyType bodyType { get; private set; }
+    public Gender gender { get; private set; }
+    public int gestation { get; private set; }
+    public Perception perception { get; private set; }
+    public Speed speed { get; private set; }
+    public Babies babies { get; private set; }
+    public bool pregnant { get; private set; }
     public HashSet<Animal> spawn = new HashSet<Animal>();
 
     // Use this for initialization--
@@ -33,9 +35,10 @@ public class Animal : Organism
         
     }
 
-    public void initialize(Aggression agr, FoodNeeded fdNd, FoodType fType, BodyType bType, AnimalSize anSize, Gender gndr, Perception perc, int gest,
+    public void initialize(string name, Aggression agr, FoodNeeded fdNd, FoodType fType, BodyType bType, AnimalSize anSize, Gender gndr, Perception perc, int gest,
                 Speed spd, Babies bbies, HumidityTolerance humid, TemperatureTolerance tempTol, Lifespan lfs, int specID)
     {
+        this.name = name;
         pregnant = false;
         speciesID = specID;
         aggression = agr;
@@ -76,7 +79,8 @@ public class Animal : Organism
         
         GameObject newAnimal = (GameObject)Instantiate(mother.gameObject, mother.transform.position, Quaternion.identity);
         Animal a = newAnimal.GetComponent<Animal>();
-        a.initialize((Aggression)agg.GetValue(random.Next(agg.Length)),
+        a.initialize(father.name,
+                          (Aggression)agg.GetValue(random.Next(agg.Length)),
                           (FoodNeeded)foodNeed.GetValue(random.Next(foodNeed.Length)),
                           (FoodType)fType.GetValue(random.Next(fType.Length)),
                           (BodyType)bType.GetValue(random.Next(bType.Length)),

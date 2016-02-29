@@ -7,7 +7,7 @@ public class Animal : Organism
     private SpriteRenderer sprite;
     private int lowGes = 2;
     private int highGes = 20;
-    private int speciesID;
+    public int speciesID;
     public int pregnancy;
     public bool ready;
 
@@ -109,10 +109,11 @@ public class Animal : Organism
     }
 
 	// Update is called once per frame
-	void breed(Animal parent)
+	public void breed(Animal parent)
     { 
         for (int i = 0; i < (int)babies; i++)
             spawn.Add(createNew(this, parent));
+        pregnant = true;
     }
 
     Animal createNew(Animal father, Animal mother)
@@ -146,12 +147,17 @@ public class Animal : Organism
                           speciesID);
     }
 
-    HashSet<Animal> giveBirth()
+    public HashSet<Animal> giveBirth()
     {
         return spawn;
     }
 
-    void removeChildren()
+    public int eat(Organism food)
+    {
+        return 1;
+    }
+
+    public void removeChildren()
     {
         spawn = new HashSet<Animal>();
     }
@@ -169,4 +175,27 @@ public class Animal : Organism
         }
     }
 
+    public int CheckSurvive(bool food, Humidity humid, Temperature temp)
+    {
+        //Will implement this afternoon before class
+        return 0;
+    }
+
+    public int CheckDeath(bool food, Humidity humid, Temperature temp)
+    {
+        //Second verse, same as the first
+        return 0;
+    }
+
+    public Organism findFoodInRange()
+    {
+        //Will implement later
+        return this;
+    }
+
+    public Animal findBreedingInRange()
+    {
+        //Will implement later
+        return this;
+    }
 }

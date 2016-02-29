@@ -79,7 +79,17 @@ public class Tile : MonoBehaviour
     public void onGameTick()
     {
         handlePlants();
+        handleAnimals();
     }
+
+    private void handleAnimals() {
+        List<Animal> animalKeys = new List<Animal>(this.animals.Keys);
+
+        foreach (Animal a in animalKeys) {
+
+        }
+    }
+
 
     private void handlePlants() {
         List<Plant> plantKeys = new List<Plant>(this.plants.Keys);

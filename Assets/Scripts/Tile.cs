@@ -100,7 +100,7 @@ public class Tile : MonoBehaviour
             closeTiles.Remove(this.gameObject);
             List<Animal> ans = new List<Animal>(this.animals.Keys);
             List<Plant> plant = new List<Plant>(this.plants.Keys);
-            Object decision = makeDecison(ans, plant, closeTiles);
+            Object decision = makeDecison(a, ans, plant, closeTiles);
             System.Type decisionType = decision.GetType();
             switch (decisionType.ToString())
             {
@@ -147,20 +147,49 @@ public class Tile : MonoBehaviour
         }
     }
 
-    private Object makeDecison(List<Animal> ans, List<Plant> plnts, List<GameObject> tiles) {
+    private Object makeDecison(Animal anm, List<Animal> ans, List<Plant> plnts, List<GameObject> tiles) {
         //Still need to implement this.  It currently selects an option at random
         //Will do later this week but for an alpha it works fine
         System.Random random = new System.Random();
+        System.Array objs;
+
+        ans.Remove(anm);
+        List<Animal> breeding = new List<Animal>();
+
+        foreach (Animal a in ans)
+        {
+            if (a.speciesID == anm.speciesID)
+            {
+                if (a.gender != anm.gender)
+                    breeding.Add(a);
+                ans.Remove(a);
+            }
+        }
 
         System.Array animalArr = ans.ToArray();
+        if (anm.gender == Gender.MALE)
+        {
+            int ind = random.Next(0, 1);
+            if (ind == 0)
+            {
+                animalArr = breeding.ToArray();
+            }
+        }
+
         System.Array plantArr = plnts.ToArray();
         System.Array tileArr = tiles.ToArray();
 
         Animal animal = (Animal)animalArr.GetValue(random.Next(animalArr.Length));
-        Plant plant = (Plant)plantArr.GetValue(random.Next(plantArr.Length));
         Tile tile = (Tile)tileArr.GetValue(random.Next(tileArr.Length));
-
-        System.Array objs = new Object[3] {animal, plant, tile};
+        if (anm.foodType == FoodType.HERBIVORE || anm.foodType == FoodType.OMNIVORE)
+        {
+            Plant plant = (Plant)plantArr.GetValue(random.Next(plantArr.Length));
+            objs = new Object[3] { animal, plant, tile };
+        }
+        else
+        {
+            objs = new Object[2] { animal, tile };
+        }
         return (Object)objs.GetValue(random.Next(objs.Length));
     }
 

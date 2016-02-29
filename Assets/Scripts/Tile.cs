@@ -140,7 +140,9 @@ public class Tile : MonoBehaviour
             int numSurvive = a.CheckSurvive(eaten, humidity, temperature);
             int numDie = a.CheckDeath(eaten, humidity, temperature);
 
-            if (numSurvive < numDie)
+            if ((numSurvive + numDie) < 0)
+                animals.Remove(a);
+            if ((a.hunger < 0))
                 animals.Remove(a);
         }
     }

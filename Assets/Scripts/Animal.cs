@@ -7,8 +7,11 @@ public class Animal : Organism
     private SpriteRenderer sprite;
     private int lowGes = 2;
     private int highGes = 20;
+    private int hungerMax = 100;
+
     public int speciesID;
     public int pregnancy;
+    public int hunger;
     public bool ready;
 
     public Aggression aggression;
@@ -154,7 +157,8 @@ public class Animal : Organism
 
     public int eat(Organism food)
     {
-        return 1;
+        hunger = hungerMax;
+        return 5;
     }
 
     public void removeChildren()
@@ -173,18 +177,74 @@ public class Animal : Organism
                 pregnant = false;
             } 
         }
+        string fneed = foodNeeded.ToString();
+        switch(fneed)
+        {
+            case "LOW":
+                hunger -= 1;
+                break;
+            case "MEDIUM":
+                hunger -= 5;
+                break;
+            case "HIGH":
+                hunger -= 10;
+                break;
+        }
+        
     }
 
     public int CheckSurvive(bool food, Humidity humid, Temperature temp)
     {
-        //Will implement this afternoon before class
-        return 0;
+        int ret = 0;
+
+        if (food) { ret += 5; }
+
+        if (humidityTol == HumidityTolerance.LOW && humid == Humidity.LOW) { ret += 1; };
+
+        if (humidityTol == HumidityTolerance.MEDIUM && humid == Humidity.MEDIUM) { ret += 1; };
+
+        if (humidityTol == HumidityTolerance.HIGH && humid == Humidity.HIGH) { ret += 1; };
+
+        if (tempTol == TemperatureTolerance.LOW && temp == Temperature.LOW) { ret += 1; };
+
+        if (tempTol == TemperatureTolerance.MEDIUM && temp == Temperature.MEDIUM) { ret += 1; };
+
+        if (tempTol == TemperatureTolerance.HIGH && temp == Temperature.HIGH) { ret += 1; };
+
+        return ret;
     }
 
     public int CheckDeath(bool food, Humidity humid, Temperature temp)
     {
-        //Second verse, same as the first
-        return 0;
+        int ret = 0;
+
+        if (! food) { ret -= 3; }
+
+        if (humidityTol == HumidityTolerance.LOW && humid == Humidity.MEDIUM) { ret -= 1; };
+
+        if (humidityTol == HumidityTolerance.LOW && humid == Humidity.HIGH) { ret -= 2; };
+
+        if (humidityTol == HumidityTolerance.MEDIUM && humid == Humidity.LOW) { ret -= 1; };
+
+        if (humidityTol == HumidityTolerance.MEDIUM && humid == Humidity.HIGH) { ret -= 1; };
+
+        if (humidityTol == HumidityTolerance.HIGH && humid == Humidity.MEDIUM) { ret -= 1; };
+
+        if (humidityTol == HumidityTolerance.HIGH && humid == Humidity.LOW) { ret -= 2; };
+
+        if (tempTol == TemperatureTolerance.LOW && temp == Temperature.MEDIUM) { ret -= 1; };
+
+        if (tempTol == TemperatureTolerance.LOW && temp == Temperature.HIGH) { ret -= 2; };
+
+        if (tempTol == TemperatureTolerance.MEDIUM && temp == Temperature.LOW) { ret -= 1; };
+
+        if (tempTol == TemperatureTolerance.MEDIUM && temp == Temperature.HIGH) { ret -= 1; };
+
+        if (tempTol == TemperatureTolerance.HIGH && temp == Temperature.MEDIUM) { ret -= 1; };
+
+        if (tempTol == TemperatureTolerance.HIGH && temp == Temperature.LOW) { ret -= 2; };
+
+        return ret;
     }
 
     public Organism findFoodInRange()

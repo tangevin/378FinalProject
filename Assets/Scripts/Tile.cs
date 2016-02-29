@@ -79,6 +79,87 @@ public class Tile : MonoBehaviour
     public void onGameTick()
     {
         handlePlants();
+        handleAnimals();
+    }
+
+    private void handleAnimals() {
+        List<Animal> animalKeys = new List<Animal>(this.animals.Keys);
+
+        foreach (Animal a in animalKeys) {
+            bool eaten = false;
+            //If the animal is pregnant and ready to give birth
+            if (a.ready == true)
+            {
+                HashSet<Animal> babies = a.giveBirth();
+                foreach (Animal baby in babies)
+                    this.addAnimal(baby);
+                a.removeChildren();
+            }
+            List<GameObject> closeTiles = new List<GameObject>();
+            world.GetComponent<World>().GetTilesInRange(closeTiles, this.x, this.y, (int)a.perception + 1);
+            closeTiles.Remove(this.gameObject);
+            List<Animal> ans = new List<Animal>(this.animals.Keys);
+            List<Plant> plant = new List<Plant>(this.plants.Keys);
+            Object decision = makeDecison(ans, plant, closeTiles);
+            System.Type decisionType = decision.GetType();
+            switch (decisionType.ToString())
+            {
+                case "Animal":
+                    Animal other = (Animal)decision;
+                    //No canibalism allowed
+                    if (other.speciesID == a.speciesID)
+                    {
+                        //Only males seek out breeding
+                        other.breed(a);
+                    }
+                    else
+                    {
+                        //Predator Looking for food
+                        if (other.speed <= a.speed)
+                        {
+                            a.eat(other);
+                            animals.Remove(other);
+                            eaten = true;
+                        }
+                    }
+                    break;
+                case "Plant":
+                    //I still need to figure out how they interact with poison
+                    Plant plnt = (Plant)decision;
+                    a.eat(plnt);
+                    plants.Remove(plnt);
+                    break;
+                case "GameObject":
+                    Tile t = (Tile)decision;
+                    t.addAnimal(a);
+                    animals.Remove(a);
+                    break;
+                default:
+                    break;
+            }
+            int numSurvive = a.CheckSurvive(eaten, humidity, temperature);
+            int numDie = a.CheckDeath(eaten, humidity, temperature);
+
+            if (numSurvive < numDie)
+                animals.Remove(a);
+        }
+    }
+
+    private Object makeDecison(List<Animal> ans, List<Plant> plnts, List<GameObject> tiles) {
+        //Still need to implement this.  It currently selects an option at random
+        //Will do later this week but for an alpha it works fine
+        System.Random random = new System.Random();
+
+        System.Array animalArr = ans.ToArray();
+        System.Array plantArr = plnts.ToArray();
+        System.Array tileArr = tiles.ToArray();
+
+        Animal animal = (Animal)animalArr.GetValue(random.Next(animalArr.Length));
+        Plant plant = (Plant)plantArr.GetValue(random.Next(plantArr.Length));
+        Tile tile = (Tile)tileArr.GetValue(random.Next(tileArr.Length));
+
+        System.Array objs = new Object[3] {animal, plant, tile};
+        return (Object)objs.GetValue(random.Next(objs.Length));
     }
 
     private void handlePlants() {
@@ -167,5 +248,10 @@ public class Tile : MonoBehaviour
         else {
             this.plants.Add(p, numToAdd);
         }
+    }
+
+    public void addAnimal(Animal p)
+    {
+        this.animals.Add(p, 1);
     }
 }

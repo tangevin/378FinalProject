@@ -7,7 +7,7 @@ public class World : MonoBehaviour
     GameObject[,] map;
     public int height, width;
     public GameObject tilePrefab, worldPrefab;
-
+    public HashSet<int> speciesIDs = new HashSet<int>();
     public bool gameTick = true;
 
     // Use this for initialization

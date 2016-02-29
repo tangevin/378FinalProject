@@ -2,5 +2,5 @@
 
 public enum Perception
 {
-    SHORT, MEDIUM, FAR
+    SHORT, FAR
 }

@@ -80,6 +80,7 @@ public class Tile : MonoBehaviour
     {
         handlePlants();
         handleAnimals();
+        DispProportions(getDispProportions());
     }
 
     private void handleAnimals() {
@@ -133,8 +134,6 @@ public class Tile : MonoBehaviour
                     Tile t = (Tile)decision;
                     t.addAnimal(a);
                     animals.Remove(a);
-                    break;
-                default:
                     break;
             }
             int numSurvive = a.CheckSurvive(eaten, humidity, temperature);
@@ -270,6 +269,32 @@ public class Tile : MonoBehaviour
                 this.plants[p] = newTotal;
             }
         }
+    }
+
+    public Dictionary<int, int> getDispProportions()
+    {
+        int plant = -1;
+        int plantNum = plants.Count;
+        int count = 1;
+        List<Animal> animalKeys = new List<Animal>(this.animals.Keys);
+        Dictionary<int, int> counts = new Dictionary<int, int>();
+        counts.Add(plant, plantNum);
+
+        foreach (Animal a in animalKeys)
+        {
+            if (counts.ContainsKey(a.speciesID))
+            {
+                counts[a.speciesID] += 1;
+            }
+            else
+                counts.Add(a.speciesID, 1);
+        }
+        return counts;
+    }
+
+    public void DispProportions(Dictionary<int, int> proportions)
+    {
+        //Will implement this in a bit, and will optimize it later in week so you don't check everything every game tick, but that will take some work
     }
 
     public void addPlant(Plant p, int numToAdd) {

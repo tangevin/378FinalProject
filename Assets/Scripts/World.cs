@@ -38,11 +38,11 @@ public class World : MonoBehaviour
     void Update() {
         if (gameTick) {
             gameTick = false;
-            StartCoroutine(updatePlants());
+            StartCoroutine(update());
         }
     }
 
-    private IEnumerator updatePlants() {
+    private IEnumerator update() {
         yield return new WaitForSeconds(4);
 
         foreach (GameObject tileObject in this.map) {

@@ -38,20 +38,25 @@ public class Tile : MonoBehaviour
             biome = new Biome(BiomeType.DESERT);
     }
 
-    void Update()
+    void Update() 
     {
-        /**if (this.plants.Keys.Count > 0)
+        /**if (this.plants.Keys.Count > 0 && this.animals.Keys.Count == 0) 
         {
             sprite.color = Color.green;
         }
-        else if (this.animals.Keys.Count > 0)
+        else if (this.animals.Keys.Count > 0 && this.plants.Keys.Count == 0) 
         {
             sprite.color = Color.red;
         }
-        else
+        else if (this.animals.Keys.Count == 0 && this.plants.Keys.Count == 0)
         {
             sprite.color = Color.white;
+        }
+        else
+        {
+            sprite.color = DispProportions(getDispProportions());
         }*/
+
         sprite.color = biome.color;
     }
 
@@ -133,7 +138,6 @@ public class Tile : MonoBehaviour
     {
         handlePlants();
         handleAnimals();
-        DispProportions(getDispProportions());
     }
 
     private void handleAnimals()
@@ -403,9 +407,16 @@ public class Tile : MonoBehaviour
         return counts;
     }
 
-    public void DispProportions(Dictionary<int, int> proportions)
+    public Color DispProportions(Dictionary<int, int> proportions)
     {
         //Will implement this in a bit, and will optimize it later in week so you don't check everything every game tick, but that will take some work
+        int total = 0;
+        foreach (int count in proportions.Values)
+        {
+            total += count;
+        }
+        float plantProp = proportions[-1] / total;
+        return (Color.green + Color.red) * plantProp;
     }
 
     public void addPlant(Plant p, int numToAdd)

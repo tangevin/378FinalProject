@@ -35,18 +35,26 @@ public class World : MonoBehaviour
         }
     }
 
-    void Update() {
-        if (gameTick) {
+    void Update()
+    {
+        if (gameTick)
+        {
             gameTick = false;
-            StartCoroutine(update());
+            StartCoroutine(updatePlants());
         }
     }
 
-    private IEnumerator update() {
+    private IEnumerator updatePlants()
+    {
         yield return new WaitForSeconds(4);
-
-        foreach (GameObject tileObject in this.map) {
+        foreach (GameObject tileObject in this.map)
+        {
             tileObject.GetComponent<Tile>().onGameTick();
+        }
+
+        foreach (GameObject tileObject in this.map)
+        {
+            tileObject.GetComponent<Tile>().resetMovement();
         }
 
         this.gameTick = true;

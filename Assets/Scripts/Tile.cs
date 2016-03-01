@@ -12,15 +12,7 @@ public class Tile : MonoBehaviour
     public GameObject plantPrefab;
     public GameObject animalPrefab;
 
-    public int range;
-    public AmountOfWater amountOfWater;
-    public BaseHumidity baseHumidity;
-    public BaseTemperature baseTemperature;
-    public Humidity humidity;
-    public Temperature temperature;
-    public BiomeType biomeType;
-    public HumidityVariation humidityVariation;
-    public TemperatureVariation temperatureVariation;
+    public Biome biome;
 
     public Dictionary<Plant, int> plants = new Dictionary<Plant,int>();
     public Dictionary<Animal, int> animals = new Dictionary<Animal,int>();
@@ -29,33 +21,58 @@ public class Tile : MonoBehaviour
     {
         sprite = GetComponent<SpriteRenderer>();
         active = false;
+
+        int random = (int)(Random.value * 100);
+
+        if (random < 35)
+            biome = new Biome(BiomeType.OCEAN);
+        else if (random < 45)
+            biome = new Biome(BiomeType.RIVER);
+        else if (random < 55)
+            biome = new Biome(BiomeType.PLAIN);
+        else if (random < 65)
+            biome = new Biome(BiomeType.FOREST);
+        else if (random < 75)
+            biome = new Biome(BiomeType.MOUNTAIN);
+        else
+            biome = new Biome(BiomeType.DESERT);
     }
 
-    void Update() {
-        if (this.plants.Keys.Count > 0) {
+    void Update()
+    {
+        /**if (this.plants.Keys.Count > 0)
+        {
             sprite.color = Color.green;
         }
-        else if (this.animals.Keys.Count > 0) {
+        else if (this.animals.Keys.Count > 0)
+        {
             sprite.color = Color.red;
         }
-        else {
+        else
+        {
             sprite.color = Color.white;
-        }
+        }*/
+        sprite.color = biome.color;
     }
 
-    void OnMouseOver() {
-        if (Input.GetMouseButtonUp(0)) {
+    void OnMouseOver()
+    {
+        if (Input.GetMouseButtonUp(0))
+        {
             Debug.Log("Plants:");
-            foreach (Plant p in this.plants.Keys) {
+            foreach (Plant p in this.plants.Keys)
+            {
                 Debug.Log(p.name + " " + this.plants[p]);
             }
 
             Debug.Log("Animals:");
-            foreach (Animal a in this.animals.Keys) {
+            foreach (Animal a in this.animals.Keys)
+            {
                 Debug.Log(a.name + " " + this.animals[a]);
             }
         }
-        else if (Input.GetMouseButtonUp(1)) {
+        else if (Input.GetMouseButtonUp(1))
+        {
             GameObject newPlant = (GameObject)Instantiate(plantPrefab, new Vector3(x, y, 0), Quaternion.identity);
             Plant p = newPlant.GetComponent<Plant>();
                 
@@ -64,7 +81,8 @@ public class Tile : MonoBehaviour
 
             this.addPlant(p, 1);
         }
-        else if (Input.GetKeyUp(KeyCode.A)) {
+        else if (Input.GetKeyUp(KeyCode.A))
+        {
             GameObject newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             Animal a = newAnimal.GetComponent<Animal>();
 
@@ -85,13 +103,18 @@ public class Tile : MonoBehaviour
 
     void OnMouseDown()
     {
-        /*List<GameObject> tiles = new List<GameObject>();
-        world.GetComponent<World>().GetTilesInRange(tiles, x, y, range);
+        /**List<GameObject> tiles = new List<GameObject>();
+        world.GetComponent<World>().GetTilesInRange(tiles, x, y, 3);
 
         foreach (GameObject tile in tiles)
         {
             tile.GetComponent<Tile>().ChangeColor();
         }*/
+    }
+
+    public void Populate()
+    {
+        plants.Add(new Plant(), 0);
     }
 
     public void SetData(int x, int y, GameObject world)
@@ -113,7 +136,8 @@ public class Tile : MonoBehaviour
         DispProportions(getDispProportions());
     }
 
-    private void handleAnimals() {
+    private void handleAnimals()
+    {
         List<Animal> animalKeys = new List<Animal>(this.animals.Keys);
 
         foreach (Animal a in animalKeys)
@@ -175,13 +199,17 @@ public class Tile : MonoBehaviour
                             break;
                     }
                 }
-                int numSurvive = a.CheckSurvive(eaten, humidity, temperature);
-                int numDie = a.CheckDeath(eaten, humidity, temperature);
+                int numSurvive = a.CheckSurvive(eaten, biome.humidity, biome.temperature);
+                int numDie = a.CheckDeath(eaten, biome.humidity, biome.temperature);
 
                 if ((numSurvive + numDie) < 0)
+                {
                     animals.Remove(a);
+                }
                 if ((a.hunger < 0))
+                {
                     animals.Remove(a);
+                }
             }
         }
     }
@@ -194,7 +222,8 @@ public class Tile : MonoBehaviour
         }
     }
 
-    private GameObject makeDecison(Animal anm, List<Animal> ans, List<Plant> plnts, List<GameObject> tiles) {
+    private GameObject makeDecison(Animal anm, List<Animal> ans, List<Plant> plnts, List<GameObject> tiles)
+    {
         //Still need to implement this.  It currently selects an option at random
         //Will do later this week but for an alpha it works fine
         System.Random random = new System.Random();
@@ -208,9 +237,12 @@ public class Tile : MonoBehaviour
             if (a.speciesID == anm.speciesID)
             {
                 if (a.gender != anm.gender)
+                {
                     breeding.Add(a.gameObject);
+                }
             }
-            else {
+            else
+            {
                 eating.Add(a.gameObject);
             }
         }
@@ -229,7 +261,8 @@ public class Tile : MonoBehaviour
 
         GameObject animal = null;
 
-        if (animalArr.Length != 0) {
+        if (animalArr.Length != 0)
+        {
             animal = (GameObject)animalArr.GetValue(random.Next(animalArr.Length));
         }
 
@@ -239,7 +272,8 @@ public class Tile : MonoBehaviour
         {
             GameObject plant = null;
 
-            if (plnts.Count != 0) {
+            if (plnts.Count != 0)
+            {
                 plant = plnts[random.Next(plnts.Count)].gameObject;
             }
 
@@ -254,22 +288,27 @@ public class Tile : MonoBehaviour
         return (GameObject)objs.GetValue(2);
     }
 
-    private void handlePlants() {
+    private void handlePlants()
+    {
         List<Plant> plantKeys = new List<Plant>(this.plants.Keys);
 
-        foreach (Plant p in plantKeys) {
+        foreach (Plant p in plantKeys)
+        {
             int numInTile = plants[p];
 
-            int numGrowth = p.checkInTileGrowth(numInTile, amountOfWater, humidity, temperature);
-            int numDeath = p.checkInTileDeath(numInTile, amountOfWater, humidity, temperature);
+            int numGrowth = p.checkInTileGrowth(numInTile, biome.amountOfWater, biome.humidity, biome.temperature);
+            int numDeath = p.checkInTileDeath(numInTile, biome.amountOfWater, biome.humidity, biome.temperature);
 
             int newTotal = numInTile + numGrowth - numDeath;
 
-            if (newTotal <= 0) {
+            if (newTotal <= 0)
+            {
                 plants.Remove(p);
             }
-            else {
-                if (p.checkCanSpread(newTotal)) {
+            else
+            {
+                if (p.checkCanSpread(newTotal))
+                {
                     List<GameObject> surroundingTiles = new List<GameObject>();
                     world.GetComponent<World>().GetTilesInRange(surroundingTiles, this.x, this.y, 1);
                     surroundingTiles.Remove(this.gameObject);
@@ -279,7 +318,8 @@ public class Tile : MonoBehaviour
                     List<Tile> tilesToSpreadTo = new List<Tile>();
 
                     if (p.spread == Spread.LOW) {
-                        for (int i = 0; i < 1 && surroundingTiles.Count >= 1; i++) {
+                        for (int i = 0; i < 1 && surroundingTiles.Count >= 1; i++)
+                        {
                             int spreadNumber = random.Next(0, surroundingTiles.Count);
                             GameObject tileObject = surroundingTiles[spreadNumber];
 
@@ -289,8 +329,10 @@ public class Tile : MonoBehaviour
                             newTotal--;
                         }
                     }
-                    else if (p.spread == Spread.MEDIUM) {
-                        for (int i = 0; i < 2 && surroundingTiles.Count >= 1; i++) {
+                    else if (p.spread == Spread.MEDIUM)
+                    {
+                        for (int i = 0; i < 2 && surroundingTiles.Count >= 1; i++)
+                        {
                             int spreadNumber = random.Next(0, surroundingTiles.Count);
                             GameObject tileObject = surroundingTiles[spreadNumber];
 
@@ -300,8 +342,10 @@ public class Tile : MonoBehaviour
                             newTotal--;
                         }
                     }
-                    else if (p.spread == Spread.HIGH) {
-                        for (int i = 0; i < 3 && surroundingTiles.Count >= 1; i++) {
+                    else if (p.spread == Spread.HIGH)
+                    {
+                        for (int i = 0; i < 3 && surroundingTiles.Count >= 1; i++)
+                        {
                             int spreadNumber = random.Next(0, surroundingTiles.Count);
                             GameObject tileObject = surroundingTiles[spreadNumber];
 
@@ -312,22 +356,26 @@ public class Tile : MonoBehaviour
                         }
                     }
 
-                    foreach (Tile t in tilesToSpreadTo) {
-                        if (p.spaceNeeded == SpaceNeeded.SMALL) {
+                    foreach (Tile t in tilesToSpreadTo)
+                    {
+                        if (p.spaceNeeded == SpaceNeeded.SMALL)
+                        {
                             t.addPlant(p, 3);
                         }
-                        else if (p.spaceNeeded == SpaceNeeded.MEDIUM) {
+                        else if (p.spaceNeeded == SpaceNeeded.MEDIUM)
+                        {
                             t.addPlant(p, 2);
                         }
-                        else if (p.spaceNeeded == SpaceNeeded.LARGE) {
+                        else if (p.spaceNeeded == SpaceNeeded.LARGE)
+                        {
                             t.addPlant(p, 1);
                         }
-                        else if (p.spaceNeeded == SpaceNeeded.EXTRALARGE) {
+                        else if (p.spaceNeeded == SpaceNeeded.EXTRALARGE)
+                        {
                             t.addPlant(p, 1);
                         }
                     }
                 }
-
                 this.plants[p] = newTotal;
             }
         }
@@ -337,7 +385,6 @@ public class Tile : MonoBehaviour
     {
         int plant = -1;
         int plantNum = plants.Count;
-        int count = 1;
         List<Animal> animalKeys = new List<Animal>(this.animals.Keys);
         Dictionary<int, int> counts = new Dictionary<int, int>();
         counts.Add(plant, plantNum);
@@ -349,7 +396,9 @@ public class Tile : MonoBehaviour
                 counts[a.speciesID] += 1;
             }
             else
+            {
                 counts.Add(a.speciesID, 1);
+            }
         }
         return counts;
     }
@@ -359,11 +408,14 @@ public class Tile : MonoBehaviour
         //Will implement this in a bit, and will optimize it later in week so you don't check everything every game tick, but that will take some work
     }
 
-    public void addPlant(Plant p, int numToAdd) {
-        if (this.plants.ContainsKey(p)) {
+    public void addPlant(Plant p, int numToAdd)
+    {
+        if (this.plants.ContainsKey(p))
+        {
             this.plants[p] += numToAdd;
         }
-        else {
+        else
+        {
             this.plants.Add(p, numToAdd);
         }
     }

@@ -30,21 +30,26 @@ public class World : MonoBehaviour
 
                 GameObject go = (GameObject)Instantiate(tilePrefab, pos, Quaternion.identity);
                 go.GetComponent<Tile>().SetData(x, y, worldPrefab);
+                go.GetComponent<Tile>().Populate();
                 map[y, x] = go;
             }
         }
     }
 
-    void Update() {
-        if (gameTick) {
+    void Update()
+    {
+        if (gameTick)
+        {
             gameTick = false;
             StartCoroutine(updatePlants());
         }
     }
 
-    private IEnumerator updatePlants() {
+    private IEnumerator updatePlants()
+    {
         yield return new WaitForSeconds(4);
-        foreach (GameObject tileObject in this.map) {
+        foreach (GameObject tileObject in this.map)
+        {
             tileObject.GetComponent<Tile>().onGameTick();
         }
 

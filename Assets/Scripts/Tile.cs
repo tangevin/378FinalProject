@@ -36,11 +36,13 @@ public class Tile : MonoBehaviour
             biome = new Biome(BiomeType.MOUNTAIN);
         else
             biome = new Biome(BiomeType.DESERT);
+
+        Populate();
     }
 
     void Update() 
     {
-        /**if (this.plants.Keys.Count > 0 && this.animals.Keys.Count == 0) 
+        if (this.plants.Keys.Count > 0 && this.animals.Keys.Count == 0) 
         {
             sprite.color = Color.green;
         }
@@ -55,9 +57,9 @@ public class Tile : MonoBehaviour
         else
         {
             sprite.color = DispProportions(getDispProportions());
-        }*/
+        }
 
-        sprite.color = biome.color;
+        //sprite.color = biome.color;
     }
 
     void OnMouseOver()
@@ -119,7 +121,7 @@ public class Tile : MonoBehaviour
 
     public void Populate()
     {
-        plants.Add(new Plant(), 0);
+        // Populate with animals and plants
     }
 
     public void SetData(int x, int y, GameObject world)

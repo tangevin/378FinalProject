@@ -30,7 +30,6 @@ public class World : MonoBehaviour
 
                 GameObject go = (GameObject)Instantiate(tilePrefab, pos, Quaternion.identity);
                 go.GetComponent<Tile>().SetData(x, y, worldPrefab);
-                go.GetComponent<Tile>().Populate();
                 map[y, x] = go;
             }
         }

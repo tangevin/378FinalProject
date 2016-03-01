@@ -36,10 +36,10 @@ public class Animal : Organism
         
     }
 
-    public void initialize(string name, Aggression agr, FoodNeeded fdNd, FoodType fType, BodyType bType, AnimalSize anSize, Gender gndr, Perception perc, int gest,
+    public void initialize(string pName, Aggression agr, FoodNeeded fdNd, FoodType fType, BodyType bType, AnimalSize anSize, Gender gndr, Perception perc, int gest,
                 Speed spd, Babies bbies, HumidityTolerance humid, TemperatureTolerance tempTol, Lifespan lfs, int specID)
     {
-        this.name = name;
+        name = pName;
         pregnant = false;
         speciesID = specID;
         aggression = agr;

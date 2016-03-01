@@ -38,6 +38,9 @@ public class Tile : MonoBehaviour
         else if (this.animals.Keys.Count > 0) {
             sprite.color = Color.red;
         }
+        else {
+            sprite.color = Color.white;
+        }
     }
 
     void OnMouseOver() {
@@ -69,14 +72,14 @@ public class Tile : MonoBehaviour
                 Perception.FAR, 2, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
 
             this.addAnimal(a);
-
+            /*
             newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             a = newAnimal.GetComponent<Animal>();
 
             a.initialize("Test animal", Aggression.LOW, FoodNeeded.LOW, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.FEMALE,
                 Perception.FAR, 2, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
 
-            this.addAnimal(a);
+            this.addAnimal(a);*/
         }
     }
 
@@ -128,40 +131,44 @@ public class Tile : MonoBehaviour
             closeTiles.Remove(this.gameObject);
             List<Animal> ans = new List<Animal>(this.animals.Keys);
             List<Plant> plant = new List<Plant>(this.plants.Keys);
-            Object decision = makeDecison(a, ans, plant, closeTiles);
-            System.Type decisionType = decision.GetType();
-            switch (decisionType.ToString())
-            {
-                case "Animal":
-                    Animal other = (Animal)decision;
-                    //No canibalism allowed
-                    if (other.speciesID == a.speciesID)
-                    {
-                        //Only males seek out breeding
-                        other.breed(a);
-                    }
-                    else
-                    {
-                        //Predator Looking for food
-                        if (other.speed <= a.speed)
+            GameObject decision = makeDecison(a, ans, plant, closeTiles);
+
+            if (decision != null) {
+                System.Type decisionType = decision.GetType();
+                //switch (decisionType.ToString())
+                switch("GameObject")
+                {
+                    case "Animal":
+                        Animal other = decision.GetComponent<Animal>();
+                        //No canibalism allowed
+                        if (other.speciesID == a.speciesID)
                         {
-                            a.eat(other);
-                            animals.Remove(other);
-                            eaten = true;
+                            //Only males seek out breeding
+                            other.breed(a);
                         }
-                    }
-                    break;
-                case "Plant":
-                    //I still need to figure out how they interact with poison
-                    Plant plnt = (Plant)decision;
-                    a.eat(plnt);
-                    plants.Remove(plnt);
-                    break;
-                case "GameObject":
-                    Tile t = (Tile)decision;
-                    t.addAnimal(a);
-                    animals.Remove(a);
-                    break;
+                        else
+                        {
+                            //Predator Looking for food
+                            if (other.speed <= a.speed)
+                            {
+                                a.eat(other);
+                                animals.Remove(other);
+                                eaten = true;
+                            }
+                        }
+                        break;
+                    case "Plant":
+                        //I still need to figure out how they interact with poison
+                        Plant plnt = decision.GetComponent<Plant>();
+                        a.eat(plnt);
+                        plants.Remove(plnt);
+                        break;
+                    case "GameObject":
+                        Tile t = decision.GetComponent<Tile>();
+                        t.addAnimal(a);
+                        animals.Remove(a);
+                        break;
+                }
             }
             int numSurvive = a.CheckSurvive(eaten, humidity, temperature);
             int numDie = a.CheckDeath(eaten, humidity, temperature);
@@ -173,50 +180,64 @@ public class Tile : MonoBehaviour
         }
     }
 
-    private Object makeDecison(Animal anm, List<Animal> ans, List<Plant> plnts, List<GameObject> tiles) {
+    private GameObject makeDecison(Animal anm, List<Animal> ans, List<Plant> plnts, List<GameObject> tiles) {
         //Still need to implement this.  It currently selects an option at random
         //Will do later this week but for an alpha it works fine
         System.Random random = new System.Random();
         System.Array objs;
 
-        ans.Remove(anm);
-        List<Animal> breeding = new List<Animal>();
+        List<GameObject> breeding = new List<GameObject>();
+        List<GameObject> eating = new List<GameObject>();
 
         foreach (Animal a in ans)
         {
             if (a.speciesID == anm.speciesID)
             {
                 if (a.gender != anm.gender)
-                    breeding.Add(a);
-                ans.Remove(a);
+                    breeding.Add(a.gameObject);
+            }
+            else {
+                eating.Add(a.gameObject);
             }
         }
 
-        System.Array animalArr = ans.ToArray();
+        System.Array animalArr = eating.ToArray();
         if (anm.gender == Gender.MALE)
         {
-            int ind = random.Next(0, 1);
+            int ind = random.Next(0, 2);
             if (ind == 0)
             {
                 animalArr = breeding.ToArray();
             }
         }
 
-        System.Array plantArr = plnts.ToArray();
         System.Array tileArr = tiles.ToArray();
 
-        Animal animal = (Animal)animalArr.GetValue(random.Next(animalArr.Length));
-        Tile tile = (Tile)tileArr.GetValue(random.Next(tileArr.Length));
+        GameObject animal = null;
+
+        if (animalArr.Length != 0) {
+            animal = (GameObject)animalArr.GetValue(random.Next(animalArr.Length));
+        }
+
+        GameObject tile = tiles[random.Next(tiles.Count)];
+
         if (anm.foodType == FoodType.HERBIVORE || anm.foodType == FoodType.OMNIVORE)
         {
-            Plant plant = (Plant)plantArr.GetValue(random.Next(plantArr.Length));
-            objs = new Object[3] { animal, plant, tile };
+            GameObject plant = null;
+
+            if (plnts.Count != 0) {
+                plant = plnts[random.Next(plnts.Count)].gameObject;
+            }
+
+            objs = new GameObject[3] { animal, plant, tile };
         }
         else
         {
-            objs = new Object[2] { animal, tile };
+            objs = new GameObject[2] { animal, tile };
         }
-        return (Object)objs.GetValue(random.Next(objs.Length));
+
+        //return (GameObject)objs.GetValue(random.Next(objs.Length));
+        return (GameObject)objs.GetValue(2);
     }
 
     private void handlePlants() {

@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantPrefab: {fileID: 117272, guid: 4e1e52493d9861244bdf85644ffdb004, type: 2}
+  animalPrefab: {fileID: 154390, guid: 2eabbc6f1315dc54eafbd7f7fae7e1df, type: 2}
   range: 2
   amountOfWater: 2
   baseHumidity: 1

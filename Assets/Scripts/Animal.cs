@@ -15,6 +15,7 @@ public class Animal : Organism
     public int pregnancy { get; private set; }
     public int hunger { get; private set; }
     public bool ready { get; private set; }
+    public bool moved = false;
 
     public Aggression aggression { get; private set; }
     public FoodNeeded foodNeeded { get; private set; }

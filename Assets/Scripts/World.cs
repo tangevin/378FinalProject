@@ -44,9 +44,13 @@ public class World : MonoBehaviour
 
     private IEnumerator updatePlants() {
         yield return new WaitForSeconds(4);
-
         foreach (GameObject tileObject in this.map) {
             tileObject.GetComponent<Tile>().onGameTick();
+        }
+
+        foreach (GameObject tileObject in this.map)
+        {
+            tileObject.GetComponent<Tile>().resetMovement();
         }
 
         this.gameTick = true;

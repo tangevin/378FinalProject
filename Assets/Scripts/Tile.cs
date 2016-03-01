@@ -69,7 +69,7 @@ public class Tile : MonoBehaviour
             Animal a = newAnimal.GetComponent<Animal>();
 
             a.initialize("Test animal", Aggression.LOW, FoodNeeded.LOW, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.MALE, 
-                Perception.FAR, 2, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
+                Perception.FAR, 20, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
 
             this.addAnimal(a);
             /*
@@ -116,67 +116,81 @@ public class Tile : MonoBehaviour
     private void handleAnimals() {
         List<Animal> animalKeys = new List<Animal>(this.animals.Keys);
 
-        foreach (Animal a in animalKeys) {
-            bool eaten = false;
-            //If the animal is pregnant and ready to give birth
-            if (a.ready == true)
+        foreach (Animal a in animalKeys)
+        {
+            if (!a.moved)
             {
-                HashSet<Animal> babies = a.giveBirth();
-                foreach (Animal baby in babies)
-                    this.addAnimal(baby);
-                a.removeChildren();
-            }
-            List<GameObject> closeTiles = new List<GameObject>();
-            world.GetComponent<World>().GetTilesInRange(closeTiles, this.x, this.y, (int)a.perception + 1);
-            closeTiles.Remove(this.gameObject);
-            List<Animal> ans = new List<Animal>(this.animals.Keys);
-            List<Plant> plant = new List<Plant>(this.plants.Keys);
-            GameObject decision = makeDecison(a, ans, plant, closeTiles);
-
-            if (decision != null) {
-                System.Type decisionType = decision.GetType();
-                //switch (decisionType.ToString())
-                switch("GameObject")
+                bool eaten = false;
+                //If the animal is pregnant and ready to give birth
+                if (a.ready == true)
                 {
-                    case "Animal":
-                        Animal other = decision.GetComponent<Animal>();
-                        //No canibalism allowed
-                        if (other.speciesID == a.speciesID)
-                        {
-                            //Only males seek out breeding
-                            other.breed(a);
-                        }
-                        else
-                        {
-                            //Predator Looking for food
-                            if (other.speed <= a.speed)
-                            {
-                                a.eat(other);
-                                animals.Remove(other);
-                                eaten = true;
-                            }
-                        }
-                        break;
-                    case "Plant":
-                        //I still need to figure out how they interact with poison
-                        Plant plnt = decision.GetComponent<Plant>();
-                        a.eat(plnt);
-                        plants.Remove(plnt);
-                        break;
-                    case "GameObject":
-                        Tile t = decision.GetComponent<Tile>();
-                        t.addAnimal(a);
-                        animals.Remove(a);
-                        break;
+                    HashSet<Animal> babies = a.giveBirth();
+                    foreach (Animal baby in babies)
+                        this.addAnimal(baby);
+                    a.removeChildren();
                 }
-            }
-            int numSurvive = a.CheckSurvive(eaten, humidity, temperature);
-            int numDie = a.CheckDeath(eaten, humidity, temperature);
+                List<GameObject> closeTiles = new List<GameObject>();
+                world.GetComponent<World>().GetTilesInRange(closeTiles, this.x, this.y, (int)a.perception + 1);
+                closeTiles.Remove(this.gameObject);
+                List<Animal> ans = new List<Animal>(this.animals.Keys);
+                List<Plant> plant = new List<Plant>(this.plants.Keys);
+                GameObject decision = makeDecison(a, ans, plant, closeTiles);
 
-            if ((numSurvive + numDie) < 0)
-                animals.Remove(a);
-            if ((a.hunger < 0))
-                animals.Remove(a);
+                if (decision != null)
+                {
+                    System.Type decisionType = decision.GetType();
+                    //switch (decisionType.ToString())
+                    switch ("GameObject")
+                    {
+                        case "Animal":
+                            Animal other = decision.GetComponent<Animal>();
+                            //No canibalism allowed
+                            if (other.speciesID == a.speciesID)
+                            {
+                                //Only males seek out breeding
+                                other.breed(a);
+                            }
+                            else
+                            {
+                                //Predator Looking for food
+                                if (other.speed <= a.speed)
+                                {
+                                    a.eat(other);
+                                    animals.Remove(other);
+                                    eaten = true;
+                                }
+                            }
+                            break;
+                        case "Plant":
+                            //I still need to figure out how they interact with poison
+                            Plant plnt = decision.GetComponent<Plant>();
+                            a.eat(plnt);
+                            plants.Remove(plnt);
+                            break;
+                        case "GameObject":
+                            Tile t = decision.GetComponent<Tile>();
+                            a.moved = true;
+                            t.addAnimal(a);
+                            this.animals.Remove(a);
+                            break;
+                    }
+                }
+                int numSurvive = a.CheckSurvive(eaten, humidity, temperature);
+                int numDie = a.CheckDeath(eaten, humidity, temperature);
+
+                if ((numSurvive + numDie) < 0)
+                    animals.Remove(a);
+                if ((a.hunger < 0))
+                    animals.Remove(a);
+            }
+        }
+    }
+
+    public void resetMovement()
+    {
+        foreach (Animal a in animals.Keys)
+        {
+            a.moved = false;
         }
     }
 

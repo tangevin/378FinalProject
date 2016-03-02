@@ -93,18 +93,18 @@ public class Tile : MonoBehaviour
             GameObject newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             Animal a = newAnimal.GetComponent<Animal>();
 
-            a.initialize("Test animal", Aggression.LOW, FoodNeeded.LOW, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.MALE, 
+            a.initialize("Test animal", Aggression.LOW, FoodNeeded.HIGH, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.MALE, 
                 Perception.FAR, 20, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
 
             this.addAnimal(a);
-            /*
+            
             newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             a = newAnimal.GetComponent<Animal>();
 
-            a.initialize("Test animal", Aggression.LOW, FoodNeeded.LOW, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.FEMALE,
+            a.initialize("Test animal", Aggression.LOW, FoodNeeded.HIGH, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.FEMALE,
                 Perception.FAR, 2, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
 
-            this.addAnimal(a);*/
+            this.addAnimal(a);
         }
     }
 
@@ -145,14 +145,13 @@ public class Tile : MonoBehaviour
     private void handleAnimals()
     {
         List<Animal> animalKeys = new List<Animal>(this.animals.Keys);
-
         foreach (Animal a in animalKeys)
         {
             if (!a.moved)
             {
                 bool eaten = false;
                 //If the animal is pregnant and ready to give birth
-                if (a.ready == true)
+                if (a.readyForBirth())
                 {
                     HashSet<Animal> babies = a.giveBirth();
                     foreach (Animal baby in babies)
@@ -165,7 +164,6 @@ public class Tile : MonoBehaviour
                 List<Animal> ans = new List<Animal>(this.animals.Keys);
                 List<Plant> plant = new List<Plant>(this.plants.Keys);
                 GameObject decision = makeDecison(a, ans, plant, closeTiles);
-
                 if (decision != null)
                 {
                     System.Type decisionType = decision.GetType();
@@ -178,7 +176,8 @@ public class Tile : MonoBehaviour
                             if (other.speciesID == a.speciesID)
                             {
                                 //Only males seek out breeding
-                                other.breed(a);
+                                if (!other.isPregnant())
+                                    other.breed(a);
                             }
                             else
                             {
@@ -196,6 +195,7 @@ public class Tile : MonoBehaviour
                             Plant plnt = decision.GetComponent<Plant>();
                             a.eat(plnt);
                             plants.Remove(plnt);
+                            eaten = true;
                             break;
                         case "GameObject":
                             Tile t = decision.GetComponent<Tile>();
@@ -205,17 +205,17 @@ public class Tile : MonoBehaviour
                             break;
                     }
                 }
+                a.UpdateAnimal();
                 int numSurvive = a.CheckSurvive(eaten, biome.humidity, biome.temperature);
                 int numDie = a.CheckDeath(eaten, biome.humidity, biome.temperature);
-
                 if ((numSurvive + numDie) < 0)
                 {
                     animals.Remove(a);
                 }
-                if ((a.hunger < 0))
-                {
-                    animals.Remove(a);
-                }
+            }
+            if (a.getHunger() < 0)
+            {
+                animals.Remove(a);
             }
         }
     }
@@ -289,7 +289,6 @@ public class Tile : MonoBehaviour
         {
             objs = new GameObject[2] { animal, tile };
         }
-
         //return (GameObject)objs.GetValue(random.Next(objs.Length));
         return (GameObject)objs.GetValue(2);
     }

@@ -52,6 +52,7 @@ public class Animal : Organism
         perception = perc;
         speed = spd;
         babies = bbies;
+        hunger = hungerMax;
         base.initialize(humid, tempTol, lfs);
     }
 
@@ -61,6 +62,11 @@ public class Animal : Organism
         for (int i = 0; i < (int)babies; i++)
             spawn.Add(createNew(this, parent));
         pregnant = true;
+    }
+
+    public bool isPregnant()
+    {
+        return pregnant;
     }
 
     Animal createNew(Animal father, Animal mother)
@@ -104,10 +110,20 @@ public class Animal : Organism
         return spawn;
     }
 
+    public bool readyForBirth()
+    {
+        return ready;
+    }
+
     public int eat(Organism food)
     {
         hunger = hungerMax;
         return 5;
+    }
+
+    public int getHunger()
+    {
+        return hunger;
     }
 
     public void removeChildren()
@@ -117,6 +133,11 @@ public class Animal : Organism
 
     void Update()
     {
+        
+    }
+
+    public void UpdateAnimal()
+    {
         if (pregnant)
         {
             pregnancy--;
@@ -124,10 +145,10 @@ public class Animal : Organism
             {
                 ready = true;
                 pregnant = false;
-            } 
+            }
         }
         string fneed = foodNeeded.ToString();
-        switch(fneed)
+        switch (fneed)
         {
             case "LOW":
                 hunger -= 1;
@@ -139,26 +160,25 @@ public class Animal : Organism
                 hunger -= 10;
                 break;
         }
-        
     }
 
     public int CheckSurvive(bool food, Humidity humid, Temperature temp)
     {
         int ret = 0;
 
-        if (food) { ret += 5; }
+        if (food) { ret += 15; }
 
-        if (humidityTol == HumidityTolerance.LOW && humid == Humidity.LOW) { ret += 1; };
+        if (humidityTol == HumidityTolerance.LOW && humid == Humidity.LOW) { ret += 5; };
 
-        if (humidityTol == HumidityTolerance.MEDIUM && humid == Humidity.MEDIUM) { ret += 1; };
+        if (humidityTol == HumidityTolerance.MEDIUM && humid == Humidity.MEDIUM) { ret += 5; };
 
-        if (humidityTol == HumidityTolerance.HIGH && humid == Humidity.HIGH) { ret += 1; };
+        if (humidityTol == HumidityTolerance.HIGH && humid == Humidity.HIGH) { ret += 5; };
 
-        if (tempTol == TemperatureTolerance.LOW && temp == Temperature.LOW) { ret += 1; };
+        if (tempTol == TemperatureTolerance.LOW && temp == Temperature.LOW) { ret += 5; };
 
-        if (tempTol == TemperatureTolerance.MEDIUM && temp == Temperature.MEDIUM) { ret += 1; };
+        if (tempTol == TemperatureTolerance.MEDIUM && temp == Temperature.MEDIUM) { ret += 5; };
 
-        if (tempTol == TemperatureTolerance.HIGH && temp == Temperature.HIGH) { ret += 1; };
+        if (tempTol == TemperatureTolerance.HIGH && temp == Temperature.HIGH) { ret += 5; };
 
         return ret;
     }

@@ -93,16 +93,16 @@ public class Tile : MonoBehaviour
             GameObject newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             Animal a = newAnimal.GetComponent<Animal>();
 
-            a.initialize("Test animal", Aggression.LOW, FoodNeeded.HIGH, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.MALE, 
-                Perception.FAR, 20, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
+            a.initialize("Test animal", Aggression.LOW, FoodNeeded.MEDIUM, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.MALE, 
+                Perception.FAR, 20, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.SHORT, 0);
 
             this.addAnimal(a);
             
             newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             a = newAnimal.GetComponent<Animal>();
 
-            a.initialize("Test animal", Aggression.LOW, FoodNeeded.HIGH, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.FEMALE,
-                Perception.FAR, 2, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
+            a.initialize("Test animal", Aggression.LOW, FoodNeeded.MEDIUM, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.FEMALE,
+                Perception.FAR, 2, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.SHORT, 0);
 
             this.addAnimal(a);
         }
@@ -147,6 +147,7 @@ public class Tile : MonoBehaviour
         List<Animal> animalKeys = new List<Animal>(this.animals.Keys);
         foreach (Animal a in animalKeys)
         {
+            a.AgeAnimal();
             if (!a.moved)
             {
                 bool eaten = false;
@@ -176,7 +177,7 @@ public class Tile : MonoBehaviour
                             if (other.speciesID == a.speciesID)
                             {
                                 //Only males seek out breeding
-                                if (!other.isPregnant())
+                                if (!other.isPregnant() && other.IsFertile())
                                     other.breed(a);
                             }
                             else
@@ -213,7 +214,7 @@ public class Tile : MonoBehaviour
                     animals.Remove(a);
                 }
             }
-            if (a.getHunger() < 0)
+            if (a.getHunger() < 0 || ! a.ModelMortality())
             {
                 animals.Remove(a);
             }

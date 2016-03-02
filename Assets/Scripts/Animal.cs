@@ -8,6 +8,9 @@ public class Animal : Organism
     private int lowGes = 2;
     private int highGes = 20;
     private int hungerMax = 100;
+    private int age;
+    private bool old;
+    private bool fertile;
 
     public string name { get; private set; }
 
@@ -40,6 +43,8 @@ public class Animal : Organism
                 Speed spd, Babies bbies, HumidityTolerance humid, TemperatureTolerance tempTol, Lifespan lfs, int specID)
     {
         name = pName;
+        age = 0;
+        old = false;
         pregnant = false;
         speciesID = specID;
         aggression = agr;
@@ -103,6 +108,40 @@ public class Animal : Organism
                           speciesID);
 
         return a;
+    }
+
+    public void AgeAnimal()
+    {
+        if (++age / (int)lifespan > .5 && ! old)
+        {
+            if (perception == Perception.FAR)
+            {
+                perception = Perception.SHORT;
+            }
+            if (speed > Speed.SLOW)
+            {
+                speed--;
+            }
+            if (aggression > Aggression.LOW)
+            {
+                aggression--;
+            }
+        }
+        if (++age / (int)lifespan > .75 && fertile)
+        {
+            fertile = false;
+        }
+    }
+
+    public bool IsFertile()
+    {
+        return fertile;
+    }
+
+    public bool ModelMortality()
+    {
+        return (new System.Random()).Next(0, (int)((int)lifespan * (int)animalSize * .5)) <= 
+            (age * -.8 + (int)lifespan * (int)animalSize * .5);
     }
 
     public HashSet<Animal> giveBirth()

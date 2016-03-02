@@ -176,26 +176,19 @@ public class Tile : MonoBehaviour
                             //No canibalism allowed
                             if (other.speciesID == a.speciesID)
                             {
-                                //Only males seek out breeding
-                                if (!other.isPregnant() && other.IsFertile())
-                                    other.breed(a);
+                                other.breed(a);
                             }
                             else
                             {
-                                //Predator Looking for food
-                                if (other.speed <= a.speed)
-                                {
-                                    a.eat(other);
-                                    animals.Remove(other);
-                                    eaten = true;
-                                }
+                                a.eat(other);
+                                animals.Remove(other);
+                                eaten = true;
                             }
                             break;
                         case "Plant":
-                            //I still need to figure out how they interact with poison
                             Plant plnt = decision.GetComponent<Plant>();
                             a.eat(plnt);
-                            plants.Remove(plnt);
+                            plants[plnt]--;
                             eaten = true;
                             break;
                         case "GameObject":

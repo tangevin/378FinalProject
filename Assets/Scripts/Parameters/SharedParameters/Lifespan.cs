@@ -2,5 +2,5 @@
 
 public enum Lifespan
 {
-    SHORT, MEDIUM, LONG
+    SHORT=50, MEDIUM=100, LONG=200
 }

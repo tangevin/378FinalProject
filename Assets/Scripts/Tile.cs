@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Tile : MonoBehaviour
 {
-    private bool active;
+    private bool active, initialized;
     private SpriteRenderer sprite;
     private GameObject world;
     public int x { get; private set; }
@@ -21,23 +21,29 @@ public class Tile : MonoBehaviour
     {
         sprite = GetComponent<SpriteRenderer>();
         active = false;
+        initialized = false;
+    }
 
-        int random = (int)(Random.value * 100);
+    public void InitializeBiome(List<GameObject> adjacentTiles)
+    {
+        if (!initialized)
+        {
+            initialized = true;
+            int random = (int)(Random.value * 100);
 
-        if (random < 35)
-            biome = new Biome(BiomeType.OCEAN);
-        else if (random < 45)
-            biome = new Biome(BiomeType.RIVER);
-        else if (random < 55)
-            biome = new Biome(BiomeType.PLAIN);
-        else if (random < 65)
-            biome = new Biome(BiomeType.FOREST);
-        else if (random < 75)
-            biome = new Biome(BiomeType.MOUNTAIN);
-        else
-            biome = new Biome(BiomeType.DESERT);
-
-        Populate();
+            if (random < 35)
+                biome = new Biome(BiomeType.OCEAN);
+            else if (random < 45)
+                biome = new Biome(BiomeType.RIVER);
+            else if (random < 55)
+                biome = new Biome(BiomeType.PLAIN);
+            else if (random < 65)
+                biome = new Biome(BiomeType.FOREST);
+            else if (random < 75)
+                biome = new Biome(BiomeType.MOUNTAIN);
+            else
+                biome = new Biome(BiomeType.DESERT);
+        }
     }
 
     void Update() 
@@ -52,14 +58,12 @@ public class Tile : MonoBehaviour
         }
         else if (this.animals.Keys.Count == 0 && this.plants.Keys.Count == 0)
         {
-            sprite.color = Color.white;
+            sprite.color = biome.color;
         }
         else
         {
             sprite.color = DispProportions(getDispProportions());
         }
-
-        //sprite.color = biome.color;
     }
 
     void OnMouseOver()
@@ -119,11 +123,6 @@ public class Tile : MonoBehaviour
         }*/
     }
 
-    public void Populate()
-    {
-        // Populate with animals and plants
-    }
-
     public void SetData(int x, int y, GameObject world)
     {
         this.x = x;
@@ -159,8 +158,7 @@ public class Tile : MonoBehaviour
                         this.addAnimal(baby);
                     a.removeChildren();
                 }
-                List<GameObject> closeTiles = new List<GameObject>();
-                world.GetComponent<World>().GetTilesInRange(closeTiles, this.x, this.y, (int)a.perception + 1);
+                List<GameObject> closeTiles = world.GetComponent<World>().GetTilesInRange(this.x, this.y, (int)a.perception + 1);
                 closeTiles.Remove(this.gameObject);
                 List<Animal> ans = new List<Animal>(this.animals.Keys);
                 List<Plant> plant = new List<Plant>(this.plants.Keys);
@@ -315,8 +313,7 @@ public class Tile : MonoBehaviour
             {
                 if (p.checkCanSpread(newTotal))
                 {
-                    List<GameObject> surroundingTiles = new List<GameObject>();
-                    world.GetComponent<World>().GetTilesInRange(surroundingTiles, this.x, this.y, 1);
+                    List<GameObject> surroundingTiles = world.GetComponent<World>().GetTilesInRange(this.x, this.y, 1);
                     surroundingTiles.Remove(this.gameObject);
 
                     System.Random random = new System.Random();

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Animal : Organism
 {
@@ -255,15 +256,61 @@ public class Animal : Organism
         return ret;
     }
 
-    public Organism findFoodInRange()
+    private int foodHeuristic(Organism org)
     {
-        //Will implement later
-        return this;
+        //For animals take into account a's size, speed, aggression and b's body type, speed, size, and aggression 
+        //For plants take into account b's poison, SpaceRequired, 
+        System.Random rand = new System.Random();
+        return rand.Next(1, 100);
     }
 
-    public Animal findBreedingInRange()
+    private int breedHeuristic(Animal anm)
     {
-        //Will implement later
-        return this;
+        //Take into account gestation period, size, aggression, and babies
+        System.Random rand = new System.Random();
+        return rand.Next(1,100);
+    }
+
+    public Organism findFoodInRange(Tile currentTile)
+    {
+        int id = 0;
+
+        Dictionary<Animal, int> animalsInTile = currentTile.animals;
+        Dictionary<Plant, int> plantsInTile = currentTile.plants;
+        Dictionary<int, Organism> toEat = new Dictionary<int, Organism>();
+        Dictionary<int, int> heuristic = new Dictionary<int, int>();
+
+        animalsInTile.Remove(this);
+        animalsInTile.Remove(animalsInTile.Keys.Single(s => s.speciesID == speciesID));
+
+        if (foodType == FoodType.CARNIVORE || foodType == FoodType.OMNIVORE) 
+            animalsInTile.Keys.ToList().ForEach(meat => toEat.Add(++id, meat));
+
+        if (foodType == FoodType.HERBIVORE || foodType == FoodType.OMNIVORE)
+            plantsInTile.Keys.ToList().ForEach(vegetable => toEat.Add(++id, vegetable));
+
+        toEat.Keys.ToList().ForEach(creature => heuristic.Add(creature, foodHeuristic(toEat[creature])));
+
+        return toEat[heuristic.Aggregate((l, r) => l.Value > r.Value ? l : r).Key]; 
+    }
+
+    public Animal FindBreedingInRange(Tile currentTile)
+    {
+        int id = 0;
+
+        Dictionary<Animal, int> animalsInTile = currentTile.animals;
+        Dictionary<int, Animal> toBreed = new Dictionary<int, Animal>();
+        Dictionary<int, int> heuristic = new Dictionary<int, int>();
+
+        animalsInTile.Remove(animalsInTile.Keys.Single(s => s.speciesID != speciesID || s.gender == gender));
+        animalsInTile.Keys.ToList().ForEach(anm => toBreed.Add(++id, anm));
+        toBreed.Keys.ToList().ForEach(an => heuristic.Add(an, breedHeuristic(toBreed[an])));
+
+        return toBreed[heuristic.Aggregate((l, r) => l.Value > r.Value ? l : r).Key];
+    }
+
+    public Tile FindTileInRange()
+    {
+        return null;
     }
 }

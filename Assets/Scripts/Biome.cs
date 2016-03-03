@@ -11,7 +11,7 @@ public class Biome : Object
     public BaseHumidity baseHumidity { get; private set; }
     public Humidity humidity;
     public HumidityVariation humidityVariation { get; private set; }
-    public Color color { get; private set; }
+    public Color color;
 
     public Biome(BiomeType biomeType)
     {
@@ -80,5 +80,6 @@ public class Biome : Object
                 color = Color.cyan;
                 break;
         }
+        color.a = 0.25f;
     }
 }

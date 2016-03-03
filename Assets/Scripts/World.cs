@@ -8,7 +8,7 @@ public class World : MonoBehaviour
     public int height, width;
     public GameObject tilePrefab, worldPrefab;
     public HashSet<int> speciesIDs = new HashSet<int>();
-    public bool gameTick = true;
+    private bool gameTick = true;
 
     // Use this for initialization
     void Start()
@@ -32,6 +32,11 @@ public class World : MonoBehaviour
                 go.GetComponent<Tile>().SetData(x, y, worldPrefab);
                 map[y, x] = go;
             }
+        }
+
+        foreach (GameObject go in map)
+        {
+            go.GetComponent<Tile>().InitializeBiome(null);
         }
     }
 
@@ -60,8 +65,9 @@ public class World : MonoBehaviour
         this.gameTick = true;
     }
 
-    public void GetTilesInRange(List<GameObject> list, int x, int y, int range)
+    public List<GameObject> GetTilesInRange(int x, int y, int range)
     {
+        List<GameObject> list = new List<GameObject>();
         // Add the current tile
         list.Add(map[y, x]);
 
@@ -81,6 +87,7 @@ public class World : MonoBehaviour
                 }
             }
         }
+        return list;
     }
 
     private void GetImmediateAdjacentTiles(List<GameObject> list, int x, int y)

@@ -39,6 +39,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90de658505ef6b04aa7f653cef69ead8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 0}
   height: 27
   width: 37
   tilePrefab: {fileID: 148936, guid: aa38410eb0267d84fbc3c2188019707d, type: 2}

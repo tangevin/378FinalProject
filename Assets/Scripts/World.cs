@@ -4,11 +4,17 @@ using System.Collections.Generic;
 
 public class World : MonoBehaviour
 {
+    public Camera camera;
+
     GameObject[,] map;
     public int height, width;
     public GameObject tilePrefab, worldPrefab;
     public HashSet<int> speciesIDs = new HashSet<int>();
     private bool gameTick = true;
+
+    private Vector3 dragOrigin;
+    public float dragSpeed;
+    public float scrollSpeed;
 
     // Use this for initialization
     void Start()
@@ -46,6 +52,31 @@ public class World : MonoBehaviour
         {
             gameTick = false;
             StartCoroutine(updatePlants());
+        }
+
+        if (Input.GetMouseButtonDown(0)) {
+            dragOrigin = Input.mousePosition;
+        }
+
+        if (Input.GetMouseButton(0)) {
+            Vector3 mousePosition = Input.mousePosition;
+
+            camera.transform.position -= new Vector3((mousePosition.x - dragOrigin.x) * (dragSpeed / 100), 
+                (mousePosition.y - dragOrigin.y) * (dragSpeed / 100), 
+                (mousePosition.z - dragOrigin.z) * (dragSpeed / 100));
+            dragOrigin = mousePosition;
+        }
+
+        // Mouse wheel moving forward
+        if(Input.GetAxis("Mouse ScrollWheel") > 0 && camera.orthographicSize > 1)
+        {
+            camera.orthographicSize -= (scrollSpeed / 2);
+        }
+   
+        // Mouse wheel moving backward
+        if(Input.GetAxis("Mouse ScrollWheel") < 0 && camera.orthographicSize < 5)
+        {
+            camera.orthographicSize += (scrollSpeed / 2);
         }
     }
 

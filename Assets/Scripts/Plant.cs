@@ -94,13 +94,13 @@ public class Plant : Organism
         int toReturn = 0;
 
         if (spaceNeeded == SpaceNeeded.SMALL && numberInTile > 20) {
-            toReturn -= 1;
+            toReturn -= 8;
         }
         else if (spaceNeeded == SpaceNeeded.MEDIUM && numberInTile > 15) {
-            toReturn -= 1;
+            toReturn -= 5;
         }
         else if (spaceNeeded == SpaceNeeded.LARGE && numberInTile > 10) {
-            toReturn -= 1;
+            toReturn -= 3;
         }
         else if (spaceNeeded == SpaceNeeded.EXTRALARGE && numberInTile > 5) {
             toReturn -= 1;

@@ -70,17 +70,20 @@ public class Tile : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0))
         {
-            Debug.Log("Plants:");
+            string toPrint = "Plants: ";
+
             foreach (Plant p in this.plants.Keys)
             {
-                Debug.Log(p.name + " " + this.plants[p]);
+                toPrint += p.name + " " + this.plants[p] + ", ";
             }
 
-            Debug.Log("Animals:");
+            toPrint += "Animals: ";
             foreach (Animal a in this.animals.Keys)
             {
-                Debug.Log(a.name + " " + this.animals[a]);
+                toPrint += a.name + " " + this.animals[a] + ", ";
             }
+
+            Debug.Log(toPrint);
         }
         else if (Input.GetMouseButtonUp(1))
         {
@@ -309,6 +312,25 @@ public class Tile : MonoBehaviour
                     List<GameObject> surroundingTiles = world.GetComponent<World>().GetTilesInRange(this.x, this.y, 1);
                     surroundingTiles.Remove(this.gameObject);
 
+                    List<GameObject> invalidTiles = new List<GameObject>();
+                    foreach (GameObject tileObject in surroundingTiles) {
+                        Tile tile = tileObject.GetComponent<Tile>();
+
+                        if (tile.biome.biomeType == BiomeType.OCEAN) {
+                            invalidTiles.Add(tileObject);
+                        }
+                        else if (tile.biome.biomeType == BiomeType.MOUNTAIN && !p.canSurviveInMountains) {
+                            invalidTiles.Add(tileObject);
+                        }
+                        else if (tile.biome.biomeType == BiomeType.DESERT && !p.canSurviveInDesert) {
+                            invalidTiles.Add(tileObject);
+                        }
+                    }
+
+                    foreach (GameObject invalidTile in invalidTiles) {
+                        surroundingTiles.Remove(invalidTile);
+                    }
+
                     System.Random random = new System.Random();
 
                     List<Tile> tilesToSpreadTo = new List<Tile>();
@@ -357,18 +379,22 @@ public class Tile : MonoBehaviour
                         if (p.spaceNeeded == SpaceNeeded.SMALL)
                         {
                             t.addPlant(p, 3);
+                            newTotal -= 3;
                         }
                         else if (p.spaceNeeded == SpaceNeeded.MEDIUM)
                         {
                             t.addPlant(p, 2);
+                            newTotal -= 2;
                         }
                         else if (p.spaceNeeded == SpaceNeeded.LARGE)
                         {
                             t.addPlant(p, 1);
+                            newTotal -= 1;
                         }
                         else if (p.spaceNeeded == SpaceNeeded.EXTRALARGE)
                         {
                             t.addPlant(p, 1);
+                            newTotal -= 1;
                         }
                     }
                 }

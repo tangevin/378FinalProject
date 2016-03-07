@@ -87,13 +87,22 @@ public class Tile : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(1))
         {
-            GameObject newPlant = (GameObject)Instantiate(plantPrefab, new Vector3(x, y, 0), Quaternion.identity);
-            Plant p = newPlant.GetComponent<Plant>();
-                
-            p.initialize("Test Plant", Spread.MEDIUM, PlantType.BUSH, Poisonous.MINOR, WaterNeeded.MEDIUM, 
-                SpaceNeeded.MEDIUM, false, false, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG);
+            bool canSurviveInMountain = false;
+            bool canSurviveInDesert = false;
 
-            this.addPlant(p, 1);
+            if (this.biome.biomeType != BiomeType.OCEAN) {
+                if ((this.biome.biomeType != BiomeType.MOUNTAIN && this.biome.biomeType != BiomeType.DESERT) || 
+                    (this.biome.biomeType == BiomeType.MOUNTAIN && canSurviveInMountain) ||
+                    (this.biome.biomeType == BiomeType.DESERT && canSurviveInDesert)) {
+                    GameObject newPlant = (GameObject)Instantiate(plantPrefab, new Vector3(x, y, 0), Quaternion.identity);
+                    Plant p = newPlant.GetComponent<Plant>();
+
+                    p.initialize("Test Plant", Spread.MEDIUM, PlantType.BUSH, Poisonous.MINOR, WaterNeeded.MEDIUM,
+                        SpaceNeeded.MEDIUM, canSurviveInMountain, canSurviveInDesert, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG);
+
+                    this.addPlant(p, 1);
+                }
+            }
         }
         else if (Input.GetKeyUp(KeyCode.A))
         {

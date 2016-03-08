@@ -97,8 +97,9 @@ public class Tile : MonoBehaviour
                     GameObject newPlant = (GameObject)Instantiate(plantPrefab, new Vector3(x, y, 0), Quaternion.identity);
                     Plant p = newPlant.GetComponent<Plant>();
 
-                    p.initialize("Test Plant", Spread.MEDIUM, PlantType.BUSH, Poisonous.MINOR, WaterNeeded.MEDIUM,
-                        SpaceNeeded.MEDIUM, canSurviveInMountain, canSurviveInDesert, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG);
+                    p.initialize("Test Plant", Spread.MEDIUM, PlantType.BUSH, Poisonous.MINOR, WaterNeeded.HIGH,
+                        SpaceNeeded.MEDIUM, canSurviveInMountain, canSurviveInDesert, HumidityTolerance.HIGH, 
+                        TemperatureTolerance.MEDIUM, Lifespan.LONG);
 
                     this.addPlant(p, 1);
                 }
@@ -307,6 +308,17 @@ public class Tile : MonoBehaviour
 
             int numGrowth = p.checkInTileGrowth(numInTile, biome.amountOfWater, biome.humidity, biome.temperature);
             int numDeath = p.checkInTileDeath(numInTile, biome.amountOfWater, biome.humidity, biome.temperature);
+
+            Plant evolvePlant = null;
+
+            if (numGrowth > 0) {
+                evolvePlant = p.evolve(numGrowth, this.biome);
+            }
+
+            if (evolvePlant != null) {
+                numGrowth--;
+                this.addPlant(evolvePlant, 1);
+            }
 
             int newTotal = numInTile + numGrowth - numDeath;
 

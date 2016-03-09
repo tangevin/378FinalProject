@@ -309,15 +309,43 @@ public class Tile : MonoBehaviour
             int numGrowth = p.checkInTileGrowth(numInTile, biome.amountOfWater, biome.humidity, biome.temperature);
             int numDeath = p.checkInTileDeath(numInTile, biome.amountOfWater, biome.humidity, biome.temperature);
 
-            Plant evolvePlant = null;
-
             if (numGrowth > 0) {
-                evolvePlant = p.evolve(numGrowth, this.biome);
-            }
+                System.Random random = new System.Random();
 
-            if (evolvePlant != null) {
-                numGrowth--;
-                this.addPlant(evolvePlant, 1);
+                if (random.Next(2) == 0) {
+                    Plant evolvePlant = p.evolve(numGrowth, this.biome);
+
+                    if (evolvePlant != null) {
+                        numGrowth--;
+                        this.addPlant(evolvePlant, 1);
+                    }
+
+                    if (numGrowth > 0) {
+                        Plant mutatePlant = p.mutate(numGrowth);
+
+                        if (mutatePlant != null) {
+                            numGrowth--;
+                            this.addPlant(mutatePlant, 1);
+                        }
+                    }
+                }
+                else {
+                    Plant mutatePlant = p.mutate(numGrowth);
+
+                    if (mutatePlant != null) {
+                        numGrowth--;
+                        this.addPlant(mutatePlant, 1);
+                    }
+
+                    if (numGrowth > 0) {
+                        Plant evolvePlant = p.evolve(numGrowth, this.biome);
+
+                        if (evolvePlant != null) {
+                            numGrowth--;
+                            this.addPlant(evolvePlant, 1);
+                        }
+                    }
+                }
             }
 
             int newTotal = numInTile + numGrowth - numDeath;

@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Plant : Organism
 {
     private const int evolveChance = 1;
+    private const int mutateChance = 1;
 
     public string name { get; private set; }
     public Spread spread { get; private set; }
@@ -324,8 +327,8 @@ public class Plant : Organism
                     }
 
                     if (evolved) {
-                        GameObject newPlant = (GameObject)Instantiate(this.gameObject,
-                                                        new Vector3(this.transform.position.x, this.transform.position.y, 0), Quaternion.identity);
+                        GameObject newPlant = (GameObject)Instantiate(this.gameObject, 
+                            new Vector3(this.transform.position.x, this.transform.position.y, 0), Quaternion.identity);
                         Plant p = newPlant.GetComponent<Plant>();
 
                         p.initialize(this.name + "*", this.spread, this.plantType, this.poisonous, this.waterNeeded,
@@ -339,6 +342,133 @@ public class Plant : Organism
         }
 
         return null;
+    }
+
+    public Plant mutate(int numGrown) {
+        System.Random random = new System.Random();
+
+        if (random.Next(100) < mutateChance * numGrown) {
+            List<System.Type> parameters = new List<System.Type>() {typeof(Spread), typeof(PlantType), typeof(Poisonous), typeof(WaterNeeded), 
+            typeof(SpaceNeeded), typeof(TemperatureTolerance), typeof(HumidityTolerance), typeof(bool), typeof(bool)};
+            
+            int mutateParameter = random.Next(9);
+            System.Type paramType = parameters[mutateParameter];
+
+            GameObject newPlant = (GameObject)Instantiate(this.gameObject,
+                new Vector3(this.transform.position.x, this.transform.position.y, 0), Quaternion.identity);
+            Plant p = newPlant.GetComponent<Plant>();
+
+            if (paramType.Equals(typeof(Spread))) {
+                List<Spread> spreadValues = Enum.GetValues(typeof(Spread)).Cast<Spread>().ToList();
+
+                spreadValues.RemoveAt((int)this.spread);
+
+                Spread newSpread = spreadValues[random.Next(spreadValues.Count)];
+
+                p.initialize(this.name + "^", newSpread, this.plantType, this.poisonous, this.waterNeeded,
+                            this.spaceNeeded, this.canSurviveInMountains, this.canSurviveInDesert, this.humidityTol,
+                            this.tempTol, this.lifespan);
+            }
+            else if (paramType.Equals(typeof(PlantType))) {
+                List<PlantType> plantTypeValues = Enum.GetValues(typeof(PlantType)).Cast<PlantType>().ToList();
+
+                plantTypeValues.RemoveAt((int)this.plantType);
+
+                PlantType newPlantType = plantTypeValues[random.Next(plantTypeValues.Count)];
+
+                p.initialize(this.name + "^", this.spread, newPlantType, this.poisonous, this.waterNeeded,
+                            this.spaceNeeded, this.canSurviveInMountains, this.canSurviveInDesert, this.humidityTol,
+                            this.tempTol, this.lifespan);
+            }
+            else if (paramType.Equals(typeof(Poisonous))) {
+                List<Poisonous> poisonousValues = Enum.GetValues(typeof(Poisonous)).Cast<Poisonous>().ToList();
+
+                poisonousValues.RemoveAt((int)this.poisonous);
+
+                Poisonous newPoisonous = poisonousValues[random.Next(poisonousValues.Count)];
+
+                p.initialize(this.name + "^", this.spread, this.plantType, newPoisonous, this.waterNeeded,
+                            this.spaceNeeded, this.canSurviveInMountains, this.canSurviveInDesert, this.humidityTol,
+                            this.tempTol, this.lifespan);
+            }
+            else if (paramType.Equals(typeof(WaterNeeded))) {
+                List<WaterNeeded> waterNeededValues = Enum.GetValues(typeof(WaterNeeded)).Cast<WaterNeeded>().ToList();
+
+                waterNeededValues.RemoveAt((int)this.waterNeeded);
+
+                WaterNeeded newWaterNeeded = waterNeededValues[random.Next(waterNeededValues.Count)];
+
+                p.initialize(this.name + "^", this.spread, this.plantType, this.poisonous, newWaterNeeded,
+                            this.spaceNeeded, this.canSurviveInMountains, this.canSurviveInDesert, this.humidityTol,
+                            this.tempTol, this.lifespan);
+            }
+            else if (paramType.Equals(typeof(SpaceNeeded))) {
+                List<SpaceNeeded> spaceNeededValues = Enum.GetValues(typeof(SpaceNeeded)).Cast<SpaceNeeded>().ToList();
+
+                spaceNeededValues.RemoveAt((int)this.spaceNeeded);
+
+                SpaceNeeded newSpaceNeeded = spaceNeededValues[random.Next(spaceNeededValues.Count)];
+
+                p.initialize(this.name + "^", this.spread, this.plantType, this.poisonous, this.waterNeeded,
+                            newSpaceNeeded, this.canSurviveInMountains, this.canSurviveInDesert, this.humidityTol,
+                            this.tempTol, this.lifespan);
+            }
+            else if (paramType.Equals(typeof(TemperatureTolerance))) {
+                List<TemperatureTolerance> tempToleranceValues = 
+                    Enum.GetValues(typeof(TemperatureTolerance)).Cast<TemperatureTolerance>().ToList();
+
+                tempToleranceValues.RemoveAt((int)this.tempTol);
+
+                TemperatureTolerance newTempTolerance = tempToleranceValues[random.Next(tempToleranceValues.Count)];
+
+                p.initialize(this.name + "^", this.spread, this.plantType, this.poisonous, this.waterNeeded,
+                            this.spaceNeeded, this.canSurviveInMountains, this.canSurviveInDesert, this.humidityTol,
+                            newTempTolerance, this.lifespan);
+            }
+            else if (paramType.Equals(typeof(HumidityTolerance))) {
+                List<HumidityTolerance> humidityToleranceValues =
+                    Enum.GetValues(typeof(HumidityTolerance)).Cast<HumidityTolerance>().ToList();
+
+                humidityToleranceValues.RemoveAt((int)this.humidityTol);
+
+                HumidityTolerance newHumidityTolerance = humidityToleranceValues[random.Next(humidityToleranceValues.Count)];
+
+                p.initialize(this.name + "^", this.spread, this.plantType, this.poisonous, this.waterNeeded,
+                            this.spaceNeeded, this.canSurviveInMountains, this.canSurviveInDesert, newHumidityTolerance,
+                            this.tempTol, this.lifespan);
+            }
+            else {
+                if (random.Next(2) == 0) {
+                    if (this.canSurviveInMountains) {
+                        p.initialize(this.name + "^", this.spread, this.plantType, this.poisonous, this.waterNeeded,
+                            this.spaceNeeded, false, this.canSurviveInDesert, this.humidityTol,
+                            this.tempTol, this.lifespan);
+                    }
+                    else {
+                        p.initialize(this.name + "^", this.spread, this.plantType, this.poisonous, this.waterNeeded,
+                            this.spaceNeeded, true, this.canSurviveInDesert, this.humidityTol,
+                            this.tempTol, this.lifespan);
+                    }
+                }
+                else {
+                    if (this.canSurviveInDesert) {
+                        p.initialize(this.name + "^", this.spread, this.plantType, this.poisonous, this.waterNeeded,
+                            this.spaceNeeded, this.canSurviveInMountains, false, this.humidityTol,
+                            this.tempTol, this.lifespan);
+                    }
+                    else {
+                        p.initialize(this.name + "^", this.spread, this.plantType, this.poisonous, this.waterNeeded,
+                            this.spaceNeeded, this.canSurviveInMountains, true, this.humidityTol,
+                            this.tempTol, this.lifespan);
+                    }
+                }
+            }
+
+            return p;
+        }
+        else {
+            return null;
+        }
     }
 
     public override bool Equals(System.Object obj) {

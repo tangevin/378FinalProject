@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 public class Tile : MonoBehaviour
 {
-    private bool active, initialized;
+    private bool active;
+    public bool initialized { get; private set; }
     private SpriteRenderer sprite;
     private GameObject world;
     public int x { get; private set; }
@@ -12,7 +13,7 @@ public class Tile : MonoBehaviour
     public GameObject plantPrefab;
     public GameObject animalPrefab;
 
-    public Biome biome;
+    public Biome biome = null;
 
     public Dictionary<Plant, int> plants = new Dictionary<Plant,int>();
     public Dictionary<Animal, int> animals = new Dictionary<Animal,int>();
@@ -24,25 +25,88 @@ public class Tile : MonoBehaviour
         initialized = false;
     }
 
-    public void InitializeBiome(List<GameObject> adjacentTiles)
+    public void InitializeBiome(World world, List<GameObject> adjacentTiles, System.Random random)
     {
         if (!initialized)
         {
-            initialized = true;
-            int random = (int)(Random.value * 100);
+            int oceanChance = 1;
+            int riverChance = 1;
+            int plainChance = 1;
+            int forestChance = 1;
+            int mountainChance = 1;
+            int desertChance = 1;
 
-            if (random < 35)
+            int highChange = 55;
+            int mediumChange = 15;
+            int lowChange = 1;
+
+            foreach (GameObject tileObject in adjacentTiles) {
+                Tile tile = tileObject.GetComponent<Tile>();
+
+                if (tile.initialized) {
+                    switch (tile.biome.biomeType) {
+                        case BiomeType.OCEAN:
+                            oceanChance += highChange;
+                            riverChance += mediumChange;
+                            break;
+                        case BiomeType.RIVER:
+                            riverChance += highChange;
+                            oceanChance += mediumChange;
+                            plainChance += lowChange;
+                            forestChance += lowChange;
+                            break;
+                        case BiomeType.PLAIN:
+                            plainChance += highChange;
+                            forestChance += mediumChange;
+                            riverChance += lowChange;
+                            mountainChance += lowChange;
+                            desertChance += lowChange;
+                            break;
+                        case BiomeType.FOREST:
+                            forestChance += highChange;
+                            plainChance += mediumChange;
+                            riverChance += lowChange;
+                            mountainChance += lowChange;
+                            break;
+                        case BiomeType.MOUNTAIN:
+                            mountainChance += highChange;
+                            desertChance += mediumChange;
+                            plainChance += lowChange;
+                            forestChance += lowChange;
+                            break;
+                        case BiomeType.DESERT:
+                            desertChance += highChange;
+                            mountainChance += mediumChange;
+                            plainChance += lowChange;
+                            break;
+                    }
+                }
+            }
+
+            int chanceSum = oceanChance + riverChance + plainChance + forestChance + mountainChance + desertChance;
+
+            int r = random.Next(chanceSum);
+
+            if (r < oceanChance) {
                 biome = new Biome(BiomeType.OCEAN);
-            else if (random < 45)
+            }
+            else if (r < oceanChance + riverChance) {
                 biome = new Biome(BiomeType.RIVER);
-            else if (random < 55)
+            }
+            else if (r < oceanChance + riverChance + plainChance) {
                 biome = new Biome(BiomeType.PLAIN);
-            else if (random < 65)
+            }
+            else if (r < oceanChance + riverChance + plainChance + forestChance) {
                 biome = new Biome(BiomeType.FOREST);
-            else if (random < 75)
+            }
+            else if (r < oceanChance + riverChance + plainChance + forestChance + mountainChance) {
                 biome = new Biome(BiomeType.MOUNTAIN);
-            else
+            }
+            else {
                 biome = new Biome(BiomeType.DESERT);
+            }
+
+            initialized = true;
         }
     }
 

@@ -40,9 +40,15 @@ public class World : MonoBehaviour
             }
         }
 
+        System.Random random = new System.Random();
+
         foreach (GameObject go in map)
         {
-            go.GetComponent<Tile>().InitializeBiome(null);
+            Tile curTile = go.GetComponent<Tile>();
+
+            if (!curTile.initialized) {
+                curTile.InitializeBiome(this, this.GetTilesInRange(curTile.x, curTile.y, 1), random);
+            }
         }
     }
 

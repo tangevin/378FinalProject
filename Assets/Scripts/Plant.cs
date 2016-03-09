@@ -9,7 +9,7 @@ public class Plant : Organism
     private const int evolveChance = 1;
     private const int mutateChance = 1;
 
-    public string name { get; private set; }
+    new public string name { get; private set; }
     public Spread spread { get; private set; }
     public PlantType plantType { get; private set; }
     public Poisonous poisonous { get; private set; }

@@ -181,7 +181,7 @@ public class Tile : MonoBehaviour
             GameObject newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             Animal a = newAnimal.GetComponent<Animal>();
 
-            
+            try {
                 Dropdown aggression = GameObject.Find("Aggression").GetComponent<Dropdown>();
                 Dropdown appetite = GameObject.Find("Appetite").GetComponent<Dropdown>();
                 Dropdown diet = GameObject.Find("Diet").GetComponent<Dropdown>();
@@ -218,10 +218,10 @@ public class Tile : MonoBehaviour
                     vis, gesttime, sonic, babycount, humids, temps, lifetime, 0);
 
                 addAnimal(a);
-           /* } catch
+            } catch
             {
                 Debug.Log("Some attributes weren't set.");
-            }*/
+            }
             
             
             /*

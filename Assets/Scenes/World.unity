@@ -685,7 +685,7 @@ RectTransform:
   - {fileID: 421092524}
   - {fileID: 2006823015}
   m_Father: {fileID: 980893031}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 20, y: -325}
@@ -1650,8 +1650,6 @@ MonoBehaviour:
     - m_Text: Male
       m_Image: {fileID: 0}
     - m_Text: Female
-      m_Image: {fileID: 0}
-    - m_Text: Alternate
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2824,7 +2822,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 460}
+  m_SizeDelta: {x: 200, y: 485}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &316648696
 MonoBehaviour:
@@ -3512,7 +3510,7 @@ RectTransform:
   - {fileID: 1788861197}
   - {fileID: 744561596}
   m_Father: {fileID: 980893031}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 20, y: -265}
@@ -3568,9 +3566,9 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Twins
       m_Image: {fileID: 0}
-    - m_Text: Quads
+    - m_Text: Quad
       m_Image: {fileID: 0}
-    - m_Text: Octo-mom
+    - m_Text: Octomom
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6583,7 +6581,7 @@ RectTransform:
   - {fileID: 1952475941}
   - {fileID: 1313864472}
   m_Father: {fileID: 980893031}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 20, y: -355}
@@ -6861,7 +6859,7 @@ RectTransform:
   m_RootOrder: 15
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -415}
+  m_AnchoredPosition: {x: 20, y: -445}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &829947547
@@ -7528,10 +7526,10 @@ RectTransform:
   - {fileID: 196875469}
   - {fileID: 2104590010}
   m_Father: {fileID: 980893031}
-  m_RootOrder: 9
+  m_RootOrder: 14
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -265}
+  m_AnchoredPosition: {x: 20, y: -415}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &960754783
@@ -7662,12 +7660,12 @@ RectTransform:
   - {fileID: 29751807}
   - {fileID: 186676084}
   - {fileID: 1923437826}
-  - {fileID: 960754782}
   - {fileID: 425084624}
   - {fileID: 1954099301}
   - {fileID: 808205978}
   - {fileID: 85872793}
   - {fileID: 1512635939}
+  - {fileID: 960754782}
   - {fileID: 829947546}
   m_Father: {fileID: 1873598840}
   m_RootOrder: 1
@@ -8061,7 +8059,7 @@ MonoBehaviour:
     m_Options:
     - m_Text: Legs
       m_Image: {fileID: 0}
-    - m_Text: Quadraped
+    - m_Text: Quadruped
       m_Image: {fileID: 0}
     - m_Text: Biped
       m_Image: {fileID: 0}
@@ -10628,7 +10626,7 @@ RectTransform:
   - {fileID: 401467236}
   - {fileID: 591005554}
   m_Father: {fileID: 980893031}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 20, y: -385}
@@ -13249,7 +13247,7 @@ RectTransform:
   - {fileID: 541262933}
   - {fileID: 268637468}
   m_Father: {fileID: 980893031}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 20, y: -295}

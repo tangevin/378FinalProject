@@ -181,8 +181,7 @@ public class Tile : MonoBehaviour
             GameObject newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             Animal a = newAnimal.GetComponent<Animal>();
 
-            try
-            {
+            
                 Dropdown aggression = GameObject.Find("Aggression").GetComponent<Dropdown>();
                 Dropdown appetite = GameObject.Find("Appetite").GetComponent<Dropdown>();
                 Dropdown diet = GameObject.Find("Diet").GetComponent<Dropdown>();
@@ -205,13 +204,13 @@ public class Tile : MonoBehaviour
                 BodyType triped = ParseEnum<BodyType>(legs.options.ToArray()[legs.value].text);
                 AnimalSize giants = ParseEnum<AnimalSize>(size.options.ToArray()[size.value].text);
                 Gender genitalia = ParseEnum<Gender>(gender.options.ToArray()[gender.value].text);
-                Perception vis = ParseEnum<Perception>(size.options.ToArray()[size.value].text);
-                Speed sonic = ParseEnum<Speed>(size.options.ToArray()[size.value].text);
-                Babies babycount = ParseEnum<Babies>(size.options.ToArray()[size.value].text);
-                int gesttime = size.value * 2;
-                HumidityTolerance humids = ParseEnum<HumidityTolerance>(size.options.ToArray()[size.value].text);
-                TemperatureTolerance temps = ParseEnum<TemperatureTolerance>(size.options.ToArray()[size.value].text);
-                Lifespan lifetime = ParseEnum<Lifespan>(size.options.ToArray()[size.value].text);
+                Perception vis = ParseEnum<Perception>(vision.options.ToArray()[vision.value].text);
+                Speed sonic = ParseEnum<Speed>(speed.options.ToArray()[speed.value].text);
+                Babies babycount = ParseEnum<Babies>(litter.options.ToArray()[litter.value].text);
+                int gesttime = gestation.value * 2;
+                HumidityTolerance humids = ParseEnum<HumidityTolerance>(humid.options.ToArray()[humid.value].text);
+                TemperatureTolerance temps = ParseEnum<TemperatureTolerance>(temp.options.ToArray()[temp.value].text);
+                Lifespan lifetime = ParseEnum<Lifespan>(lifespan.options.ToArray()[lifespan.value].text);
 
 
 
@@ -219,10 +218,10 @@ public class Tile : MonoBehaviour
                     vis, gesttime, sonic, babycount, humids, temps, lifetime, 0);
 
                 addAnimal(a);
-            } catch
+           /* } catch
             {
                 Debug.Log("Some attributes weren't set.");
-            }
+            }*/
             
             
             /*

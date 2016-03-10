@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 public class Tile : MonoBehaviour
 {
@@ -130,6 +132,11 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public static T ParseEnum<T>(string value)
+    {
+        return (T)Enum.Parse(typeof(T), value, true);
+    }
+
     void OnMouseOver()
     {
         if (Input.GetMouseButtonUp(0))
@@ -174,11 +181,51 @@ public class Tile : MonoBehaviour
             GameObject newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             Animal a = newAnimal.GetComponent<Animal>();
 
-            a.initialize("Test animal", Aggression.LOW, FoodNeeded.MEDIUM, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.MALE, 
-                Perception.FAR, 20, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.SHORT, 0);
+            try
+            {
+                Dropdown aggression = GameObject.Find("Aggression").GetComponent<Dropdown>();
+                Dropdown appetite = GameObject.Find("Appetite").GetComponent<Dropdown>();
+                Dropdown diet = GameObject.Find("Diet").GetComponent<Dropdown>();
+                Dropdown legs = GameObject.Find("Legs").GetComponent<Dropdown>();
+                Dropdown size = GameObject.Find("Size").GetComponent<Dropdown>();
+                Dropdown gender = GameObject.Find("Gender").GetComponent<Dropdown>();
+                Dropdown vision = GameObject.Find("Vision distance").GetComponent<Dropdown>();
+                Dropdown speed = GameObject.Find("Speed").GetComponent<Dropdown>();
+                Dropdown litter = GameObject.Find("Litter size").GetComponent<Dropdown>();
+                Dropdown gestation = GameObject.Find("Gestation time").GetComponent<Dropdown>();
+                Dropdown humid = GameObject.Find("Humidity tolerance").GetComponent<Dropdown>();
+                Dropdown temp = GameObject.Find("Temperature tolerance").GetComponent<Dropdown>();
+                Dropdown lifespan = GameObject.Find("Lifespan").GetComponent<Dropdown>();
 
-            this.addAnimal(a);
+
+
+                Aggression aggr = ParseEnum<Aggression>(aggression.options.ToArray()[aggression.value].text);
+                FoodNeeded fatness = ParseEnum<FoodNeeded>(appetite.options.ToArray()[appetite.value].text);
+                FoodType vegan = ParseEnum<FoodType>(diet.options.ToArray()[diet.value].text);
+                BodyType triped = ParseEnum<BodyType>(legs.options.ToArray()[legs.value].text);
+                AnimalSize giants = ParseEnum<AnimalSize>(size.options.ToArray()[size.value].text);
+                Gender genitalia = ParseEnum<Gender>(gender.options.ToArray()[gender.value].text);
+                Perception vis = ParseEnum<Perception>(size.options.ToArray()[size.value].text);
+                Speed sonic = ParseEnum<Speed>(size.options.ToArray()[size.value].text);
+                Babies babycount = ParseEnum<Babies>(size.options.ToArray()[size.value].text);
+                int gesttime = size.value * 2;
+                HumidityTolerance humids = ParseEnum<HumidityTolerance>(size.options.ToArray()[size.value].text);
+                TemperatureTolerance temps = ParseEnum<TemperatureTolerance>(size.options.ToArray()[size.value].text);
+                Lifespan lifetime = ParseEnum<Lifespan>(size.options.ToArray()[size.value].text);
+
+
+
+                a.initialize("Test animal", aggr, fatness, vegan, triped, giants, genitalia,
+                    vis, gesttime, sonic, babycount, humids, temps, lifetime, 0);
+
+                addAnimal(a);
+            } catch
+            {
+                Debug.Log("Some attributes weren't set.");
+            }
             
+            
+            /*
             newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             a = newAnimal.GetComponent<Animal>();
 
@@ -186,6 +233,7 @@ public class Tile : MonoBehaviour
                 Perception.FAR, 2, Speed.MEDIUM, Babies.DOUB, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.SHORT, 0);
 
             this.addAnimal(a);
+            */
         }
     }
 

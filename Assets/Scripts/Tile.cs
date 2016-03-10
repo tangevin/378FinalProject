@@ -182,12 +182,11 @@ public class Tile : MonoBehaviour
             GameObject newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             Animal a = newAnimal.GetComponent<Animal>();
 
-<<<<<<< HEAD
-            a.initialize("Test animal", Aggression.LOW, FoodNeeded.MEDIUM, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.MALE, 
-                Perception.FAR, 3, Speed.MEDIUM, Babies.SING, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
+            a.initialize("Test animal", Aggression.LOW, FoodNeeded.MEDIUM, FoodType.HERBIVORE, BodyType.QUADRUPED, AnimalSize.SMALL, Gender.MALE, 
+                Perception.FAR, 3, Speed.MEDIUM, Babies.SOLO, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
 
             this.addAnimal(a);
-=======
+
             try {
                 Dropdown aggression = GameObject.Find("Aggression").GetComponent<Dropdown>();
                 Dropdown appetite = GameObject.Find("Appetite").GetComponent<Dropdown>();
@@ -229,7 +228,7 @@ public class Tile : MonoBehaviour
             {
                 Debug.Log("Some attributes weren't set.");
             }
->>>>>>> origin/master
+//>>>>>>> origin/master
             
             
             /*
@@ -306,11 +305,13 @@ public class Tile : MonoBehaviour
                 {
                     Animal other = dec[(int)dictKeys.ANIMAL].GetComponent<Animal>();
                     if (other.speciesID == a.speciesID && other.pregnant == false) {
+                        //Debug.Log("Preg");
                         if (! toPreg.ContainsKey(other))
                             toPreg.Add(other, a);
                     }
                     else if (other.speciesID != a.speciesID)
                     {
+                        //Debug.Log("eat");
                         eaten = true;
                         a.eat(other.GetComponent<Organism>());
                         animals[other] -= 1;
@@ -318,6 +319,7 @@ public class Tile : MonoBehaviour
                 }
                 else if (dec.ContainsKey((int) dictKeys.PLANT))
                 {
+                    //Debug.Log("eat plant");
                     Plant p = dec[(int)dictKeys.PLANT].GetComponent<Plant>();
                     a.eat(p);
                     switch (a.animalSize)
@@ -345,6 +347,7 @@ public class Tile : MonoBehaviour
                 }
                 else if (dec.ContainsKey((int) dictKeys.TILE))
                 {
+                    //Debug.Log("move");
                     Tile t = dec[(int)dictKeys.TILE].GetComponent<Tile>();
                     a.moved = true;
                     if (! toMove.ContainsKey(a))

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -16,9 +17,28 @@ public class World : MonoBehaviour
     public float dragSpeed;
     public float scrollSpeed;
 
+    private const int startingTickSpeed = 4;
+    public int tickSpeed { get; private set; }
+    public bool paused { get; private set; }
+    public Button pauseButton;
+    private bool pauseSelected = false;
+    public Sprite pauseSelectedSprite;
+    public Sprite pauseUnselectedSprite;
+    public Button playButton;
+    private bool playSelected = true;
+    public Sprite playSelectedSprite;
+    public Sprite playUnselectedSprite;
+    public Button accelerateButton;
+    private bool accelerateSelected = false;
+    public Sprite accelerateSelectedSprite;
+    public Sprite accelerateUnselectedSprite;
+
     // Use this for initialization
     void Start()
     {
+        tickSpeed = startingTickSpeed;
+        paused = false;
+
         Vector3 pos;
         map = new GameObject[height, width];
         for (int y = 0; y < height; y++)
@@ -54,10 +74,10 @@ public class World : MonoBehaviour
 
     void Update()
     {
-        if (gameTick)
+        if (gameTick && !paused)
         {
             gameTick = false;
-            StartCoroutine(updatePlants());
+            StartCoroutine(update());
         }
 
         if (Input.GetMouseButtonDown(0)) {
@@ -86,17 +106,20 @@ public class World : MonoBehaviour
         }
     }
 
-    private IEnumerator updatePlants()
+    private IEnumerator update()
     {
-        yield return new WaitForSeconds(4);
-        foreach (GameObject tileObject in this.map)
-        {
-            tileObject.GetComponent<Tile>().onGameTick();
-        }
+        yield return new WaitForSeconds(tickSpeed);
 
-        foreach (GameObject tileObject in this.map)
-        {
-            tileObject.GetComponent<Tile>().resetMovement();
+        if (!paused) {
+            foreach (GameObject tileObject in this.map)
+            {
+                tileObject.GetComponent<Tile>().onGameTick();
+            }
+
+            foreach (GameObject tileObject in this.map)
+            {
+                tileObject.GetComponent<Tile>().resetMovement();
+            }
         }
 
         this.gameTick = true;
@@ -183,6 +206,50 @@ public class World : MonoBehaviour
         if (!list.Contains(tile))
         {
             list.Add(tile);
+        }
+    }
+
+    public void play() {
+        if (!playSelected) {
+            playButton.image.sprite = playSelectedSprite;
+            pauseButton.image.sprite = pauseUnselectedSprite;
+            accelerateButton.image.sprite = accelerateUnselectedSprite;
+
+            this.paused = false;
+            this.tickSpeed = startingTickSpeed;
+
+            this.playSelected = true;
+            this.pauseSelected = false;
+            this.accelerateSelected = false;
+        }
+    }
+
+    public void pause() {
+        if (!pauseSelected) {
+            playButton.image.sprite = playUnselectedSprite;
+            pauseButton.image.sprite = pauseSelectedSprite;
+            accelerateButton.image.sprite = accelerateUnselectedSprite;
+
+            this.paused = true;
+
+            this.playSelected = false;
+            this.pauseSelected = true;
+            this.accelerateSelected = false;
+        }
+    }
+
+    public void speedUp() {
+        if (!accelerateSelected) {
+            playButton.image.sprite = playUnselectedSprite;
+            pauseButton.image.sprite = pauseUnselectedSprite;
+            accelerateButton.image.sprite = accelerateSelectedSprite;
+
+            this.paused = false;
+            this.tickSpeed = startingTickSpeed / 2;
+
+            this.playSelected = false;
+            this.pauseSelected = false;
+            this.accelerateSelected = true;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
 public class Tile : MonoBehaviour
@@ -18,11 +19,14 @@ public class Tile : MonoBehaviour
     public Dictionary<Plant, int> plants = new Dictionary<Plant,int>();
     public Dictionary<Animal, int> animals = new Dictionary<Animal,int>();
 
+    private EventSystem eventSystem;
+
     void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
         active = false;
         initialized = false;
+        eventSystem = EventSystem.current;
     }
 
     public void InitializeBiome(World world, List<GameObject> adjacentTiles, System.Random random)
@@ -132,7 +136,7 @@ public class Tile : MonoBehaviour
 
     void OnMouseOver()
     {
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && !eventSystem.IsPointerOverGameObject())
         {
             string toPrint = "Plants: ";
 
@@ -149,7 +153,7 @@ public class Tile : MonoBehaviour
 
             Debug.Log(toPrint);
         }
-        else if (Input.GetMouseButtonUp(1))
+        else if (Input.GetMouseButtonUp(1) && !eventSystem.IsPointerOverGameObject())
         {
             bool canSurviveInMountain = false;
             bool canSurviveInDesert = false;
@@ -169,7 +173,7 @@ public class Tile : MonoBehaviour
                 }
             }
         }
-        else if (Input.GetKeyUp(KeyCode.A))
+        else if (Input.GetKeyUp(KeyCode.A) && !eventSystem.IsPointerOverGameObject())
         {
             GameObject newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             Animal a = newAnimal.GetComponent<Animal>();
@@ -187,17 +191,6 @@ public class Tile : MonoBehaviour
 
             this.addAnimal(a);
         }
-    }
-
-    void OnMouseDown()
-    {
-        /**List<GameObject> tiles = new List<GameObject>();
-        world.GetComponent<World>().GetTilesInRange(tiles, x, y, 3);
-
-        foreach (GameObject tile in tiles)
-        {
-            tile.GetComponent<Tile>().ChangeColor();
-        }*/
     }
 
     public void SetData(int x, int y, GameObject world)

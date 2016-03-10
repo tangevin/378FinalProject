@@ -44,6 +44,22 @@ MonoBehaviour:
   width: 37
   tilePrefab: {fileID: 148936, guid: aa38410eb0267d84fbc3c2188019707d, type: 2}
   worldPrefab: {fileID: 139970}
+  dragSpeed: 1
+  scrollSpeed: 1
+  pauseButton: {fileID: 0}
+  pauseSelectedSprite: {fileID: 21300000, guid: 2da5782bd6153744ab0dd755ab4f59d0,
+    type: 3}
+  pauseUnselectedSprite: {fileID: 21300000, guid: b0f6a0ce2c61f1242817b457029c85ea,
+    type: 3}
+  playButton: {fileID: 0}
+  playSelectedSprite: {fileID: 21300000, guid: d02974a93ea150d4ca413b4ffd3ea034, type: 3}
+  playUnselectedSprite: {fileID: 21300000, guid: 567c726b5e22e1047b7feb49bbb843b7,
+    type: 3}
+  accelerateButton: {fileID: 0}
+  accelerateSelectedSprite: {fileID: 21300000, guid: 338e078e242779942a0ff30c5c62eb37,
+    type: 3}
+  accelerateUnselectedSprite: {fileID: 21300000, guid: 4320236520a85fb459b5b3c8af2cbfaa,
+    type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -2,5 +2,5 @@
 
 public enum Babies
 {
-    SING=1, DOUB=2, QUAD=4, OCTUP=8
+    SOLO=1, TWINS=2, QUAD=4, OCTOMOM=8
 }

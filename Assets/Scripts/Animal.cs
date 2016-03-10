@@ -13,7 +13,7 @@ public class Animal : Organism
     private bool old;
     private bool fertile;
 
-    public string name { get; private set; }
+    new public string name { get; private set; }
 
     public int speciesID { get; private set; }
     public int pregnancy { get; private set; }

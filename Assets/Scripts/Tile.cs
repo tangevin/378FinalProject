@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 public class Tile : MonoBehaviour
 {
-    private bool active, initialized;
+    private bool active;
+    public bool initialized { get; private set; }
     private SpriteRenderer sprite;
     private GameObject world;
     private enum dictKeys {ANIMAL, PLANT, TILE};
@@ -13,7 +16,7 @@ public class Tile : MonoBehaviour
     public GameObject plantPrefab;
     public GameObject animalPrefab;
 
-    public Biome biome;
+    public Biome biome = null;
 
     public Dictionary<Plant, int> plants = new Dictionary<Plant,int>();
     public Dictionary<Animal, int> animals = new Dictionary<Animal,int>();
@@ -25,25 +28,88 @@ public class Tile : MonoBehaviour
         initialized = false;
     }
 
-    public void InitializeBiome(List<GameObject> adjacentTiles)
+    public void InitializeBiome(World world, List<GameObject> adjacentTiles, System.Random random)
     {
         if (!initialized)
         {
-            initialized = true;
-            int random = (int)(Random.value * 100);
+            int oceanChance = 1;
+            int riverChance = 1;
+            int plainChance = 1;
+            int forestChance = 1;
+            int mountainChance = 1;
+            int desertChance = 1;
 
-            if (random < 35)
+            int highChange = 55;
+            int mediumChange = 15;
+            int lowChange = 1;
+
+            foreach (GameObject tileObject in adjacentTiles) {
+                Tile tile = tileObject.GetComponent<Tile>();
+
+                if (tile.initialized) {
+                    switch (tile.biome.biomeType) {
+                        case BiomeType.OCEAN:
+                            oceanChance += highChange;
+                            riverChance += mediumChange;
+                            break;
+                        case BiomeType.RIVER:
+                            riverChance += highChange;
+                            oceanChance += mediumChange;
+                            plainChance += lowChange;
+                            forestChance += lowChange;
+                            break;
+                        case BiomeType.PLAIN:
+                            plainChance += highChange;
+                            forestChance += mediumChange;
+                            riverChance += lowChange;
+                            mountainChance += lowChange;
+                            desertChance += lowChange;
+                            break;
+                        case BiomeType.FOREST:
+                            forestChance += highChange;
+                            plainChance += mediumChange;
+                            riverChance += lowChange;
+                            mountainChance += lowChange;
+                            break;
+                        case BiomeType.MOUNTAIN:
+                            mountainChance += highChange;
+                            desertChance += mediumChange;
+                            plainChance += lowChange;
+                            forestChance += lowChange;
+                            break;
+                        case BiomeType.DESERT:
+                            desertChance += highChange;
+                            mountainChance += mediumChange;
+                            plainChance += lowChange;
+                            break;
+                    }
+                }
+            }
+
+            int chanceSum = oceanChance + riverChance + plainChance + forestChance + mountainChance + desertChance;
+
+            int r = random.Next(chanceSum);
+
+            if (r < oceanChance) {
                 biome = new Biome(BiomeType.OCEAN);
-            else if (random < 45)
+            }
+            else if (r < oceanChance + riverChance) {
                 biome = new Biome(BiomeType.RIVER);
-            else if (random < 55)
+            }
+            else if (r < oceanChance + riverChance + plainChance) {
                 biome = new Biome(BiomeType.PLAIN);
-            else if (random < 65)
+            }
+            else if (r < oceanChance + riverChance + plainChance + forestChance) {
                 biome = new Biome(BiomeType.FOREST);
-            else if (random < 75)
+            }
+            else if (r < oceanChance + riverChance + plainChance + forestChance + mountainChance) {
                 biome = new Biome(BiomeType.MOUNTAIN);
-            else
+            }
+            else {
                 biome = new Biome(BiomeType.DESERT);
+            }
+
+            initialized = true;
         }
     }
 
@@ -67,6 +133,11 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public static T ParseEnum<T>(string value)
+    {
+        return (T)Enum.Parse(typeof(T), value, true);
+    }
+
     void OnMouseOver()
     {
         if (Input.GetMouseButtonUp(0))
@@ -88,24 +159,80 @@ public class Tile : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(1))
         {
-            GameObject newPlant = (GameObject)Instantiate(plantPrefab, new Vector3(x, y, 0), Quaternion.identity);
-            Plant p = newPlant.GetComponent<Plant>();
-                
-            p.initialize("Test Plant", Spread.MEDIUM, PlantType.BUSH, Poisonous.MINOR, WaterNeeded.MEDIUM, 
-                SpaceNeeded.MEDIUM, false, false, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG);
+            bool canSurviveInMountain = false;
+            bool canSurviveInDesert = false;
 
-            this.addPlant(p, 1);
+            if (this.biome.biomeType != BiomeType.OCEAN) {
+                if ((this.biome.biomeType != BiomeType.MOUNTAIN && this.biome.biomeType != BiomeType.DESERT) || 
+                    (this.biome.biomeType == BiomeType.MOUNTAIN && canSurviveInMountain) ||
+                    (this.biome.biomeType == BiomeType.DESERT && canSurviveInDesert)) {
+                    GameObject newPlant = (GameObject)Instantiate(plantPrefab, new Vector3(x, y, 0), Quaternion.identity);
+                    Plant p = newPlant.GetComponent<Plant>();
+
+                    p.initialize("Test Plant", Spread.MEDIUM, PlantType.BUSH, Poisonous.MINOR, WaterNeeded.HIGH,
+                        SpaceNeeded.MEDIUM, canSurviveInMountain, canSurviveInDesert, HumidityTolerance.HIGH, 
+                        TemperatureTolerance.MEDIUM, Lifespan.LONG);
+
+                    this.addPlant(p, 1);
+                }
+            }
         }
         else if (Input.GetKeyUp(KeyCode.A))
         {
             GameObject newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             Animal a = newAnimal.GetComponent<Animal>();
 
+<<<<<<< HEAD
             a.initialize("Test animal", Aggression.LOW, FoodNeeded.MEDIUM, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.MALE, 
                 Perception.FAR, 3, Speed.MEDIUM, Babies.SING, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
 
             this.addAnimal(a);
+=======
+            try {
+                Dropdown aggression = GameObject.Find("Aggression").GetComponent<Dropdown>();
+                Dropdown appetite = GameObject.Find("Appetite").GetComponent<Dropdown>();
+                Dropdown diet = GameObject.Find("Diet").GetComponent<Dropdown>();
+                Dropdown legs = GameObject.Find("Legs").GetComponent<Dropdown>();
+                Dropdown size = GameObject.Find("Size").GetComponent<Dropdown>();
+                Dropdown gender = GameObject.Find("Gender").GetComponent<Dropdown>();
+                Dropdown vision = GameObject.Find("Vision distance").GetComponent<Dropdown>();
+                Dropdown speed = GameObject.Find("Speed").GetComponent<Dropdown>();
+                Dropdown litter = GameObject.Find("Litter size").GetComponent<Dropdown>();
+                Dropdown gestation = GameObject.Find("Gestation time").GetComponent<Dropdown>();
+                Dropdown humid = GameObject.Find("Humidity tolerance").GetComponent<Dropdown>();
+                Dropdown temp = GameObject.Find("Temperature tolerance").GetComponent<Dropdown>();
+                Dropdown lifespan = GameObject.Find("Lifespan").GetComponent<Dropdown>();
+
+
+
+                Aggression aggr = ParseEnum<Aggression>(aggression.options.ToArray()[aggression.value].text);
+                FoodNeeded fatness = ParseEnum<FoodNeeded>(appetite.options.ToArray()[appetite.value].text);
+                FoodType vegan = ParseEnum<FoodType>(diet.options.ToArray()[diet.value].text);
+                BodyType triped = ParseEnum<BodyType>(legs.options.ToArray()[legs.value].text);
+                AnimalSize giants = ParseEnum<AnimalSize>(size.options.ToArray()[size.value].text);
+                Gender genitalia = ParseEnum<Gender>(gender.options.ToArray()[gender.value].text);
+                Perception vis = ParseEnum<Perception>(vision.options.ToArray()[vision.value].text);
+                Speed sonic = ParseEnum<Speed>(speed.options.ToArray()[speed.value].text);
+                Babies babycount = ParseEnum<Babies>(litter.options.ToArray()[litter.value].text);
+                int gesttime = gestation.value * 2;
+                HumidityTolerance humids = ParseEnum<HumidityTolerance>(humid.options.ToArray()[humid.value].text);
+                TemperatureTolerance temps = ParseEnum<TemperatureTolerance>(temp.options.ToArray()[temp.value].text);
+                Lifespan lifetime = ParseEnum<Lifespan>(lifespan.options.ToArray()[lifespan.value].text);
+
+
+
+                a.initialize("Test animal", aggr, fatness, vegan, triped, giants, genitalia,
+                    vis, gesttime, sonic, babycount, humids, temps, lifetime, 0);
+
+                addAnimal(a);
+            } catch
+            {
+                Debug.Log("Some attributes weren't set.");
+            }
+>>>>>>> origin/master
             
+            
+            /*
             newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
             a = newAnimal.GetComponent<Animal>();
 
@@ -113,6 +240,7 @@ public class Tile : MonoBehaviour
                 Perception.FAR, 3, Speed.MEDIUM, Babies.SING, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
 
             this.addAnimal(a);
+            */
         }
     }
 
@@ -385,6 +513,45 @@ public class Tile : MonoBehaviour
 
             int numGrowth = p.checkInTileGrowth(numInTile, biome.amountOfWater, biome.humidity, biome.temperature);
             int numDeath = p.checkInTileDeath(numInTile, biome.amountOfWater, biome.humidity, biome.temperature);
+
+            if (numGrowth > 0) {
+                System.Random random = new System.Random();
+
+                if (random.Next(2) == 0) {
+                    Plant evolvePlant = p.evolve(numGrowth, this.biome);
+
+                    if (evolvePlant != null) {
+                        numGrowth--;
+                        this.addPlant(evolvePlant, 1);
+                    }
+
+                    if (numGrowth > 0) {
+                        Plant mutatePlant = p.mutate(numGrowth);
+
+                        if (mutatePlant != null) {
+                            numGrowth--;
+                            this.addPlant(mutatePlant, 1);
+                        }
+                    }
+                }
+                else {
+                    Plant mutatePlant = p.mutate(numGrowth);
+
+                    if (mutatePlant != null) {
+                        numGrowth--;
+                        this.addPlant(mutatePlant, 1);
+                    }
+
+                    if (numGrowth > 0) {
+                        Plant evolvePlant = p.evolve(numGrowth, this.biome);
+
+                        if (evolvePlant != null) {
+                            numGrowth--;
+                            this.addPlant(evolvePlant, 1);
+                        }
+                    }
+                }
+            }
 
             int newTotal = numInTile + numGrowth - numDeath;
 

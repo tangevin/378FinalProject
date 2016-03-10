@@ -5,6 +5,9 @@ using System.Linq;
 
 public class Animal : Organism
 {
+    public static int nextID = 0;
+    public static Dictionary<string, int> namesToIDs = new Dictionary<string,int>();
+
     private SpriteRenderer sprite;
     private int lowGes = 2;
     private int highGes = 20;

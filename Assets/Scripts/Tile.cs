@@ -163,87 +163,119 @@ public class Tile : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(1) && !eventSystem.IsPointerOverGameObject())
         {
-            bool canSurviveInMountain = false;
-            bool canSurviveInDesert = false;
-
             if (this.biome.biomeType != BiomeType.OCEAN) {
-                if ((this.biome.biomeType != BiomeType.MOUNTAIN && this.biome.biomeType != BiomeType.DESERT) || 
-                    (this.biome.biomeType == BiomeType.MOUNTAIN && canSurviveInMountain) ||
-                    (this.biome.biomeType == BiomeType.DESERT && canSurviveInDesert)) {
-                    GameObject newPlant = (GameObject)Instantiate(plantPrefab, new Vector3(x, y, 0), Quaternion.identity);
-                    Plant p = newPlant.GetComponent<Plant>();
+                Dropdown entityType = GameObject.Find("Type selector").GetComponent<Dropdown>();
 
-                    p.initialize("Test Plant", Spread.MEDIUM, PlantType.BUSH, Poisonous.MINOR, WaterNeeded.HIGH,
-                        SpaceNeeded.MEDIUM, canSurviveInMountain, canSurviveInDesert, HumidityTolerance.HIGH, 
-                        TemperatureTolerance.MEDIUM, Lifespan.LONG);
+                InputField speciesNameField = GameObject.Find("Species Name").GetComponent<InputField>();
+                string speciesName = speciesNameField.text;
 
-                    this.addPlant(p, 1);
+                if (entityType.value == 0) {
+                    GameObject newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
+                    Animal a = newAnimal.GetComponent<Animal>();
+
+                    try {
+                        Dropdown aggression = GameObject.Find("Aggression").GetComponent<Dropdown>();
+                        Dropdown appetite = GameObject.Find("Appetite").GetComponent<Dropdown>();
+                        Dropdown diet = GameObject.Find("Diet").GetComponent<Dropdown>();
+                        Dropdown legs = GameObject.Find("Legs").GetComponent<Dropdown>();
+                        Dropdown size = GameObject.Find("Size").GetComponent<Dropdown>();
+                        Dropdown gender = GameObject.Find("Gender").GetComponent<Dropdown>();
+                        Dropdown vision = GameObject.Find("Vision distance").GetComponent<Dropdown>();
+                        Dropdown speed = GameObject.Find("Speed").GetComponent<Dropdown>();
+                        Dropdown litter = GameObject.Find("Litter size").GetComponent<Dropdown>();
+                        Dropdown gestation = GameObject.Find("Gestation time").GetComponent<Dropdown>();
+                        Dropdown humid = GameObject.Find("Humidity tolerance").GetComponent<Dropdown>();
+                        Dropdown temp = GameObject.Find("Temperature tolerance").GetComponent<Dropdown>();
+                        Dropdown lifespan = GameObject.Find("Lifespan").GetComponent<Dropdown>();
+
+                        Aggression aggr = ParseEnum<Aggression>(aggression.options.ToArray()[aggression.value].text);
+                        FoodNeeded fatness = ParseEnum<FoodNeeded>(appetite.options.ToArray()[appetite.value].text);
+                        FoodType vegan = ParseEnum<FoodType>(diet.options.ToArray()[diet.value].text);
+                        BodyType triped = ParseEnum<BodyType>(legs.options.ToArray()[legs.value].text);
+                        AnimalSize giants = ParseEnum<AnimalSize>(size.options.ToArray()[size.value].text);
+                        Gender genitalia = ParseEnum<Gender>(gender.options.ToArray()[gender.value].text);
+                        Perception vis = ParseEnum<Perception>(vision.options.ToArray()[vision.value].text);
+                        Speed sonic = ParseEnum<Speed>(speed.options.ToArray()[speed.value].text);
+                        Babies babycount = ParseEnum<Babies>(litter.options.ToArray()[litter.value].text);
+                        int gesttime = gestation.value * 2;
+                        HumidityTolerance humids = ParseEnum<HumidityTolerance>(humid.options.ToArray()[humid.value].text);
+                        TemperatureTolerance temps = ParseEnum<TemperatureTolerance>(temp.options.ToArray()[temp.value].text);
+                        Lifespan lifetime = ParseEnum<Lifespan>(lifespan.options.ToArray()[lifespan.value].text);
+
+                        if (speciesName.Equals("")) {
+                            speciesName = "Nameless Animal";
+                        }
+
+                        int id;
+                        if (Animal.namesToIDs.ContainsKey(speciesName)) {
+                            id = Animal.namesToIDs[speciesName];
+                        }
+                        else {
+                            id = Animal.nextID;
+                            Animal.namesToIDs[speciesName] = id;
+                            Animal.nextID++;
+                        }
+
+                        a.initialize(speciesName, aggr, fatness, vegan, triped, giants, genitalia,
+                            vis, gesttime, sonic, babycount, humids, temps, lifetime, id);
+
+                        addAnimal(a);
+                    }
+                    catch {
+                        Debug.Log("Some attributes weren't set.");
+                    }
+                }
+                else {
+                    Toggle mountainSurvivable = GameObject.Find("SurviveInMountains").GetComponent<Toggle>();
+                    bool canSurviveInMountain = mountainSurvivable.isOn;
+
+                    Toggle desertSurvivable = GameObject.Find("SurviveInDeserts").GetComponent<Toggle>();
+                    bool canSurviveInDesert = desertSurvivable.isOn;
+
+                    if ((this.biome.biomeType != BiomeType.MOUNTAIN && this.biome.biomeType != BiomeType.DESERT) ||
+                        (this.biome.biomeType == BiomeType.MOUNTAIN && canSurviveInMountain) ||
+                        (this.biome.biomeType == BiomeType.DESERT && canSurviveInDesert)) {
+                        GameObject newPlant = (GameObject)Instantiate(plantPrefab, new Vector3(x, y, 0), Quaternion.identity);
+                        Plant p = newPlant.GetComponent<Plant>();
+
+                        try {
+                            Dropdown spreadDropdown = GameObject.Find("Spread").GetComponent<Dropdown>();
+                            Dropdown plantTypeDropdown = GameObject.Find("PlantType").GetComponent<Dropdown>();
+                            Dropdown poisonousDropdown = GameObject.Find("Poisonous").GetComponent<Dropdown>();
+                            Dropdown waterNeededDropdown = GameObject.Find("WaterNeeded").GetComponent<Dropdown>();
+                            Dropdown spaceNeededDropdown = GameObject.Find("SpaceNeeded").GetComponent<Dropdown>();
+                            Dropdown humidityToleranceDropdown = GameObject.Find("PlantHumidityTolerance").GetComponent<Dropdown>();
+                            Dropdown temperatureToleranceDropdown = GameObject.Find("PlantTemperatureTolerance").GetComponent<Dropdown>();
+                            Dropdown lifespanDropdown = GameObject.Find("PlantLifespan").GetComponent<Dropdown>();
+
+                            Spread spread = ParseEnum<Spread>(spreadDropdown.options.ToArray()[spreadDropdown.value].text);
+                            PlantType plantType = ParseEnum<PlantType>(plantTypeDropdown.options.ToArray()[plantTypeDropdown.value].text);
+                            Poisonous poisonous = ParseEnum<Poisonous>(poisonousDropdown.options.ToArray()[poisonousDropdown.value].text);
+                            WaterNeeded waterNeeded = ParseEnum<WaterNeeded>(waterNeededDropdown.options.ToArray()[waterNeededDropdown.value].text);
+                            SpaceNeeded spaceNeeded = ParseEnum<SpaceNeeded>(spaceNeededDropdown.options.ToArray()[spaceNeededDropdown.value].text);
+                            HumidityTolerance humidityTolerance = ParseEnum<HumidityTolerance>(humidityToleranceDropdown.options.ToArray()[humidityToleranceDropdown.value].text);
+                            TemperatureTolerance temperatureTolerance = ParseEnum<TemperatureTolerance>(temperatureToleranceDropdown.options.ToArray()[temperatureToleranceDropdown.value].text);
+                            Lifespan lifespan = ParseEnum<Lifespan>(lifespanDropdown.options.ToArray()[lifespanDropdown.value].text);
+
+                            if (speciesName.Equals("")) {
+                                speciesName = "Nameless Plant";
+                            }
+
+                            p.initialize(speciesName, spread, plantType, poisonous, waterNeeded, spaceNeeded, canSurviveInMountain,
+                                canSurviveInDesert, humidityTolerance, temperatureTolerance, lifespan);
+
+                            this.addPlant(p, 1);
+                        }
+                        catch {
+                            Debug.Log("Some attributes weren't set.");
+                        }
+                    }
                 }
             }
         }
         else if (Input.GetKeyUp(KeyCode.A) && !eventSystem.IsPointerOverGameObject())
         {
-            GameObject newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
-            Animal a = newAnimal.GetComponent<Animal>();
-
-            a.initialize("Test animal", Aggression.LOW, FoodNeeded.MEDIUM, FoodType.HERBIVORE, BodyType.QUADRUPED, AnimalSize.SMALL, Gender.MALE, 
-                Perception.FAR, 3, Speed.MEDIUM, Babies.SOLO, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
-
-            this.addAnimal(a);
-
-            try {
-                Dropdown aggression = GameObject.Find("Aggression").GetComponent<Dropdown>();
-                Dropdown appetite = GameObject.Find("Appetite").GetComponent<Dropdown>();
-                Dropdown diet = GameObject.Find("Diet").GetComponent<Dropdown>();
-                Dropdown legs = GameObject.Find("Legs").GetComponent<Dropdown>();
-                Dropdown size = GameObject.Find("Size").GetComponent<Dropdown>();
-                Dropdown gender = GameObject.Find("Gender").GetComponent<Dropdown>();
-                Dropdown vision = GameObject.Find("Vision distance").GetComponent<Dropdown>();
-                Dropdown speed = GameObject.Find("Speed").GetComponent<Dropdown>();
-                Dropdown litter = GameObject.Find("Litter size").GetComponent<Dropdown>();
-                Dropdown gestation = GameObject.Find("Gestation time").GetComponent<Dropdown>();
-                Dropdown humid = GameObject.Find("Humidity tolerance").GetComponent<Dropdown>();
-                Dropdown temp = GameObject.Find("Temperature tolerance").GetComponent<Dropdown>();
-                Dropdown lifespan = GameObject.Find("Lifespan").GetComponent<Dropdown>();
-
-
-
-                Aggression aggr = ParseEnum<Aggression>(aggression.options.ToArray()[aggression.value].text);
-                FoodNeeded fatness = ParseEnum<FoodNeeded>(appetite.options.ToArray()[appetite.value].text);
-                FoodType vegan = ParseEnum<FoodType>(diet.options.ToArray()[diet.value].text);
-                BodyType triped = ParseEnum<BodyType>(legs.options.ToArray()[legs.value].text);
-                AnimalSize giants = ParseEnum<AnimalSize>(size.options.ToArray()[size.value].text);
-                Gender genitalia = ParseEnum<Gender>(gender.options.ToArray()[gender.value].text);
-                Perception vis = ParseEnum<Perception>(vision.options.ToArray()[vision.value].text);
-                Speed sonic = ParseEnum<Speed>(speed.options.ToArray()[speed.value].text);
-                Babies babycount = ParseEnum<Babies>(litter.options.ToArray()[litter.value].text);
-                int gesttime = gestation.value * 2;
-                HumidityTolerance humids = ParseEnum<HumidityTolerance>(humid.options.ToArray()[humid.value].text);
-                TemperatureTolerance temps = ParseEnum<TemperatureTolerance>(temp.options.ToArray()[temp.value].text);
-                Lifespan lifetime = ParseEnum<Lifespan>(lifespan.options.ToArray()[lifespan.value].text);
-
-
-
-                a.initialize("Test animal", aggr, fatness, vegan, triped, giants, genitalia,
-                    vis, gesttime, sonic, babycount, humids, temps, lifetime, 0);
-
-                addAnimal(a);
-            } catch
-            {
-                Debug.Log("Some attributes weren't set.");
-            }
-//>>>>>>> origin/master
             
-            
-            /*
-            newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
-            a = newAnimal.GetComponent<Animal>();
-
-            a.initialize("Test animal", Aggression.LOW, FoodNeeded.MEDIUM, FoodType.HERBIVORE, BodyType.QUADPED, AnimalSize.SMALL, Gender.FEMALE,
-                Perception.FAR, 3, Speed.MEDIUM, Babies.SING, HumidityTolerance.MEDIUM, TemperatureTolerance.MEDIUM, Lifespan.LONG, 0);
-
-            this.addAnimal(a);
-            */
         }
     }
 
@@ -496,8 +528,6 @@ public class Tile : MonoBehaviour
         }
         return retDict;
     }
-
-    
 
     private void handlePlants()
     {

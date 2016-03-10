@@ -11,13 +11,13 @@ public class World : MonoBehaviour
     public int height, width;
     public GameObject tilePrefab, worldPrefab;
     public HashSet<int> speciesIDs = new HashSet<int>();
-    private bool gameTick = true;
 
     private Vector3 dragOrigin;
     public float dragSpeed;
     public float scrollSpeed;
 
-    private const int startingTickSpeed = 4;
+    private const int startingTickSpeed = 240;
+    private int tickCounter = 0;
     public int tickSpeed { get; private set; }
     public bool paused { get; private set; }
     public Button pauseButton;
@@ -74,10 +74,9 @@ public class World : MonoBehaviour
 
     void Update()
     {
-        if (gameTick && !paused)
+        if (tickCounter == tickSpeed && !paused)
         {
-            gameTick = false;
-            StartCoroutine(update());
+            update();
         }
 
         if (Input.GetMouseButtonDown(0)) {
@@ -104,12 +103,14 @@ public class World : MonoBehaviour
         {
             camera.orthographicSize += (scrollSpeed / 2);
         }
+
+        if (!paused) {
+            tickCounter++;
+        }
     }
 
-    private IEnumerator update()
+    private void update()
     {
-        yield return new WaitForSeconds(tickSpeed);
-
         if (!paused) {
             foreach (GameObject tileObject in this.map)
             {
@@ -122,7 +123,7 @@ public class World : MonoBehaviour
             }
         }
 
-        this.gameTick = true;
+        this.tickCounter = 0;
     }
 
     public List<GameObject> GetTilesInRange(int x, int y, int range)

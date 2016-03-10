@@ -198,7 +198,7 @@ public class Plant : Organism
     public Plant evolve(int numGrown, Biome currentBiome) {
         System.Random random = new System.Random();
 
-        if (random.Next(100) < Plant.evolveChance * numGrown) {
+        if (random.Next(1000) < Plant.evolveChance * numGrown) {
             List<System.Type> parameters = new List<System.Type>() {typeof(WaterNeeded), typeof(SpaceNeeded), typeof(TemperatureTolerance),
                 typeof(HumidityTolerance), typeof(bool), typeof(bool)};
             string booleanChecked = "";
@@ -347,7 +347,7 @@ public class Plant : Organism
     public Plant mutate(int numGrown) {
         System.Random random = new System.Random();
 
-        if (random.Next(100) < mutateChance * numGrown) {
+        if (random.Next(1000) < mutateChance * numGrown) {
             List<System.Type> parameters = new List<System.Type>() {typeof(Spread), typeof(PlantType), typeof(Poisonous), typeof(WaterNeeded), 
             typeof(SpaceNeeded), typeof(TemperatureTolerance), typeof(HumidityTolerance), typeof(bool), typeof(bool)};
             

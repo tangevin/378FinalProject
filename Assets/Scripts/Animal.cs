@@ -145,7 +145,7 @@ public class Animal : Organism
 
     public bool ModelMortality()
     {
-        int rand = new System.Random().Next(0, (int)((float)lifespan * (float)animalSize * .5));
+        int rand = new System.Random().Next(0, (int)((float)lifespan * (float)animalSize * .5)) / 2;
         return rand <=
             (age * -.8 + (float)lifespan * (float)animalSize * .5);
     }
@@ -185,7 +185,8 @@ public class Animal : Organism
     {
         if (pregnant)
         {
-            if (pregnancy-- == 0)
+            pregnancy -= 4;
+            if (pregnancy <= 0)
             {
                 ready = true;
                 pregnant = false;
@@ -212,17 +213,17 @@ public class Animal : Organism
 
         if (food) { ret += 15; }
 
-        if (humidityTol == HumidityTolerance.LOW && humid == Humidity.LOW) { ret += 5; };
+        if (humidityTol == HumidityTolerance.LOW && humid == Humidity.LOW) { ret += 7; };
 
-        if (humidityTol == HumidityTolerance.MEDIUM && humid == Humidity.MEDIUM) { ret += 5; };
+        if (humidityTol == HumidityTolerance.MEDIUM && humid == Humidity.MEDIUM) { ret += 7; };
 
-        if (humidityTol == HumidityTolerance.HIGH && humid == Humidity.HIGH) { ret += 5; };
+        if (humidityTol == HumidityTolerance.HIGH && humid == Humidity.HIGH) { ret += 7; };
 
-        if (tempTol == TemperatureTolerance.LOW && temp == Temperature.LOW) { ret += 5; };
+        if (tempTol == TemperatureTolerance.LOW && temp == Temperature.LOW) { ret += 7; };
 
-        if (tempTol == TemperatureTolerance.MEDIUM && temp == Temperature.MEDIUM) { ret += 5; };
+        if (tempTol == TemperatureTolerance.MEDIUM && temp == Temperature.MEDIUM) { ret += 7; };
 
-        if (tempTol == TemperatureTolerance.HIGH && temp == Temperature.HIGH) { ret += 5; };
+        if (tempTol == TemperatureTolerance.HIGH && temp == Temperature.HIGH) { ret += 7; };
 
         return ret;
     }

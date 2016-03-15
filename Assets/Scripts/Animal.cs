@@ -21,7 +21,7 @@ public class Animal : Organism
     public int speciesID { get; private set; }
     public int pregnancy { get; private set; }
     public int hunger { get; private set; }
-    public bool ready { get; private set; }
+    public bool readyForBirth { get; private set; }
     public bool moved = false;
 
     public Aggression aggression { get; private set; }
@@ -35,12 +35,12 @@ public class Animal : Organism
     public Speed speed { get; private set; }
     public Babies babies { get; private set; }
     public bool pregnant { get; private set; }
-    public HashSet<Animal> spawn = new HashSet<Animal>();
+    public HashSet<Animal> spawn { get; private set; }
 
     // Use this for initialization--
     void Start()
     {
-
+        removeChildren();
     }
 
     public void initialize(string pName, Aggression agr, FoodNeeded fdNd, FoodType fType, BodyType bType, AnimalSize anSize, Gender gndr, Perception perc, int gest,
@@ -69,17 +69,14 @@ public class Animal : Organism
     public void breed(Animal parent)
     {
         for (int i = 0; i < (int)babies; i++)
+        {
             spawn.Add(createNew(this, parent));
+        }
         pregnant = true;
         pregnancy = gestation;
     }
 
-    public bool isPregnant()
-    {
-        return pregnant;
-    }
-
-    Animal createNew(Animal father, Animal mother)
+    public Animal createNew(Animal father, Animal mother)
     {
         System.Random random = new System.Random();
 
@@ -123,41 +120,28 @@ public class Animal : Organism
             {
                 perception = Perception.SHORT;
             }
+
             if (speed > Speed.SLOW)
             {
                 speed--;
             }
+
             if (aggression > Aggression.LOW)
             {
                 aggression--;
             }
         }
+
         if (age / (float)lifespan > .75 && fertile)
         {
             fertile = false;
         }
     }
 
-    public bool IsFertile()
-    {
-        return fertile;
-    }
-
     public bool ModelMortality()
     {
         int rand = new System.Random().Next(0, (int)((float)lifespan * (float)animalSize * .5)) / 2;
-        return rand <=
-            (age * -.8 + (float)lifespan * (float)animalSize * .5);
-    }
-
-    public HashSet<Animal> giveBirth()
-    {
-        return spawn;
-    }
-
-    public bool readyForBirth()
-    {
-        return ready;
+        return rand <= (age * -.8 + (float)lifespan * (float)animalSize * .5);
     }
 
     public int eat(Organism food)
@@ -166,19 +150,9 @@ public class Animal : Organism
         return 5;
     }
 
-    public int getHunger()
-    {
-        return hunger;
-    }
-
     public void removeChildren()
     {
         spawn = new HashSet<Animal>();
-    }
-
-    void Update()
-    {
-
     }
 
     public void UpdateAnimal()
@@ -186,44 +160,35 @@ public class Animal : Organism
         if (pregnant)
         {
             pregnancy -= 4;
+
             if (pregnancy <= 0)
             {
-                ready = true;
+                readyForBirth = true;
                 pregnant = false;
             }
         }
-        string fneed = foodNeeded.ToString();
-        switch (fneed)
-        {
-            case "LOW":
-                hunger -= 1;
-                break;
-            case "MEDIUM":
-                hunger -= 5;
-                break;
-            case "HIGH":
-                hunger -= 10;
-                break;
-        }
+
+        hunger -= (int)foodNeeded;
     }
 
     public int CheckSurvive(bool food, Humidity humid, Temperature temp)
     {
         int ret = 0;
 
-        if (food) { ret += 15; }
+        if (food)
+        {
+            ret += 15;
+        }
 
-        if (humidityTol == HumidityTolerance.LOW && humid == Humidity.LOW) { ret += 7; };
+        if ((int)humidityTol == (int)humid)
+        {
+            ret += 7;
+        }
 
-        if (humidityTol == HumidityTolerance.MEDIUM && humid == Humidity.MEDIUM) { ret += 7; };
-
-        if (humidityTol == HumidityTolerance.HIGH && humid == Humidity.HIGH) { ret += 7; };
-
-        if (tempTol == TemperatureTolerance.LOW && temp == Temperature.LOW) { ret += 7; };
-
-        if (tempTol == TemperatureTolerance.MEDIUM && temp == Temperature.MEDIUM) { ret += 7; };
-
-        if (tempTol == TemperatureTolerance.HIGH && temp == Temperature.HIGH) { ret += 7; };
+        if ((int)tempTol == (int)temp)
+        {
+            ret += 7;
+        }
 
         return ret;
     }
@@ -232,158 +197,172 @@ public class Animal : Organism
     {
         int ret = 0;
 
-        if (!food) { ret -= 3; }
+        if (!food)
+        {
+            ret -= 3;
+        }
 
-        if (humidityTol == HumidityTolerance.LOW && humid == Humidity.MEDIUM) { ret -= 1; };
-
-        if (humidityTol == HumidityTolerance.LOW && humid == Humidity.HIGH) { ret -= 2; };
-
-        if (humidityTol == HumidityTolerance.MEDIUM && humid == Humidity.LOW) { ret -= 1; };
-
-        if (humidityTol == HumidityTolerance.MEDIUM && humid == Humidity.HIGH) { ret -= 1; };
-
-        if (humidityTol == HumidityTolerance.HIGH && humid == Humidity.MEDIUM) { ret -= 1; };
-
-        if (humidityTol == HumidityTolerance.HIGH && humid == Humidity.LOW) { ret -= 2; };
-
-        if (tempTol == TemperatureTolerance.LOW && temp == Temperature.MEDIUM) { ret -= 1; };
-
-        if (tempTol == TemperatureTolerance.LOW && temp == Temperature.HIGH) { ret -= 2; };
-
-        if (tempTol == TemperatureTolerance.MEDIUM && temp == Temperature.LOW) { ret -= 1; };
-
-        if (tempTol == TemperatureTolerance.MEDIUM && temp == Temperature.HIGH) { ret -= 1; };
-
-        if (tempTol == TemperatureTolerance.HIGH && temp == Temperature.MEDIUM) { ret -= 1; };
-
-        if (tempTol == TemperatureTolerance.HIGH && temp == Temperature.LOW) { ret -= 2; };
-
+        ret -= Mathf.Abs((int)humidityTol - (int)humid);
+        ret -= Mathf.Abs((int)tempTol - (int)temp);
         ret -= ((poison + 1) * 3);
 
         return ret;
     }
 
-    private int sizeCheck(Animal anm) {
+    private int sizeCheck(Animal an)
+    {
         int ret = 0;
+
         if (animalSize == AnimalSize.HUGE)
         {
-            if (anm.animalSize == AnimalSize.HUGE)
-                ret = 4;
-            else if (anm.animalSize == AnimalSize.LARGE)
-                ret = 6;
-            else if (anm.animalSize == AnimalSize.MEDIUM)
-                ret = 5;
-            else if (anm.animalSize == AnimalSize.SMALL)
-                ret = 3;
+            if (an.animalSize == AnimalSize.HUGE)
+            {
+                return 4;
+            }
+            else if (an.animalSize == AnimalSize.LARGE)
+            {
+                return 6;
+            }
+            else if (an.animalSize == AnimalSize.MEDIUM)
+            {
+                return 5;
+            }
+            else if (an.animalSize == AnimalSize.SMALL)
+            {
+                return 3;
+            }
             else
-                ret = 2;
+            {
+                return 2;
+            }
         }
         else if (animalSize == AnimalSize.LARGE)
         {
-            if (anm.animalSize == AnimalSize.HUGE)
-                ret = 2;
-            else if (anm.animalSize == AnimalSize.LARGE)
-                ret = 4;
-            else if (anm.animalSize == AnimalSize.MEDIUM)
-                ret = 6;
-            else if (anm.animalSize == AnimalSize.SMALL)
-                ret = 5;
+            if (an.animalSize == AnimalSize.HUGE)
+            {
+                return 2;
+            }
+            else if (an.animalSize == AnimalSize.LARGE)
+            {
+                return 4;
+            }
+            else if (an.animalSize == AnimalSize.MEDIUM)
+            {
+                return 6;
+            }
+            else if (an.animalSize == AnimalSize.SMALL)
+            {
+                return 5;
+            }
             else
-                ret = 3;
+            {
+                return 3;
+            }
         }
         else if (animalSize == AnimalSize.MEDIUM)
         {
-            if (anm.animalSize == AnimalSize.HUGE)
-                ret = 1;
-            else if (anm.animalSize == AnimalSize.LARGE)
-                ret = 2;
-            else if (anm.animalSize == AnimalSize.MEDIUM)
-                ret = 4;
-            else if (anm.animalSize == AnimalSize.SMALL)
-                ret = 6;
+            if (an.animalSize == AnimalSize.HUGE)
+            {
+                return 1;
+            }
+            else if (an.animalSize == AnimalSize.LARGE)
+            {
+                return 2;
+            }
+            else if (an.animalSize == AnimalSize.MEDIUM)
+            {
+                return 4;
+            }
+            else if (an.animalSize == AnimalSize.SMALL)
+            {
+                return 6;
+            }
             else
-                ret = 7;
+            {
+                return 7;
+            }
         }
         else if (animalSize == AnimalSize.SMALL)
         {
-            if (anm.animalSize == AnimalSize.HUGE)
-                ret = 0;
-            else if (anm.animalSize == AnimalSize.LARGE)
-                ret = 0;
-            else if (anm.animalSize == AnimalSize.MEDIUM)
-                ret = 1;
-            else if (anm.animalSize == AnimalSize.SMALL)
-                ret = 4;
+            if (an.animalSize == AnimalSize.MEDIUM)
+            {
+                return 1;
+            }
+            else if (an.animalSize == AnimalSize.SMALL)
+            {
+                return 4;
+            }
+            else if (an.animalSize == AnimalSize.TINY)
+            {
+                return 8;
+            }
             else
-                ret = 8;
+            {
+                return 0;
+            }
         }
-        else {
-            if (anm.animalSize == AnimalSize.HUGE)
-                ret = 0;
-            else if (anm.animalSize == AnimalSize.LARGE)
-                ret = 0;
-            else if (anm.animalSize == AnimalSize.MEDIUM)
-                ret = 0;
-            else if (anm.animalSize == AnimalSize.SMALL)
-                ret = 1;
+        else
+        {
+            if (an.animalSize == AnimalSize.SMALL)
+            {
+                return 1;
+            }
+            else if (an.animalSize == AnimalSize.TINY)
+            {
+                return 3;
+            }
             else
-                ret = 3;
+            {
+                return 0;
+            }
         }
-        return ret;
     }
 
-    private int speedCheck(Animal anm) {
-        int ret;
-        if ((int)speed > (int)anm.speed)
-            ret = 3;
-        else if ((int)speed == (int)anm.speed)
-            ret = 2;
+    private int speedCheck(Animal an)
+    {
+        if ((int)speed > (int)an.speed)
+        {
+            return 3;
+        }
+        else if ((int)speed == (int)an.speed)
+        {
+            return 2;
+        }
         else
-            ret = 1;
-        return ret;
+        {
+            return 1;
+        }
     }
 
-    private int agroCheck(Animal anm) {
-        int ret = 0;
-        if (anm.aggression == Aggression.HIGH)
-            ret += 1;
-        else if (anm.aggression == Aggression.MEDIUM)
-            ret += 3;
-        else
-            ret += 5;
-        if (aggression == Aggression.HIGH)
-            ret += 3;
-        else if (aggression == Aggression.MEDIUM)
-            ret += 2;
-        else
-            ret += 1;
-        return ret;
+    private int agroCheck(Animal an)
+    {
+        return (int)aggression + (3 - (int)an.aggression) * 2 + 1;
     }
 
-    private int poisonCheck(Plant plant) {
-        int ret = 0;
-        if (plant.poisonous == Poisonous.DEADLY)
-            ret = -2;
-        else if (plant.poisonous == Poisonous.MAJOR)
-            ret = -1;
-        else if (plant.poisonous == Poisonous.MINOR)
-            ret = 1;
-        else
-            ret = 3;
-        return ret;
+    private int poisonCheck(Plant plant)
+    {
+        return (int)plant.poisonous;
     }
 
     private int foodHeuristic(Organism org)
     {
         //For animals take into account a's size, speed, aggression and b's, body type, speed, size, and aggression 
         //For plants take into account b's poison, SpaceRequired, 
-        Plant plnt = org.GetComponent<Plant>();
-        Animal anm = org.GetComponent<Animal>();
-        if (anm != null)
-            return sizeCheck(anm) + (((int)anm.bodyType + 1) * 2) + speedCheck(anm) + agroCheck(anm);
-        else if (plnt != null)
-            return poisonCheck(plnt) + (int)plnt.spaceNeeded + 1;
-        return 0;
+        Plant p = org.GetComponent<Plant>();
+        Animal an = org.GetComponent<Animal>();
+
+        if (an != null)
+        {
+            return sizeCheck(an) + (((int)an.bodyType + 1) * 2) + speedCheck(an) + agroCheck(an);
+        }
+        else if (p != null)
+        {
+            return poisonCheck(p) + (int)p.spaceNeeded + 1;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     private int breedHeuristic(Animal anm)
@@ -391,127 +370,122 @@ public class Animal : Organism
         return getSpeedHuer(anm) + getSizeHeur(anm) + getAgroHeur(anm) + (int)anm.babies + anm.gestation;
     }
 
-    private int getAgroHeur(Animal anm) {
-        int ret = 0;
-        if (anm.aggression == Aggression.HIGH)
+    private int getAgroHeur(Animal an)
+    {
+        if (an.aggression == Aggression.HIGH && an.foodType != FoodType.HERBIVORE)
         {
-            if (anm.foodType == FoodType.CARNIVORE || anm.foodType == FoodType.OMNIVORE)
-                ret = 3;
+            return 3;
         }
-        else if (anm.aggression == Aggression.MEDIUM)
+        else if (an.aggression == Aggression.MEDIUM)
         {
-            ret = 2;
+            return 2;
         }
-        if (anm.aggression == Aggression.LOW)
+        else if (an.aggression == Aggression.LOW)
         {
-            if (anm.foodType == FoodType.CARNIVORE || anm.foodType == FoodType.OMNIVORE)
-                ret = 1;
-            else
-                ret = 3;
+            return an.foodType != FoodType.HERBIVORE ? 1 : 3;
         }
-        return ret;
+        else
+        {
+            return 0;
+        }
     }
 
-    private int getSizeHeur(Animal anm) {
-        return (int)anm.animalSize + 1;
+    private int getSizeHeur(Animal an)
+    {
+        return (int)an.animalSize + 1;
     }
 
-    private int getSpeedHuer(Animal anm) {
-        return (int)anm.speed + 1;
+    private int getSpeedHuer(Animal an)
+    {
+        return (int)an.speed + 1;
     }
 
-    private int checkProps(int specCount, List<Animal> animalList) {
+    private int checkProps(int specCount, List<Animal> animalList)
+    {
+        float avgSpec = (float)specCount / (float)animalList.Count;
+
         if (animalList.Count > 0)
         {
-            if (specCount / animalList.Count < .1)
+            if (avgSpec < .1)
             {
-                if (foodType == FoodType.CARNIVORE)
+                return (int)foodType == 0 ? 4 : 1;
+            }
+            else if (avgSpec < .25)
+            {
+                return (int)foodType == 0 ? 3 : 2;
+            }
+            else if (avgSpec < .33)
+            {
+                return (int)foodType == 0 ? 2 : 3;
+            }
+            else
+            {
+                if (foodType != FoodType.CARNIVORE)
+                {
                     return 4;
-                else if (foodType == FoodType.OMNIVORE || foodType == FoodType.HERBIVORE)
-                    return 1;
-            }
-            else if (specCount / animalList.Count < .25)
-            {
-                if (foodType == FoodType.CARNIVORE)
-                    return 3;
-                else if (foodType == FoodType.OMNIVORE || foodType == FoodType.HERBIVORE)
-                    return 2;
-            }
-            else if (specCount / animalList.Count < .33)
-            {
-                if (foodType == FoodType.CARNIVORE)
-                    return 2;
-                else if (foodType == FoodType.OMNIVORE || foodType == FoodType.HERBIVORE)
-                    return 3;
-            }
-            else {
-                if (foodType == FoodType.OMNIVORE || foodType == FoodType.HERBIVORE)
-                    return 4;
+                }
             }
         }
         return 1;
     }
 
-    private int rightHumid(Tile t) {
-        Humidity humid = t.biome.humidity;
-        if (humidityTol == HumidityTolerance.LOW && humid == Humidity.MEDIUM) { return 1; };
+    private int rightHumid(Tile t)
+    {
+        int diff = Mathf.Abs((int)humidityTol - (int)t.biome.humidity);
 
-        if (humidityTol == HumidityTolerance.LOW && humid == Humidity.HIGH) { return -1; };
-
-        if (humidityTol == HumidityTolerance.LOW && humid == Humidity.LOW) { return 3; };
-
-        if (humidityTol == HumidityTolerance.MEDIUM && humid == Humidity.LOW) { return 1; };
-
-        if (humidityTol == HumidityTolerance.MEDIUM && humid == Humidity.HIGH) { return 1; };
-
-        if (humidityTol == HumidityTolerance.MEDIUM && humid == Humidity.MEDIUM) { return 3; };
-
-        if (humidityTol == HumidityTolerance.HIGH && humid == Humidity.MEDIUM) { return 1; };
-
-        if (humidityTol == HumidityTolerance.HIGH && humid == Humidity.LOW) { return -1; };
-
-        if (humidityTol == HumidityTolerance.HIGH && humid == Humidity.HIGH) { return 3; };
-
-        return 1;
-    }
-
-    private int rightTemp(Tile t) {
-        Temperature temp = t.biome.temperature;
-        if (tempTol == TemperatureTolerance.LOW && temp == Temperature.LOW) { return 3; };
-
-        if (tempTol == TemperatureTolerance.LOW && temp == Temperature.HIGH) { return -1; };
-
-        if (tempTol == TemperatureTolerance.LOW && temp == Temperature.MEDIUM) { return 1; };
-
-        if (tempTol == TemperatureTolerance.MEDIUM && temp == Temperature.LOW) { return 1; };
-
-        if (tempTol == TemperatureTolerance.MEDIUM && temp == Temperature.MEDIUM) { return 3; };
-
-        if (tempTol == TemperatureTolerance.MEDIUM && temp == Temperature.HIGH) { return 1; };
-
-        if (tempTol == TemperatureTolerance.HIGH && temp == Temperature.LOW) { return -1; };
-
-        if (tempTol == TemperatureTolerance.HIGH && temp == Temperature.MEDIUM) { return 1; };
-
-        if (tempTol == TemperatureTolerance.HIGH && temp == Temperature.HIGH) { return 3; };
-
-        return 1;
-    }
-
-    private int countSpec(List<Animal> animalList) {
-        int specCount = 0;
-        foreach (Animal anm in animalList)
+        if (diff == 0)
         {
-            if (anm.speciesID == speciesID)
-                specCount++;
+            return 3;
         }
+        else if (diff == 1)
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+    private int rightTemp(Tile t)
+    {
+        int diff = Mathf.Abs((int)tempTol - (int)t.biome.temperature);
+
+        if (diff == 0)
+        {
+            return 3;
+        }
+        else if (diff == 1)
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+    private int countSpec(List<Animal> animalList)
+    {
+        int specCount = 0;
+
+        foreach (Animal an in animalList)
+        {
+            if (an.speciesID == speciesID)
+            {
+                specCount++;
+            }
+        }
+
         return specCount;
     }
 
-    private int foodBounty(List<Animal> animalList, List<Plant> plantList, Tile current) {
+    private int foodBounty(List<Animal> animalList, List<Plant> plantList, Tile current)
+    {
         List<Animal> curAnimalList = current.animals.Keys.ToList<Animal>();
         List<Plant> curPlantList = current.plants.Keys.ToList<Plant>();
         int ret = 0;
+
         if (foodType == FoodType.CARNIVORE)
         {
             if (curAnimalList.Count > animalList.Count)
@@ -565,12 +539,16 @@ public class Animal : Organism
         int id = 0;
 
         Dictionary<Animal, int> animalsInTile = new Dictionary<Animal, int>();
-        foreach (Animal a in currentTile.animals.Keys)
-            animalsInTile.Add(a, 1);
+        foreach (Animal an in currentTile.animals.Keys)
+        {
+            animalsInTile.Add(an, 1);
+        }
 
         Dictionary<Plant, int> plantsInTile = new Dictionary<Plant, int>();
         foreach (Plant p in currentTile.plants.Keys)
+        {
             plantsInTile.Add(p, 1);
+        }
 
 
         Dictionary<int, Organism> toEat = new Dictionary<int, Organism>();
@@ -579,27 +557,39 @@ public class Animal : Organism
 
         animalsInTile.Remove(this);
 
-        foreach (Animal anm in animalsInTile.Keys)
+        foreach (Animal an in animalsInTile.Keys)
         {
-            if (anm.speciesID == speciesID)
-                toRemove.Add(anm);
+            if (an.speciesID == speciesID)
+            {
+                toRemove.Add(an);
+            }
         }
 
-        foreach (Animal anm in toRemove)
-            animalsInTile.Remove(anm);
+        foreach (Animal an in toRemove)
+        {
+            animalsInTile.Remove(an);
+        }
 
-        if (foodType == FoodType.CARNIVORE || foodType == FoodType.OMNIVORE) 
+        if (foodType == FoodType.CARNIVORE || foodType == FoodType.OMNIVORE)
+        {
             animalsInTile.Keys.ToList().ForEach(meat => toEat.Add(++id, meat));
+        }
 
         if (foodType == FoodType.HERBIVORE || foodType == FoodType.OMNIVORE)
+        {
             plantsInTile.Keys.ToList().ForEach(vegetable => toEat.Add(++id, vegetable));
+        }
 
         toEat.Keys.ToList().ForEach(creature => heuristic.Add(creature, foodHeuristic(toEat[creature])));
 
         if (heuristic.Count > 0)
+        {
             return toEat[heuristic.Aggregate((l, r) => l.Value > r.Value ? l : r).Key];
+        }
         else
+        {
             return null;
+        }
     }
 
     public Animal FindBreedingInRange(Tile currentTile)
@@ -607,30 +597,46 @@ public class Animal : Organism
         int id = 0;
 
         Dictionary<Animal, int> animalsInTile = new Dictionary<Animal, int>();
-        foreach (Animal a in currentTile.animals.Keys)
-            animalsInTile.Add(a, 1);
         Dictionary<int, Animal> toBreed = new Dictionary<int, Animal>();
         Dictionary<int, int> heuristic = new Dictionary<int, int>();
         List<Animal> toRem = new List<Animal>();
-        foreach(Animal anm in animalsInTile.Keys)
+
+        foreach (Animal an in currentTile.animals.Keys)
         {
-            if (anm.speciesID != speciesID || anm.gender == gender)
-                toRem.Add(anm);
+            animalsInTile.Add(an, 1);
         }
 
-        foreach (Animal anm in toRem)
-            animalsInTile.Remove(anm);
+        foreach(Animal an in animalsInTile.Keys)
+        {
+            if (an.speciesID != speciesID || an.gender == gender)
+            {
+                toRem.Add(an);
+            }
+        }
+
+        foreach (Animal an in toRem)
+        {
+            animalsInTile.Remove(an);
+        }
 
         if (animalsInTile.Count > 0)
-            animalsInTile.Keys.ToList().ForEach(anm => toBreed.Add(++id, anm));
+        {
+            animalsInTile.Keys.ToList().ForEach(an => toBreed.Add(++id, an));
+        }
 
         if (toBreed.Count > 0)
+        {
             toBreed.Keys.ToList().ForEach(an => heuristic.Add(an, breedHeuristic(toBreed[an])));
+        }
 
         if (heuristic.Count > 0)
+        {
             return toBreed[heuristic.Aggregate((l, r) => l.Value > r.Value ? l : r).Key];
+        }
         else
+        {
             return null;
+        }
     }
 
     public Tile FindTileInRange(List<GameObject> surrounding, Tile currentTile)
@@ -649,10 +655,11 @@ public class Animal : Organism
 
         if (heuristic.Count > 0)
         {
-            Tile t = toMove[heuristic.Aggregate((l, r) => l.Value > r.Value ? l : r).Key];
-            return t;
+            return toMove[heuristic.Aggregate((l, r) => l.Value > r.Value ? l : r).Key];
         }
         else
+        {
             return null;
+        }
     }
 }

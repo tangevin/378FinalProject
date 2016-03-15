@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 public class World : MonoBehaviour
 {
-    public Camera camera;
+    new public Camera camera;
 
-    GameObject[,] map;
+    private GameObject[,] map;
     public int height, width;
     public GameObject tilePrefab, worldPrefab;
     public HashSet<int> speciesIDs = new HashSet<int>();
@@ -66,8 +66,9 @@ public class World : MonoBehaviour
         {
             Tile curTile = go.GetComponent<Tile>();
 
-            if (!curTile.initialized) {
-                curTile.InitializeBiome(this, this.GetTilesInRange(curTile.x, curTile.y, 1), random);
+            if (!curTile.initialized)
+            {
+                curTile.InitializeBiome(this, GetTilesInRange(curTile.x, curTile.y, 1), random);
             }
         }
     }
@@ -79,11 +80,13 @@ public class World : MonoBehaviour
             update();
         }
 
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0))
+        {
             dragOrigin = Input.mousePosition;
         }
 
-        if (Input.GetMouseButton(0)) {
+        if (Input.GetMouseButton(0))
+        {
             Vector3 mousePosition = Input.mousePosition;
 
             camera.transform.position -= new Vector3((mousePosition.x - dragOrigin.x) * (dragSpeed / 100), 
@@ -104,26 +107,28 @@ public class World : MonoBehaviour
             camera.orthographicSize += (scrollSpeed / 2);
         }
 
-        if (!paused) {
+        if (!paused)
+        {
             tickCounter++;
         }
     }
 
     private void update()
     {
-        if (!paused) {
-            foreach (GameObject tileObject in this.map)
+        if (!paused)
+        {
+            foreach (GameObject tileObject in map)
             {
                 tileObject.GetComponent<Tile>().onGameTick();
             }
 
-            foreach (GameObject tileObject in this.map)
+            foreach (GameObject tileObject in map)
             {
                 tileObject.GetComponent<Tile>().resetMovement();
             }
         }
 
-        this.tickCounter = 0;
+        tickCounter = 0;
     }
 
     public List<GameObject> GetTilesInRange(int x, int y, int range)
@@ -136,6 +141,7 @@ public class World : MonoBehaviour
         {
             // Get the first ring of tiles adjacent to the current tile
             GetImmediateAdjacentTiles(list, x, y);
+
             for (int rng = 0; rng < range - 1; rng++)
             {
                 // Only check the tiles that were added from the previous ring
@@ -210,47 +216,53 @@ public class World : MonoBehaviour
         }
     }
 
-    public void play() {
-        if (!playSelected) {
+    public void play()
+    {
+        if (!playSelected)
+        {
             playButton.image.sprite = playSelectedSprite;
             pauseButton.image.sprite = pauseUnselectedSprite;
             accelerateButton.image.sprite = accelerateUnselectedSprite;
 
-            this.paused = false;
-            this.tickSpeed = startingTickSpeed;
+            paused = false;
+            tickSpeed = startingTickSpeed;
 
-            this.playSelected = true;
-            this.pauseSelected = false;
-            this.accelerateSelected = false;
+            playSelected = true;
+            pauseSelected = false;
+            accelerateSelected = false;
         }
     }
 
-    public void pause() {
-        if (!pauseSelected) {
+    public void pause()
+    {
+        if (!pauseSelected)
+        {
             playButton.image.sprite = playUnselectedSprite;
             pauseButton.image.sprite = pauseSelectedSprite;
             accelerateButton.image.sprite = accelerateUnselectedSprite;
 
-            this.paused = true;
+            paused = true;
 
-            this.playSelected = false;
-            this.pauseSelected = true;
-            this.accelerateSelected = false;
+            playSelected = false;
+            pauseSelected = true;
+            accelerateSelected = false;
         }
     }
 
-    public void speedUp() {
-        if (!accelerateSelected) {
+    public void speedUp()
+    {
+        if (!accelerateSelected)
+        {
             playButton.image.sprite = playUnselectedSprite;
             pauseButton.image.sprite = pauseUnselectedSprite;
             accelerateButton.image.sprite = accelerateSelectedSprite;
 
-            this.paused = false;
-            this.tickSpeed = startingTickSpeed / 2;
+            paused = false;
+            tickSpeed = startingTickSpeed / 2;
 
-            this.playSelected = false;
-            this.pauseSelected = false;
-            this.accelerateSelected = true;
+            playSelected = false;
+            pauseSelected = false;
+            accelerateSelected = true;
         }
     }
 }

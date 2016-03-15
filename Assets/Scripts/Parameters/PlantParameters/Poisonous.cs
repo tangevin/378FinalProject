@@ -2,5 +2,8 @@
 
 public enum Poisonous
 {
-    NONE, MINOR, MAJOR, DEADLY
+    NONE = 3,
+    MINOR = 1,
+    MAJOR = -1,
+    DEADLY = -2
 }

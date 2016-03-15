@@ -2892,39 +2892,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &222793938
+--- !u!114 &222793938 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11465892, guid: 1e505cc2c05f1ca42af9e290e79a8d4a,
+  m_PrefabParentObject: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c,
     type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1678268050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
+  m_PrefabInternal: {fileID: 537813581}
   m_Script: {fileID: 11500000, guid: 90de658505ef6b04aa7f653cef69ead8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 1851649775}
-  height: 27
-  width: 37
-  tilePrefab: {fileID: 148936, guid: aa38410eb0267d84fbc3c2188019707d, type: 2}
-  worldPrefab: {fileID: 1678268050}
-  dragSpeed: 1
-  scrollSpeed: 1
-  pauseButton: {fileID: 1824759438}
-  pauseSelectedSprite: {fileID: 21300000, guid: 2da5782bd6153744ab0dd755ab4f59d0,
-    type: 3}
-  pauseUnselectedSprite: {fileID: 21300000, guid: b0f6a0ce2c61f1242817b457029c85ea,
-    type: 3}
-  playButton: {fileID: 359373608}
-  playSelectedSprite: {fileID: 21300000, guid: d02974a93ea150d4ca413b4ffd3ea034, type: 3}
-  playUnselectedSprite: {fileID: 21300000, guid: 567c726b5e22e1047b7feb49bbb843b7,
-    type: 3}
-  accelerateButton: {fileID: 854814687}
-  accelerateSelectedSprite: {fileID: 21300000, guid: 338e078e242779942a0ff30c5c62eb37,
-    type: 3}
-  accelerateUnselectedSprite: {fileID: 21300000, guid: 4320236520a85fb459b5b3c8af2cbfaa,
-    type: 3}
 --- !u!1 &227133241
 GameObject:
   m_ObjectHideFlags: 0
@@ -6745,6 +6718,117 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &537813581
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 426086, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426086, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426086, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426086, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426086, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426086, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426086, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 426086, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 1851649775}
+    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: pauseButton
+      value: 
+      objectReference: {fileID: 1824759438}
+    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: playButton
+      value: 
+      objectReference: {fileID: 359373608}
+    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: accelerateButton
+      value: 
+      objectReference: {fileID: 854814687}
+    - target: {fileID: 11469146, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: animalParameters
+      value: 
+      objectReference: {fileID: 279397615}
+    - target: {fileID: 11469146, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: plantParameters
+      value: 
+      objectReference: {fileID: 1417722811}
+    - target: {fileID: 11438450, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: animalSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4fb758e8028254d4f96f88757af17c38,
+        type: 3}
+    - target: {fileID: 11438450, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: biomeSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: a77d67cfb51da1141a42d2ff171a0702,
+        type: 3}
+    - target: {fileID: 11438450, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: biomeSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: a5b7d2f3f476cb34b96c0f6e964abf5d,
+        type: 3}
+    - target: {fileID: 11438450, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: biomeSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 62e32bbd1616eb4429effd69018a6bba,
+        type: 3}
+    - target: {fileID: 11438450, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: biomeSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: da893eda7680f0543a870ef59f9d21e9,
+        type: 3}
+    - target: {fileID: 11438450, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: biomeSprites.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: 78fc9c9c5cf52d647a15afa72540e5e7,
+        type: 3}
+    - target: {fileID: 11438450, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: biomeSprites.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300000, guid: 74f76971f7b7f5c45b2c5887294104d9,
+        type: 3}
+    - target: {fileID: 11438450, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: halfSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 599ff67fe4223e548b5fbb7813cf20de,
+        type: 3}
+    - target: {fileID: 11438450, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: plantSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0c91acaff0562454eabd0fc04e5b4617,
+        type: 3}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &541262932
 GameObject:
   m_ObjectHideFlags: 0
@@ -17389,49 +17473,12 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1
---- !u!1 &1678268050
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 129142, guid: 1e505cc2c05f1ca42af9e290e79a8d4a, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1678268051}
-  - 114: {fileID: 222793938}
-  - 114: {fileID: 1678268052}
-  m_Layer: 0
-  m_Name: World
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1678268051
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 416360, guid: 1e505cc2c05f1ca42af9e290e79a8d4a, type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1678268050}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
---- !u!114 &1678268052
+--- !u!114 &1678268052 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11406150, guid: 1e505cc2c05f1ca42af9e290e79a8d4a,
+  m_PrefabParentObject: {fileID: 11469146, guid: f8d3643f4d6f44d4cb8d8ad920147d3c,
     type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1678268050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
+  m_PrefabInternal: {fileID: 537813581}
   m_Script: {fileID: 11500000, guid: d342ccb4de0fa4e45ba3b355b2711e2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animalParameters: {fileID: 279397615}
-  plantParameters: {fileID: 1417722811}
 --- !u!1 &1688884260
 GameObject:
   m_ObjectHideFlags: 0

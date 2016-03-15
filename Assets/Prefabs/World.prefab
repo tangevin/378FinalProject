@@ -41,16 +41,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d82f8f66ee9ed34d8040128430d7974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animalSprite: {fileID: 21300000, guid: 19302c10188b663419b495aa65c726a2, type: 3}
-  plantSprite: {fileID: 21300000, guid: c525824cd03b12d45a7a0ce7a7bda7bb, type: 3}
-  halfSprite: {fileID: 21300000, guid: 28f517eb4e3ca074487c2e8bbeeb5e24, type: 3}
+  animalSprite: {fileID: 21300000, guid: 4fb758e8028254d4f96f88757af17c38, type: 3}
+  plantSprite: {fileID: 21300000, guid: 0c91acaff0562454eabd0fc04e5b4617, type: 3}
+  halfSprite: {fileID: 21300000, guid: 599ff67fe4223e548b5fbb7813cf20de, type: 3}
   biomeSprites:
-  - {fileID: 21300000, guid: 6825881b73bcf5b47ad1f470718e051f, type: 3}
-  - {fileID: 21300000, guid: 35b885f3bdaf8bd49b79416c0fe40c57, type: 3}
-  - {fileID: 21300000, guid: 03a8be70e0990ad48be0ee392c4dee5e, type: 3}
-  - {fileID: 21300000, guid: ffbaccae233536f47a9b61ef3b529884, type: 3}
-  - {fileID: 21300000, guid: 3a49a9e23c55c7b4bab8e43d1f6f252e, type: 3}
-  - {fileID: 21300000, guid: 72eb96641a6d74c4ebd7959ca320d19c, type: 3}
+  - {fileID: 21300000, guid: a77d67cfb51da1141a42d2ff171a0702, type: 3}
+  - {fileID: 21300000, guid: a5b7d2f3f476cb34b96c0f6e964abf5d, type: 3}
+  - {fileID: 21300000, guid: 62e32bbd1616eb4429effd69018a6bba, type: 3}
+  - {fileID: 21300000, guid: da893eda7680f0543a870ef59f9d21e9, type: 3}
+  - {fileID: 21300000, guid: 78fc9c9c5cf52d647a15afa72540e5e7, type: 3}
+  - {fileID: 21300000, guid: 74f76971f7b7f5c45b2c5887294104d9, type: 3}
 --- !u!114 &11469146
 MonoBehaviour:
   m_ObjectHideFlags: 1

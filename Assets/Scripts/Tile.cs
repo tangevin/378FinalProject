@@ -7,22 +7,22 @@ using System;
 public class Tile : MonoBehaviour
 {
     private bool active;
-    public bool initialized { get; private set; }
+    private enum dictKeys { ANIMAL, PLANT, TILE };
+    private SpriteHandler spriteHandler;
     private SpriteRenderer sprite;
     private GameObject world;
-    private enum dictKeys {ANIMAL, PLANT, TILE};
+    private EventSystem eventSystem;
+
     public int x { get; private set; }
     public int y { get; private set; }
+    public bool initialized { get; private set; }
 
     public GameObject plantPrefab;
     public GameObject animalPrefab;
+    public Biome biome;
 
-    public Biome biome = null;
-
-    public Dictionary<Plant, int> plants = new Dictionary<Plant,int>();
-    public Dictionary<Animal, int> animals = new Dictionary<Animal,int>();
-
-    private EventSystem eventSystem;
+    public Dictionary<Plant, int> plants = new Dictionary<Plant, int>();
+    public Dictionary<Animal, int> animals = new Dictionary<Animal, int>();
 
     void Start()
     {
@@ -30,6 +30,14 @@ public class Tile : MonoBehaviour
         active = false;
         initialized = false;
         eventSystem = EventSystem.current;
+    }
+
+    public void SetData(int x, int y, GameObject world)
+    {
+        this.x = x;
+        this.y = y;
+        this.world = world;
+        spriteHandler = world.GetComponent<SpriteHandler>();
     }
 
     public void InitializeBiome(World world, List<GameObject> adjacentTiles, System.Random random)
@@ -47,11 +55,14 @@ public class Tile : MonoBehaviour
             int mediumChange = 15;
             int lowChange = 1;
 
-            foreach (GameObject tileObject in adjacentTiles) {
+            foreach (GameObject tileObject in adjacentTiles)
+            {
                 Tile tile = tileObject.GetComponent<Tile>();
 
-                if (tile.initialized) {
-                    switch (tile.biome.biomeType) {
+                if (tile.initialized)
+                {
+                    switch (tile.biome.biomeType)
+                    {
                         case BiomeType.OCEAN:
                             oceanChance += highChange;
                             riverChance += mediumChange;
@@ -90,26 +101,30 @@ public class Tile : MonoBehaviour
                 }
             }
 
-            int chanceSum = oceanChance + riverChance + plainChance + forestChance + mountainChance + desertChance;
+            int r = random.Next(oceanChance + riverChance + plainChance + forestChance + mountainChance + desertChance);
 
-            int r = random.Next(chanceSum);
-
-            if (r < oceanChance) {
+            if (r < oceanChance)
+            {
                 biome = new Biome(BiomeType.OCEAN);
             }
-            else if (r < oceanChance + riverChance) {
+            else if (r < oceanChance + riverChance)
+            {
                 biome = new Biome(BiomeType.RIVER);
             }
-            else if (r < oceanChance + riverChance + plainChance) {
+            else if (r < oceanChance + riverChance + plainChance)
+            {
                 biome = new Biome(BiomeType.PLAIN);
             }
-            else if (r < oceanChance + riverChance + plainChance + forestChance) {
+            else if (r < oceanChance + riverChance + plainChance + forestChance)
+            {
                 biome = new Biome(BiomeType.FOREST);
             }
-            else if (r < oceanChance + riverChance + plainChance + forestChance + mountainChance) {
+            else if (r < oceanChance + riverChance + plainChance + forestChance + mountainChance)
+            {
                 biome = new Biome(BiomeType.MOUNTAIN);
             }
-            else {
+            else
+            {
                 biome = new Biome(BiomeType.DESERT);
             }
 
@@ -119,21 +134,30 @@ public class Tile : MonoBehaviour
 
     void Update() 
     {
-        if (this.plants.Keys.Count > 0 && this.animals.Keys.Count == 0) 
+        int numPlants = plants.Keys.Count;
+        int numAnimals = animals.Keys.Count;
+
+        if (numPlants == 0 && numAnimals == 0)
         {
-            sprite.color = Color.green;
-        }
-        else if (this.animals.Keys.Count > 0 && this.plants.Keys.Count == 0) 
-        {
-            sprite.color = Color.red;
-        }
-        else if (this.animals.Keys.Count == 0 && this.plants.Keys.Count == 0)
-        {
-            sprite.color = biome.color;
+            sprite.sprite = spriteHandler.biomeSprites[(int)biome.biomeType];
+            sprite.color = new Color(255, 255, 255, 0.25f);
         }
         else
         {
-            sprite.color = DispProportions(getDispProportions());
+            if (numPlants > 0 && numAnimals == 0)
+            {
+                sprite.sprite = spriteHandler.plantSprite;
+            }
+            else if (numPlants == 0 && numAnimals > 0)
+            {
+                sprite.sprite = spriteHandler.animalSprite;
+            }
+            else
+            {
+                sprite.sprite = spriteHandler.halfSprite;
+            }
+
+            sprite.color = new Color(255, 255, 255, 1);
         }
     }
 
@@ -147,33 +171,37 @@ public class Tile : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && !eventSystem.IsPointerOverGameObject())
         {
             string toPrint = "Plants: ";
-
-            foreach (Plant p in this.plants.Keys)
+            foreach (Plant p in plants.Keys)
             {
-                toPrint += p.name + " " + this.plants[p] + ", ";
+                toPrint += p.name + " " + plants[p] + ", ";
             }
 
             toPrint += "Animals: ";
-            foreach (Animal a in this.animals.Keys)
+            foreach (Animal a in animals.Keys)
             {
-                toPrint += a.name + " " + this.animals[a] + ", ";
+                toPrint += a.name + " " + animals[a] + ", ";
             }
 
             Debug.Log(toPrint);
         }
         else if (Input.GetMouseButtonUp(1) && !eventSystem.IsPointerOverGameObject())
         {
-            if (this.biome.biomeType != BiomeType.OCEAN) {
+            if (biome.biomeType != BiomeType.OCEAN)
+            {
                 Dropdown entityType = GameObject.Find("Type selector").GetComponent<Dropdown>();
 
                 InputField speciesNameField = GameObject.Find("Species Name").GetComponent<InputField>();
-                string speciesName = speciesNameField.text;
+                
+                string speciesName = speciesNameField.text;                
 
-                if (entityType.value == 0) {
+                if (entityType.value == 0)
+                {
                     GameObject newAnimal = (GameObject)Instantiate(animalPrefab, new Vector3(x, y, 0), Quaternion.identity);
                     Animal a = newAnimal.GetComponent<Animal>();
 
-                    try {
+                    try
+                    {
+                        Debug.Log("Trying to add animal");
                         Dropdown aggression = GameObject.Find("Aggression").GetComponent<Dropdown>();
                         Dropdown appetite = GameObject.Find("Appetite").GetComponent<Dropdown>();
                         Dropdown diet = GameObject.Find("Diet").GetComponent<Dropdown>();
@@ -202,15 +230,19 @@ public class Tile : MonoBehaviour
                         TemperatureTolerance temps = ParseEnum<TemperatureTolerance>(temp.options.ToArray()[temp.value].text);
                         Lifespan lifetime = ParseEnum<Lifespan>(lifespan.options.ToArray()[lifespan.value].text);
 
-                        if (speciesName.Equals("")) {
+                        if (speciesName.Equals(""))
+                        {
                             speciesName = "Nameless Animal";
                         }
 
                         int id;
-                        if (Animal.namesToIDs.ContainsKey(speciesName)) {
+
+                        if (Animal.namesToIDs.ContainsKey(speciesName))
+                        {
                             id = Animal.namesToIDs[speciesName];
                         }
-                        else {
+                        else
+                        {
                             id = Animal.nextID;
                             Animal.namesToIDs[speciesName] = id;
                             Animal.nextID++;
@@ -220,25 +252,30 @@ public class Tile : MonoBehaviour
                             vis, gesttime, sonic, babycount, humids, temps, lifetime, id);
 
                         addAnimal(a);
+                        Debug.Log("Added animal.");
                     }
-                    catch {
+                    catch
+                    {
                         Debug.Log("Some attributes weren't set.");
                     }
                 }
-                else {
+                else
+                {
                     Toggle mountainSurvivable = GameObject.Find("SurviveInMountains").GetComponent<Toggle>();
                     bool canSurviveInMountain = mountainSurvivable.isOn;
 
                     Toggle desertSurvivable = GameObject.Find("SurviveInDeserts").GetComponent<Toggle>();
                     bool canSurviveInDesert = desertSurvivable.isOn;
 
-                    if ((this.biome.biomeType != BiomeType.MOUNTAIN && this.biome.biomeType != BiomeType.DESERT) ||
-                        (this.biome.biomeType == BiomeType.MOUNTAIN && canSurviveInMountain) ||
-                        (this.biome.biomeType == BiomeType.DESERT && canSurviveInDesert)) {
+                    if ((biome.biomeType != BiomeType.MOUNTAIN && biome.biomeType != BiomeType.DESERT) ||
+                        (biome.biomeType == BiomeType.MOUNTAIN && canSurviveInMountain) ||
+                        (biome.biomeType == BiomeType.DESERT && canSurviveInDesert))
+                    {
                         GameObject newPlant = (GameObject)Instantiate(plantPrefab, new Vector3(x, y, 0), Quaternion.identity);
                         Plant p = newPlant.GetComponent<Plant>();
 
-                        try {
+                        try
+                        {
                             Dropdown spreadDropdown = GameObject.Find("Spread").GetComponent<Dropdown>();
                             Dropdown plantTypeDropdown = GameObject.Find("PlantType").GetComponent<Dropdown>();
                             Dropdown poisonousDropdown = GameObject.Find("Poisonous").GetComponent<Dropdown>();
@@ -257,16 +294,18 @@ public class Tile : MonoBehaviour
                             TemperatureTolerance temperatureTolerance = ParseEnum<TemperatureTolerance>(temperatureToleranceDropdown.options.ToArray()[temperatureToleranceDropdown.value].text);
                             Lifespan lifespan = ParseEnum<Lifespan>(lifespanDropdown.options.ToArray()[lifespanDropdown.value].text);
 
-                            if (speciesName.Equals("")) {
+                            if (speciesName.Equals(""))
+                            {
                                 speciesName = "Nameless Plant";
                             }
 
                             p.initialize(speciesName, spread, plantType, poisonous, waterNeeded, spaceNeeded, canSurviveInMountain,
                                 canSurviveInDesert, humidityTolerance, temperatureTolerance, lifespan);
 
-                            this.addPlant(p, 1);
+                            addPlant(p, 1);
                         }
-                        catch {
+                        catch
+                        {
                             Debug.Log("Some attributes weren't set.");
                         }
                     }
@@ -279,251 +318,290 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void SetData(int x, int y, GameObject world)
-    {
-        this.x = x;
-        this.y = y;
-        this.world = world;
-    }
-
-    private void ChangeColor()
-    {
-        sprite.color = (active = !active) ? Color.green : Color.white;
-    }
-
     public void onGameTick()
     {
         handlePlants();
         handleAnimals();
-        //Debug.Log("Boop...");
     }
-
-
 
     private void handleAnimals()
     {
-        List<Animal> animalKeys = new List<Animal>(this.animals.Keys);
+        List<Animal> animalKeys = new List<Animal>(animals.Keys);
         List<Animal> toRem = new List<Animal>();
         List<Animal> toAdd = new List<Animal>();
         Dictionary<Animal, Tile> toMove = new Dictionary<Animal, Tile>();
         Dictionary<Animal, Animal> toPreg = new Dictionary<Animal, Animal>();
+
         foreach (Animal a in animalKeys)
         {
             bool eaten = false;
             int poison = 0;
             a.AgeAnimal();
+
             if (!a.moved)
             {
                 //If the animal is pregnant and ready to give birth
-                if (a.readyForBirth())
+                if (a.readyForBirth)
                 {
-                    HashSet<Animal> babies = a.giveBirth();
-                    foreach (Animal baby in babies)
+                    foreach (Animal baby in a.spawn)
+                    {
                         toAdd.Add(baby);
+                    }
                     a.removeChildren();
                 }
-                List<GameObject> closeTiles = world.GetComponent<World>().GetTilesInRange(this.x, this.y, (int)a.perception + 1);
-                closeTiles.Remove(this.gameObject);
+
+                List<GameObject> closeTiles = world.GetComponent<World>().GetTilesInRange(x, y, (int)a.perception + 1);
+                closeTiles.Remove(gameObject);
                 Dictionary<int, GameObject> dec = makeDec(a, closeTiles);
     
-                if (dec.ContainsKey((int) dictKeys.ANIMAL))
+                if (dec.ContainsKey((int)dictKeys.ANIMAL))
                 {
                     Animal other = dec[(int)dictKeys.ANIMAL].GetComponent<Animal>();
-                    if (other.speciesID == a.speciesID && other.pregnant == false) {
-                        //Debug.Log("Preg");
-                        if (! toPreg.ContainsKey(other))
+
+                    if (other.speciesID == a.speciesID && other.pregnant == false)
+                    {
+                        if (!toPreg.ContainsKey(other))
+                        {
                             toPreg.Add(other, a);
+                        }
                     }
                     else if (other.speciesID != a.speciesID)
                     {
-                        //Debug.Log("eat");
                         eaten = true;
                         a.eat(other.GetComponent<Organism>());
                         animals[other] -= 1;
                     }
                 }
-                else if (dec.ContainsKey((int) dictKeys.PLANT))
+                else if (dec.ContainsKey((int)dictKeys.PLANT))
                 {
-                    //Debug.Log("eat plant");
                     Plant p = dec[(int)dictKeys.PLANT].GetComponent<Plant>();
                     a.eat(p);
-                    switch (a.animalSize)
-                    {
-                        case AnimalSize.HUGE:
-                            plants[p] -= 10;
-                            break;
-                        case AnimalSize.LARGE:
-                            plants[p] -= 6;
-                            break;
-                        case AnimalSize.MEDIUM:
-                            plants[p] -= 4;
-                            break;
-                        case AnimalSize.SMALL:
-                            plants[p] -= 2;
-                            break;
-                        case AnimalSize.TINY:
-                            plants[p] -= 1;
-                            break;
-                    }
+
+                    plants[p] -= (int)a.animalSize;
+
                     if (plants[p] <= 0)
+                    {
                         plants.Remove(p);
+                    }
+
                     poison = (int)p.poisonous;
                     eaten = true;
                 }
-                else if (dec.ContainsKey((int) dictKeys.TILE))
+                else if (dec.ContainsKey((int)dictKeys.TILE))
                 {
-                    //Debug.Log("move");
-                    Tile t = dec[(int)dictKeys.TILE].GetComponent<Tile>();
                     a.moved = true;
-                    if (! toMove.ContainsKey(a))
-                        toMove.Add(a, t);
+                    if (!toMove.ContainsKey(a))
+                    {
+                        toMove.Add(a, dec[(int)dictKeys.TILE].GetComponent<Tile>());
+                    }
                     toRem.Add(a);
                 }
 
                 a.UpdateAnimal();
                 int numSurvive = a.CheckSurvive(eaten, biome.humidity, biome.temperature);
                 int numDie = a.CheckDeath(eaten, biome.humidity, biome.temperature, poison);
-                if ((numSurvive + numDie) < 0)
+                if (numSurvive + numDie < 0)
                 {
                     toRem.Add(a);
                 }
             }
-            if (a.getHunger() < 0 || ! a.ModelMortality())
+            if (a.hunger < 0 || !a.ModelMortality())
             {
                 toRem.Add(a);
             }
         }
-        foreach (Animal an in animalKeys) {
+
+        foreach (Animal an in animalKeys)
+        {
             if (animals[an] <= 0)
             {
                 toRem.Add(an);
             }
         }
-        foreach (Animal anmil in toPreg.Keys)
+
+        foreach (Animal an in toPreg.Keys)
         {
-            anmil.breed(toPreg[anmil]);
+            an.breed(toPreg[an]);
         }
-        foreach (Animal anmil in toMove.Keys)
-            toMove[anmil].addAnimal(anmil);
-        foreach (Animal anmil in toRem)
-            animals.Remove(anmil);
-        foreach (Animal baby in toAdd) {
+
+        foreach (Animal an in toMove.Keys)
+        {
+            toMove[an].addAnimal(an);
+        }
+
+        foreach (Animal an in toRem)
+        {
+            animals.Remove(an);
+        }
+
+        foreach (Animal baby in toAdd)
+        {
             if (animals.ContainsKey(baby))
+            {
                 animals[baby] += 1;
+            }
             else
+            {
                 animals.Add(baby, 1);
+            }
         }
     }
 
     public void resetMovement()
     {
-        foreach (Animal a in animals.Keys)
+        foreach (Animal an in animals.Keys)
         {
-            a.moved = false;
+            an.moved = false;
         }
     }
 
-    private Dictionary<int, GameObject> makeDec(Animal anm, List<GameObject> tiles)
+    private Dictionary<int, GameObject> makeDec(Animal an, List<GameObject> tiles)
     {
         System.Random rand = new System.Random();
         Dictionary<int, GameObject> retDict = new Dictionary<int, GameObject>();
-        Organism org = anm.findFoodInRange(this);
-        Animal brd;
-        if (anm.gender == Gender.MALE)
-            brd = anm.FindBreedingInRange(this);
+        Organism org = an.findFoodInRange(this);
+        Animal breed;
+
+        if (an.gender == Gender.MALE)
+        {
+            breed = an.FindBreedingInRange(this);
+        }
         else
-            brd = null;
-        Tile tile = anm.FindTileInRange(tiles, this);
-        if (org == null && brd == null)
+        {
+            breed = null;
+        }
+
+        Tile tile = an.FindTileInRange(tiles, this);
+        if (org == null && breed == null)
         {
             retDict.Add((int)dictKeys.TILE, tile.gameObject);
         }
         else if (org == null && tile == null)
-            retDict.Add((int)dictKeys.ANIMAL, brd.gameObject);
-        else if (tile == null && brd == null)
+        {
+            retDict.Add((int)dictKeys.ANIMAL, breed.gameObject);
+        }
+        else if (tile == null && breed == null)
         {
             if (org.GetComponent<Animal>())
+            {
                 retDict.Add((int)dictKeys.ANIMAL, org.gameObject);
+            }
             else
+            {
                 retDict.Add((int)dictKeys.PLANT, org.gameObject);
+            }
         }
         else if (tile == null)
         {
-            if (anm.hunger < 50)
+            if (an.hunger < 50)
             {
                 if (org.GetComponent<Animal>())
-                    retDict.Add((int)dictKeys.ANIMAL, org.gameObject);
-                else
-                    retDict.Add((int)dictKeys.PLANT, org.gameObject);
-            }
-            else {
-                int rnd = rand.Next(0, 2);
-                if (rnd == 1)
                 {
-                    if (org.GetComponent<Animal>())
-                        retDict.Add((int)dictKeys.ANIMAL, org.gameObject);
-                    else
-                        retDict.Add((int)dictKeys.PLANT, org.gameObject);
+                    retDict.Add((int)dictKeys.ANIMAL, org.gameObject);
                 }
                 else
-                    retDict.Add((int)dictKeys.ANIMAL, brd.gameObject);
+                {
+                    retDict.Add((int)dictKeys.PLANT, org.gameObject);
+                }
+            }
+            else
+            {
+                if (rand.Next(0, 2) == 1)
+                {
+                    if (org.GetComponent<Animal>())
+                    {
+                        retDict.Add((int)dictKeys.ANIMAL, org.gameObject);
+                    }
+                    else
+                    {
+                        retDict.Add((int)dictKeys.PLANT, org.gameObject);
+                    }
+                }
+                else
+                {
+                    retDict.Add((int)dictKeys.ANIMAL, breed.gameObject);
+                }
             }
         }
         else if (org == null)
         {
-            int rnd = rand.Next(0, 2);
-            if (rnd == 1)
+            if (rand.Next(0, 2) == 1)
             {
-                retDict.Add((int)dictKeys.ANIMAL, brd.gameObject);
+                retDict.Add((int)dictKeys.ANIMAL, breed.gameObject);
             }
             else
             {
                 retDict.Add((int)dictKeys.TILE, tile.gameObject);
             }
         }
-        else if (brd == null)
+        else if (breed == null)
         {
-            if (anm.hunger < 50)
+            if (an.hunger < 50)
             {
                 if (org.GetComponent<Animal>())
-                    retDict.Add((int)dictKeys.ANIMAL, org.gameObject);
-                else
-                    retDict.Add((int)dictKeys.PLANT, org.gameObject);
-            }
-            else {
-                int rnd = rand.Next(0, 2);
-                if (rnd == 1)
                 {
-                    if (org.GetComponent<Animal>())
-                        retDict.Add((int)dictKeys.ANIMAL, org.gameObject);
-                    else
-                        retDict.Add((int)dictKeys.PLANT, org.gameObject);
+                    retDict.Add((int)dictKeys.ANIMAL, org.gameObject);
                 }
                 else
+                {
+                    retDict.Add((int)dictKeys.PLANT, org.gameObject);
+                }
+            }
+            else
+            {
+                if (rand.Next(0, 2) == 1)
+                {
+                    if (org.GetComponent<Animal>())
+                    {
+                        retDict.Add((int)dictKeys.ANIMAL, org.gameObject);
+                    }
+                    else
+                    {
+                        retDict.Add((int)dictKeys.PLANT, org.gameObject);
+                    }
+                }
+                else
+                {
                     retDict.Add((int)dictKeys.TILE, tile.gameObject);
+                }
             }
         }
-        else {
-            if (anm.hunger < 50)
+        else
+        {
+            if (an.hunger < 50)
             {
                 if (org.GetComponent<Animal>())
+                {
                     retDict.Add((int)dictKeys.ANIMAL, org.gameObject);
+                }
                 else
+                {
                     retDict.Add((int)dictKeys.PLANT, org.gameObject);
+                }
             }
-            else {
+            else
+            {
                 int rnd = rand.Next(0, 3);
+
                 if (rnd == 1)
                 {
                     if (org.GetComponent<Animal>())
+                    {
                         retDict.Add((int)dictKeys.ANIMAL, org.gameObject);
+                    }
                     else
+                    {
                         retDict.Add((int)dictKeys.PLANT, org.gameObject);
+                    }
                 }
                 else if (rnd == 2)
-                    retDict.Add((int)dictKeys.ANIMAL, brd.gameObject);
+                {
+                    retDict.Add((int)dictKeys.ANIMAL, breed.gameObject);
+                }
                 else
+                {
                     retDict.Add((int)dictKeys.TILE, tile.gameObject);
+                }
             }
         }
         return retDict;
@@ -531,7 +609,7 @@ public class Tile : MonoBehaviour
 
     private void handlePlants()
     {
-        List<Plant> plantKeys = new List<Plant>(this.plants.Keys);
+        List<Plant> plantKeys = new List<Plant>(plants.Keys);
 
         foreach (Plant p in plantKeys)
         {
@@ -540,40 +618,49 @@ public class Tile : MonoBehaviour
             int numGrowth = p.checkInTileGrowth(numInTile, biome.amountOfWater, biome.humidity, biome.temperature);
             int numDeath = p.checkInTileDeath(numInTile, biome.amountOfWater, biome.humidity, biome.temperature);
 
-            if (numGrowth > 0) {
+            if (numGrowth > 0)
+            {
                 System.Random random = new System.Random();
 
-                if (random.Next(2) == 0) {
-                    Plant evolvePlant = p.evolve(numGrowth, this.biome);
+                if (random.Next(2) == 0)
+                {
+                    Plant evolvePlant = p.evolve(numGrowth, biome);
 
-                    if (evolvePlant != null) {
+                    if (evolvePlant != null)
+                    {
                         numGrowth--;
-                        this.addPlant(evolvePlant, 1);
+                        addPlant(evolvePlant, 1);
                     }
 
-                    if (numGrowth > 0) {
+                    if (numGrowth > 0)
+                    {
                         Plant mutatePlant = p.mutate(numGrowth);
 
-                        if (mutatePlant != null) {
+                        if (mutatePlant != null)
+                        {
                             numGrowth--;
-                            this.addPlant(mutatePlant, 1);
+                            addPlant(mutatePlant, 1);
                         }
                     }
                 }
-                else {
+                else
+                {
                     Plant mutatePlant = p.mutate(numGrowth);
 
-                    if (mutatePlant != null) {
+                    if (mutatePlant != null)
+                    {
                         numGrowth--;
-                        this.addPlant(mutatePlant, 1);
+                        addPlant(mutatePlant, 1);
                     }
 
-                    if (numGrowth > 0) {
-                        Plant evolvePlant = p.evolve(numGrowth, this.biome);
+                    if (numGrowth > 0)
+                    {
+                        Plant evolvePlant = p.evolve(numGrowth, biome);
 
-                        if (evolvePlant != null) {
+                        if (evolvePlant != null)
+                        {
                             numGrowth--;
-                            this.addPlant(evolvePlant, 1);
+                            addPlant(evolvePlant, 1);
                         }
                     }
                 }
@@ -589,148 +676,66 @@ public class Tile : MonoBehaviour
             {
                 if (p.checkCanSpread(newTotal))
                 {
-                    List<GameObject> surroundingTiles = world.GetComponent<World>().GetTilesInRange(this.x, this.y, 1);
-                    surroundingTiles.Remove(this.gameObject);
-
+                    List<GameObject> surroundingTiles = world.GetComponent<World>().GetTilesInRange(x, y, 1);
+                    surroundingTiles.Remove(gameObject);
                     List<GameObject> invalidTiles = new List<GameObject>();
-                    foreach (GameObject tileObject in surroundingTiles) {
+
+                    foreach (GameObject tileObject in surroundingTiles)
+                    {
                         Tile tile = tileObject.GetComponent<Tile>();
 
-                        if (tile.biome.biomeType == BiomeType.OCEAN) {
-                            invalidTiles.Add(tileObject);
-                        }
-                        else if (tile.biome.biomeType == BiomeType.MOUNTAIN && !p.canSurviveInMountains) {
-                            invalidTiles.Add(tileObject);
-                        }
-                        else if (tile.biome.biomeType == BiomeType.DESERT && !p.canSurviveInDesert) {
+                        if (tile.biome.biomeType == BiomeType.OCEAN ||
+                           (tile.biome.biomeType == BiomeType.MOUNTAIN && !p.canSurviveInMountains) ||
+                           (tile.biome.biomeType == BiomeType.DESERT && !p.canSurviveInDesert))
+                        {
                             invalidTiles.Add(tileObject);
                         }
                     }
 
-                    foreach (GameObject invalidTile in invalidTiles) {
+                    foreach (GameObject invalidTile in invalidTiles)
+                    {
                         surroundingTiles.Remove(invalidTile);
                     }
 
                     System.Random random = new System.Random();
-
                     List<Tile> tilesToSpreadTo = new List<Tile>();
 
-                    if (p.spread == Spread.LOW) {
-                        for (int i = 0; i < 1 && surroundingTiles.Count >= 1; i++)
-                        {
-                            int spreadNumber = random.Next(0, surroundingTiles.Count);
-                            GameObject tileObject = surroundingTiles[spreadNumber];
-
-                            surroundingTiles.RemoveAt(spreadNumber);
-                            tilesToSpreadTo.Add(tileObject.GetComponent<Tile>());
-
-                            newTotal--;
-                        }
-                    }
-                    else if (p.spread == Spread.MEDIUM)
+                    for (int i = 0; i < (int)p.spread && surroundingTiles.Count > 0; i++)
                     {
-                        for (int i = 0; i < 2 && surroundingTiles.Count >= 1; i++)
-                        {
-                            int spreadNumber = random.Next(0, surroundingTiles.Count);
-                            GameObject tileObject = surroundingTiles[spreadNumber];
+                        int spreadNumber = random.Next(0, surroundingTiles.Count);
+                        GameObject tileObject = surroundingTiles[spreadNumber];
 
-                            surroundingTiles.RemoveAt(spreadNumber);
-                            tilesToSpreadTo.Add(tileObject.GetComponent<Tile>());
+                        surroundingTiles.RemoveAt(spreadNumber);
+                        tilesToSpreadTo.Add(tileObject.GetComponent<Tile>());
 
-                            newTotal--;
-                        }
-                    }
-                    else if (p.spread == Spread.HIGH)
-                    {
-                        for (int i = 0; i < 3 && surroundingTiles.Count >= 1; i++)
-                        {
-                            int spreadNumber = random.Next(0, surroundingTiles.Count);
-                            GameObject tileObject = surroundingTiles[spreadNumber];
-
-                            surroundingTiles.RemoveAt(spreadNumber);
-                            tilesToSpreadTo.Add(tileObject.GetComponent<Tile>());
-
-                            newTotal--;
-                        }
+                        newTotal--;
                     }
 
                     foreach (Tile t in tilesToSpreadTo)
                     {
-                        if (p.spaceNeeded == SpaceNeeded.SMALL)
-                        {
-                            t.addPlant(p, 3);
-                            newTotal -= 3;
-                        }
-                        else if (p.spaceNeeded == SpaceNeeded.MEDIUM)
-                        {
-                            t.addPlant(p, 2);
-                            newTotal -= 2;
-                        }
-                        else if (p.spaceNeeded == SpaceNeeded.LARGE)
-                        {
-                            t.addPlant(p, 1);
-                            newTotal -= 1;
-                        }
-                        else if (p.spaceNeeded == SpaceNeeded.EXTRALARGE)
-                        {
-                            t.addPlant(p, 1);
-                            newTotal -= 1;
-                        }
+                        t.addPlant(p, (int)p.spaceNeeded);
+                        newTotal -= (int)p.spaceNeeded;
                     }
                 }
-                this.plants[p] = newTotal;
+                plants[p] = newTotal;
             }
         }
-    }
-
-    public Dictionary<int, int> getDispProportions()
-    {
-        int plant = -1;
-        int plantNum = plants.Count;
-        List<Animal> animalKeys = new List<Animal>(this.animals.Keys);
-        Dictionary<int, int> counts = new Dictionary<int, int>();
-        counts.Add(plant, plantNum);
-
-        foreach (Animal a in animalKeys)
-        {
-            if (counts.ContainsKey(a.speciesID))
-            {
-                counts[a.speciesID] += 1;
-            }
-            else
-            {
-                counts.Add(a.speciesID, 1);
-            }
-        }
-        return counts;
-    }
-
-    public Color DispProportions(Dictionary<int, int> proportions)
-    {
-        //Will implement this in a bit, and will optimize it later in week so you don't check everything every game tick, but that will take some work
-        int total = 0;
-        foreach (int count in proportions.Values)
-        {
-            total += count;
-        }
-        float plantProp = proportions[-1] / total;
-        return Color.yellow;
     }
 
     public void addPlant(Plant p, int numToAdd)
     {
-        if (this.plants.ContainsKey(p))
+        if (plants.ContainsKey(p))
         {
-            this.plants[p] += numToAdd;
+            plants[p] += numToAdd;
         }
         else
         {
-            this.plants.Add(p, numToAdd);
+            plants.Add(p, numToAdd);
         }
     }
 
     public void addAnimal(Animal a)
     {
-        this.animals.Add(a, 1);
+        animals.Add(a, 1);
     }
 }

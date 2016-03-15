@@ -2,5 +2,7 @@
 
 public enum FoodNeeded
 {
-    LOW, MEDIUM, HIGH
+    LOW = 1,
+    MEDIUM = 5,
+    HIGH = 10
 }

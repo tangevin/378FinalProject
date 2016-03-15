@@ -2,5 +2,10 @@
 
 public enum BiomeType
 {
-    OCEAN, RIVER, PLAIN, FOREST, MOUNTAIN, DESERT
+    DESERT = 0,
+    FOREST = 1,
+    MOUNTAIN = 2,
+    OCEAN = 3,
+    PLAIN = 4,
+    RIVER = 5
 }

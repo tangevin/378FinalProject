@@ -2,5 +2,9 @@
 
 public enum AnimalSize
 {
-    TINY=1, SMALL=2, MEDIUM=3, LARGE=4, HUGE=5
+    TINY = 1,
+    SMALL = 2,
+    MEDIUM = 4,
+    LARGE = 6,
+    HUGE = 10
 }

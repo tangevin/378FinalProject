@@ -2,5 +2,8 @@
 
 public enum SpaceNeeded
 {
-    SMALL, MEDIUM, LARGE, EXTRALARGE
+    SMALL = 3,
+    MEDIUM = 2,
+    LARGE = 1,
+    EXTRALARGE = 1
 }

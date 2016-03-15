@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &146610
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 426086}
+  - 114: {fileID: 11470688}
+  - 114: {fileID: 11469146}
+  - 114: {fileID: 11438450}
+  m_Layer: 0
+  m_Name: World
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &426086
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146610}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11438450
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d82f8f66ee9ed34d8040128430d7974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animalSprite: {fileID: 21300000, guid: 4fb758e8028254d4f96f88757af17c38, type: 3}
+  plantSprite: {fileID: 21300000, guid: 0c91acaff0562454eabd0fc04e5b4617, type: 3}
+  halfSprite: {fileID: 21300000, guid: 599ff67fe4223e548b5fbb7813cf20de, type: 3}
+  biomeSprites:
+  - {fileID: 21300000, guid: a77d67cfb51da1141a42d2ff171a0702, type: 3}
+  - {fileID: 21300000, guid: a5b7d2f3f476cb34b96c0f6e964abf5d, type: 3}
+  - {fileID: 21300000, guid: 62e32bbd1616eb4429effd69018a6bba, type: 3}
+  - {fileID: 21300000, guid: da893eda7680f0543a870ef59f9d21e9, type: 3}
+  - {fileID: 21300000, guid: 78fc9c9c5cf52d647a15afa72540e5e7, type: 3}
+  - {fileID: 21300000, guid: 74f76971f7b7f5c45b2c5887294104d9, type: 3}
+--- !u!114 &11469146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d342ccb4de0fa4e45ba3b355b2711e2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animalParameters: {fileID: 0}
+  plantParameters: {fileID: 0}
+--- !u!114 &11470688
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90de658505ef6b04aa7f653cef69ead8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 0}
+  height: 27
+  width: 37
+  tilePrefab: {fileID: 148936, guid: aa38410eb0267d84fbc3c2188019707d, type: 2}
+  worldPrefab: {fileID: 146610}
+  dragSpeed: 1
+  scrollSpeed: 1
+  pauseButton: {fileID: 0}
+  pauseSelectedSprite: {fileID: 21300000, guid: 2da5782bd6153744ab0dd755ab4f59d0,
+    type: 3}
+  pauseUnselectedSprite: {fileID: 21300000, guid: b0f6a0ce2c61f1242817b457029c85ea,
+    type: 3}
+  playButton: {fileID: 0}
+  playSelectedSprite: {fileID: 21300000, guid: d02974a93ea150d4ca413b4ffd3ea034, type: 3}
+  playUnselectedSprite: {fileID: 21300000, guid: 567c726b5e22e1047b7feb49bbb843b7,
+    type: 3}
+  accelerateButton: {fileID: 0}
+  accelerateSelectedSprite: {fileID: 21300000, guid: 338e078e242779942a0ff30c5c62eb37,
+    type: 3}
+  accelerateUnselectedSprite: {fileID: 21300000, guid: 4320236520a85fb459b5b3c8af2cbfaa,
+    type: 3}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 146610}
+  m_IsPrefabParent: 1

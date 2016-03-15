@@ -11,7 +11,6 @@ public class Biome : Object
     public BaseHumidity baseHumidity { get; private set; }
     public Humidity humidity;
     public HumidityVariation humidityVariation { get; private set; }
-    public Color color;
 
     public Biome(BiomeType biomeType)
     {
@@ -27,7 +26,6 @@ public class Biome : Object
                 baseHumidity = BaseHumidity.LOW;
                 humidity = Humidity.LOW;
                 humidityVariation = HumidityVariation.LOW;
-                color = new Color(255, 255, 0);
                 break;
             case (BiomeType.FOREST):
                 amountOfWater = AmountOfWater.HIGH;
@@ -37,7 +35,6 @@ public class Biome : Object
                 baseHumidity = BaseHumidity.HIGH;
                 humidity = Humidity.HIGH;
                 humidityVariation = HumidityVariation.LOW;
-                color = Color.green;
                 break;
             case (BiomeType.MOUNTAIN):
                 amountOfWater = AmountOfWater.NONE;
@@ -47,7 +44,6 @@ public class Biome : Object
                 baseHumidity = BaseHumidity.LOW;
                 humidity = Humidity.LOW;
                 humidityVariation = HumidityVariation.LOW;
-                color = Color.grey;
                 break;
             case (BiomeType.OCEAN):
                 amountOfWater = AmountOfWater.HIGH;
@@ -57,7 +53,6 @@ public class Biome : Object
                 baseHumidity = BaseHumidity.HIGH;
                 humidity = Humidity.HIGH;
                 humidityVariation = HumidityVariation.HIGH;
-                color = Color.blue;
                 break;
             case (BiomeType.PLAIN):
                 amountOfWater = AmountOfWater.MEDIUM;
@@ -67,7 +62,6 @@ public class Biome : Object
                 baseHumidity = BaseHumidity.LOW;
                 humidity = Humidity.LOW;
                 humidityVariation = HumidityVariation.MEDIUM;
-                color = Color.magenta;
                 break;
             case (BiomeType.RIVER):
                 amountOfWater = AmountOfWater.HIGH;
@@ -77,9 +71,7 @@ public class Biome : Object
                 baseHumidity = BaseHumidity.MEDIUM;
                 humidity = Humidity.MEDIUM;
                 humidityVariation = HumidityVariation.HIGH;
-                color = Color.cyan;
                 break;
         }
-        color.a = 0.25f;
     }
 }

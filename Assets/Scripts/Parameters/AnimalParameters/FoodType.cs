@@ -2,6 +2,8 @@
 
 public enum FoodType
 {
-    HERBIVORE, CARNIVORE, OMNIVORE
+    CARNIVORE = 0,
+    OMNIVORE = 1,
+    HERBIVORE = 2
 }
 

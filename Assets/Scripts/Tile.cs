@@ -191,7 +191,8 @@ public class Tile : MonoBehaviour
                 Dropdown entityType = GameObject.Find("Type selector").GetComponent<Dropdown>();
 
                 InputField speciesNameField = GameObject.Find("Species Name").GetComponent<InputField>();
-                string speciesName = speciesNameField.text;
+                
+                string speciesName = speciesNameField.text;                
 
                 if (entityType.value == 0)
                 {
@@ -200,6 +201,7 @@ public class Tile : MonoBehaviour
 
                     try
                     {
+                        Debug.Log("Trying to add animal");
                         Dropdown aggression = GameObject.Find("Aggression").GetComponent<Dropdown>();
                         Dropdown appetite = GameObject.Find("Appetite").GetComponent<Dropdown>();
                         Dropdown diet = GameObject.Find("Diet").GetComponent<Dropdown>();
@@ -250,6 +252,7 @@ public class Tile : MonoBehaviour
                             vis, gesttime, sonic, babycount, humids, temps, lifetime, id);
 
                         addAnimal(a);
+                        Debug.Log("Added animal.");
                     }
                     catch
                     {

@@ -662,4 +662,21 @@ public class Animal : Organism
             return null;
         }
     }
+
+    public override bool Equals(object obj)
+    {
+        Debug.Log("Calling overridden method.");
+        return obj != null && obj is Animal && Equals(obj as Animal);
+    }
+
+    public bool Equals(Animal a)
+    {
+        Debug.Log("Checking equality... " + speciesID.Equals(a.speciesID));
+        return a != null && speciesID.Equals(a.speciesID);
+    }
+
+    public override int GetHashCode()
+    {
+        return 0;
+    }
 }

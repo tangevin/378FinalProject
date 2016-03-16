@@ -73,6 +73,14 @@ public class World : MonoBehaviour
         }
     }
 
+    public List<GameObject> getAllTiles()
+    {
+        List<GameObject> tiles = new List<GameObject>();
+        foreach (GameObject obj in map)
+            tiles.Add(obj);
+        return tiles;
+    }
+
     void Update()
     {
         if (tickCounter == tickSpeed && !paused)

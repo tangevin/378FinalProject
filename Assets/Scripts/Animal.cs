@@ -112,6 +112,56 @@ public class Animal : Organism
         return a;
     }
 
+    public int GetGender()
+    {
+        return (int)gender;
+    }
+
+    public int GetBabies()
+    {
+        return (int)babies;
+    }
+
+    public int GetSpeed()
+    {
+        return (int)speed;
+    }
+
+    public int GetPerception()
+    {
+        return (int)perception;
+    }
+
+    public int GetGestation()
+    {
+        return (int)gestation;
+    }
+
+    public int GetAgg()
+    {
+        return (int)aggression;
+    }
+
+    public int GetFoodNeeded()
+    {
+        return (int)foodNeeded;
+    }
+
+    public int GetFoodType()
+    {
+        return (int)foodType;
+    }
+
+    public int GetAnimalSize()
+    {
+        return (int)animalSize;
+    }
+
+    public int GetBodyType()
+    {
+        return (int)bodyType;
+    }
+
     public void AgeAnimal()
     {
         if (++age / (float)lifespan > .5 && !old)
@@ -665,14 +715,16 @@ public class Animal : Organism
 
     public override bool Equals(object obj)
     {
-        Debug.Log("Calling overridden method.");
+        //Debug.Log("Calling overridden method.");
         return obj != null && obj is Animal && Equals(obj as Animal);
     }
 
     public bool Equals(Animal a)
     {
-        Debug.Log("Checking equality... " + speciesID.Equals(a.speciesID));
-        return a != null && speciesID.Equals(a.speciesID);
+        //Debug.Log("Checking equality... " + speciesID.Equals(a.speciesID));
+        return a != null && speciesID.Equals(a.speciesID) && aggression.Equals(a.aggression) && animalSize.Equals(a.animalSize) && babies.Equals(a.babies)
+            && bodyType.Equals(bodyType) && foodNeeded.Equals(a.foodNeeded) && foodType.Equals(a.foodType) && gender.Equals(a.gender) && gestation.Equals(a.gestation)
+            && perception.Equals(a.perception) && speed.Equals(a.speed);
     }
 
     public override int GetHashCode()

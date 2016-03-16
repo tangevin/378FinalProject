@@ -33,6 +33,9 @@ public class World : MonoBehaviour
     public Sprite accelerateSelectedSprite;
     public Sprite accelerateUnselectedSprite;
 
+    public GameObject mutatedPlantPopupPanel;
+    public int numPlantMutationsToBeNamed { get; private set; }
+
     // Use this for initialization
     void Start()
     {
@@ -85,7 +88,7 @@ public class World : MonoBehaviour
     {
         if (tickCounter == tickSpeed && !paused)
         {
-            update();
+            updateWorld();
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -121,7 +124,7 @@ public class World : MonoBehaviour
         }
     }
 
-    private void update()
+    private void updateWorld()
     {
         if (!paused)
         {
@@ -272,5 +275,21 @@ public class World : MonoBehaviour
             pauseSelected = false;
             accelerateSelected = true;
         }
+    }
+
+    public void showPlantMutationPopup(Plant p, Tile tile) {
+        this.numPlantMutationsToBeNamed++;
+        bool originallyPaused = paused;
+        bool originallySpedUp = accelerateSelected;
+        this.pause();
+
+        GameObject popupObject = (GameObject)Instantiate(mutatedPlantPopupPanel);
+        PlantMutationPopup popup = popupObject.GetComponent<PlantMutationPopup>();
+        popup.initialize(p, tile, originallyPaused, originallySpedUp);
+        popup.transform.SetParent(GameObject.Find("Canvas").transform, false);
+    }
+
+    public void resolveMutation() {
+        this.numPlantMutationsToBeNamed--;
     }
 }

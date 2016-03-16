@@ -312,10 +312,6 @@ public class Tile : MonoBehaviour
                 }
             }
         }
-        else if (Input.GetKeyUp(KeyCode.A) && !eventSystem.IsPointerOverGameObject())
-        {
-            
-        }
     }
 
     public void onGameTick()
@@ -629,7 +625,8 @@ public class Tile : MonoBehaviour
                     if (evolvePlant != null)
                     {
                         numGrowth--;
-                        addPlant(evolvePlant, 1);
+                        Debug.Log("Evolve Plant: " + evolvePlant.name);
+                        world.GetComponent<World>().showPlantMutationPopup(evolvePlant, this);
                     }
 
                     if (numGrowth > 0)
@@ -639,7 +636,8 @@ public class Tile : MonoBehaviour
                         if (mutatePlant != null)
                         {
                             numGrowth--;
-                            addPlant(mutatePlant, 1);
+                            Debug.Log("Mutate Plant: " + mutatePlant.name);
+                            world.GetComponent<World>().showPlantMutationPopup(mutatePlant, this);
                         }
                     }
                 }
@@ -650,7 +648,8 @@ public class Tile : MonoBehaviour
                     if (mutatePlant != null)
                     {
                         numGrowth--;
-                        addPlant(mutatePlant, 1);
+                        Debug.Log("Mutate Plant: " + mutatePlant.name);
+                        world.GetComponent<World>().showPlantMutationPopup(mutatePlant, this);
                     }
 
                     if (numGrowth > 0)
@@ -660,7 +659,8 @@ public class Tile : MonoBehaviour
                         if (evolvePlant != null)
                         {
                             numGrowth--;
-                            addPlant(evolvePlant, 1);
+                            Debug.Log("Evolve Plant: " + evolvePlant.name);
+                            world.GetComponent<World>().showPlantMutationPopup(evolvePlant, this);
                         }
                     }
                 }

@@ -7144,6 +7144,10 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 0c91acaff0562454eabd0fc04e5b4617,
         type: 3}
+    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: mutatedPlantPopupPanel
+      value: 
+      objectReference: {fileID: 134256, guid: 7c29af1864c9210428fd03d16962712d, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
   m_IsPrefabParent: 0
@@ -15879,9 +15883,9 @@ RectTransform:
   - {fileID: 854814686}
   m_Father: {fileID: 1873598840}
   m_RootOrder: 2
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 350, y: -210}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -75, y: 30}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1451927245
@@ -17576,7 +17580,7 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Large
       m_Image: {fileID: 0}
-    - m_Text: Extra Large
+    - m_Text: ExtraLarge
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

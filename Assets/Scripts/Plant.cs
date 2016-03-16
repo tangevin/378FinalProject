@@ -7,9 +7,11 @@ using System.Collections.Generic;
 public class Plant : Organism
 {
     private const int evolveChance = 1;
+    private const int evolveOutOf = 1000;
     private const int mutateChance = 1;
+    private const int mutateOutOf = 1000;
 
-    new public string name { get; private set; }
+    new public string name;
     public Spread spread { get; private set; }
     public PlantType plantType { get; private set; }
     public Poisonous poisonous { get; private set; }
@@ -115,7 +117,7 @@ public class Plant : Organism
     {
         System.Random random = new System.Random();
 
-        if (random.Next(1000) < Plant.evolveChance * numGrown)
+        if (random.Next(evolveOutOf) < evolveChance * numGrown)
         {
             List<System.Type> parameters = new List<System.Type>() {typeof(WaterNeeded), typeof(SpaceNeeded), typeof(TemperatureTolerance),
                 typeof(HumidityTolerance), typeof(bool), typeof(bool)};
@@ -137,7 +139,7 @@ public class Plant : Organism
                                 new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
                             Plant p = newPlant.GetComponent<Plant>();
 
-                            p.initialize(name + "*", spread, plantType, poisonous, waterNeeded - 1,
+                            p.initialize(name, spread, plantType, poisonous, waterNeeded - 1,
                                 spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
                                 tempTol, lifespan);
 
@@ -153,7 +155,7 @@ public class Plant : Organism
                                 new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
                         Plant p = newPlant.GetComponent<Plant>();
 
-                        p.initialize(name + "*", spread, plantType, poisonous, waterNeeded,
+                        p.initialize(name, spread, plantType, poisonous, waterNeeded,
                             spaceNeeded - 1, canSurviveInMountains, canSurviveInDesert, humidityTol,
                             tempTol, lifespan);
 
@@ -183,7 +185,7 @@ public class Plant : Organism
                                 new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
                         Plant p = newPlant.GetComponent<Plant>();
 
-                        p.initialize(name + "*", spread, plantType, poisonous, waterNeeded,
+                        p.initialize(name, spread, plantType, poisonous, waterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
                             tempTolerance, lifespan);
 
@@ -213,7 +215,7 @@ public class Plant : Organism
                                 new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
                         Plant p = newPlant.GetComponent<Plant>();
 
-                        p.initialize(name + "*", spread, plantType, poisonous, waterNeeded,
+                        p.initialize(name, spread, plantType, poisonous, waterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTolerance,
                             tempTol, lifespan);
 
@@ -272,7 +274,7 @@ public class Plant : Organism
                             new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
                         Plant p = newPlant.GetComponent<Plant>();
 
-                        p.initialize(name + "*", spread, plantType, poisonous, waterNeeded,
+                        p.initialize(name, spread, plantType, poisonous, waterNeeded,
                             spaceNeeded, mountainSurvival, desertSurvival, humidityTol,
                             tempTol, lifespan);
 
@@ -289,7 +291,7 @@ public class Plant : Organism
     {
         System.Random random = new System.Random();
 
-        if (random.Next(1000) < mutateChance * numGrown)
+        if (random.Next(mutateOutOf) < mutateChance * numGrown)
         {
             List<System.Type> parameters = new List<System.Type>() {typeof(Spread), typeof(PlantType), typeof(Poisonous), typeof(WaterNeeded), 
             typeof(SpaceNeeded), typeof(TemperatureTolerance), typeof(HumidityTolerance), typeof(bool), typeof(bool)};
@@ -305,11 +307,11 @@ public class Plant : Organism
             {
                 List<Spread> spreadValues = Enum.GetValues(typeof(Spread)).Cast<Spread>().ToList();
 
-                spreadValues.RemoveAt((int)spread);
+                spreadValues.RemoveAt((int)spread - 1);
 
                 Spread newSpread = spreadValues[random.Next(spreadValues.Count)];
 
-                p.initialize(name + "^", newSpread, plantType, poisonous, waterNeeded,
+                p.initialize(name, newSpread, plantType, poisonous, waterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
                             tempTol, lifespan);
             }
@@ -321,7 +323,7 @@ public class Plant : Organism
 
                 PlantType newPlantType = plantTypeValues[random.Next(plantTypeValues.Count)];
 
-                p.initialize(name + "^", spread, newPlantType, poisonous, waterNeeded,
+                p.initialize(name, spread, newPlantType, poisonous, waterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
                             tempTol, lifespan);
             }
@@ -329,11 +331,24 @@ public class Plant : Organism
             {
                 List<Poisonous> poisonousValues = Enum.GetValues(typeof(Poisonous)).Cast<Poisonous>().ToList();
 
-                poisonousValues.RemoveAt((int)poisonous);
+                switch (poisonous) {
+                    case Poisonous.NONE:
+                        poisonousValues.RemoveAt(0);
+                        break;
+                    case Poisonous.MINOR:
+                        poisonousValues.RemoveAt(1);
+                        break;
+                    case Poisonous.MAJOR:
+                        poisonousValues.RemoveAt(2);
+                        break;
+                    case Poisonous.DEADLY:
+                        poisonousValues.RemoveAt(3);
+                        break;
+                }
 
                 Poisonous newPoisonous = poisonousValues[random.Next(poisonousValues.Count)];
 
-                p.initialize(name + "^", spread, plantType, newPoisonous, waterNeeded,
+                p.initialize(name, spread, plantType, newPoisonous, waterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
                             tempTol, lifespan);
             }
@@ -341,11 +356,11 @@ public class Plant : Organism
             {
                 List<WaterNeeded> waterNeededValues = Enum.GetValues(typeof(WaterNeeded)).Cast<WaterNeeded>().ToList();
 
-                waterNeededValues.RemoveAt((int)waterNeeded);
+                waterNeededValues.RemoveAt((int)waterNeeded - 1);
 
                 WaterNeeded newWaterNeeded = waterNeededValues[random.Next(waterNeededValues.Count)];
 
-                p.initialize(name + "^", spread, plantType, poisonous, newWaterNeeded,
+                p.initialize(name, spread, plantType, poisonous, newWaterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
                             tempTol, lifespan);
             }
@@ -357,7 +372,7 @@ public class Plant : Organism
 
                 SpaceNeeded newSpaceNeeded = spaceNeededValues[random.Next(spaceNeededValues.Count)];
 
-                p.initialize(name + "^", spread, plantType, poisonous, waterNeeded,
+                p.initialize(name, spread, plantType, poisonous, waterNeeded,
                             newSpaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
                             tempTol, lifespan);
             }
@@ -366,11 +381,11 @@ public class Plant : Organism
                 List<TemperatureTolerance> tempToleranceValues = 
                     Enum.GetValues(typeof(TemperatureTolerance)).Cast<TemperatureTolerance>().ToList();
 
-                tempToleranceValues.RemoveAt((int)tempTol);
+                tempToleranceValues.RemoveAt((int)tempTol - 1);
 
                 TemperatureTolerance newTempTolerance = tempToleranceValues[random.Next(tempToleranceValues.Count)];
 
-                p.initialize(name + "^", spread, plantType, poisonous, waterNeeded,
+                p.initialize(name, spread, plantType, poisonous, waterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
                             newTempTolerance, lifespan);
             }
@@ -379,11 +394,11 @@ public class Plant : Organism
                 List<HumidityTolerance> humidityToleranceValues =
                     Enum.GetValues(typeof(HumidityTolerance)).Cast<HumidityTolerance>().ToList();
 
-                humidityToleranceValues.RemoveAt((int)humidityTol);
+                humidityToleranceValues.RemoveAt((int)humidityTol - 1);
 
                 HumidityTolerance newHumidityTolerance = humidityToleranceValues[random.Next(humidityToleranceValues.Count)];
 
-                p.initialize(name + "^", spread, plantType, poisonous, waterNeeded,
+                p.initialize(name, spread, plantType, poisonous, waterNeeded,
                     spaceNeeded, canSurviveInMountains, canSurviveInDesert, newHumidityTolerance,
                     tempTol, lifespan);
             }
@@ -391,13 +406,13 @@ public class Plant : Organism
             {
                 if (random.Next(2) == 0)
                 {
-                    p.initialize(name + "^", spread, plantType, poisonous, waterNeeded,
+                    p.initialize(name, spread, plantType, poisonous, waterNeeded,
                         spaceNeeded, !canSurviveInMountains, canSurviveInDesert, humidityTol,
                         tempTol, lifespan);
                 }
                 else
                 {
-                    p.initialize(name + "^", spread, plantType, poisonous, waterNeeded,
+                    p.initialize(name, spread, plantType, poisonous, waterNeeded,
                         spaceNeeded, canSurviveInMountains, !canSurviveInDesert, humidityTol,
                         tempTol, lifespan);
                 }

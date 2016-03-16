@@ -20803,6 +20803,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -22629,7 +22630,7 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: None
       m_Image: {fileID: 0}
-    - m_Text: Miner
+    - m_Text: Minor
       m_Image: {fileID: 0}
     - m_Text: Major
       m_Image: {fileID: 0}

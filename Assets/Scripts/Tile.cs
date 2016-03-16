@@ -736,6 +736,10 @@ public class Tile : MonoBehaviour
 
     public void addAnimal(Animal a)
     {
-        animals.Add(a, 1);
+        Debug.Log("Animal is here? " + animals.ContainsKey(a));
+        if (animals.ContainsKey(a))
+            animals[a] += 1;
+        else 
+            animals.Add(a, 1);
     }
 }

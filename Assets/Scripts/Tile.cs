@@ -24,8 +24,14 @@ public class Tile : MonoBehaviour
     public Dictionary<Plant, int> plants = new Dictionary<Plant, int>();
     public Dictionary<Animal, int> animals = new Dictionary<Animal, int>();
 
+    static GameObject tilePanel;
+
     void Start()
     {
+        if (tilePanel == null) {
+            tilePanel = GameObject.Find("Tile select panel");
+             tilePanel.SetActive(false);
+        }
         sprite = GetComponent<SpriteRenderer>();
         active = false;
         initialized = false;
@@ -170,6 +176,24 @@ public class Tile : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0) && !eventSystem.IsPointerOverGameObject())
         {
+            tilePanel.SetActive(true);
+
+            foreach (Image img in tilePanel.GetComponentsInChildren<Image>())
+            {
+                if (img.name.Equals("Biome sprite"))
+                {
+                    img.overrideSprite = sprite.sprite;
+                }
+            }
+
+            foreach (Text txt in tilePanel.GetComponentsInChildren<Text>())
+            {
+                if (txt.name.Equals("Tile biome"))
+                {
+                    txt.text = biome.biomeType.ToString();
+                }
+            }
+
             string toPrint = "Plants: ";
             foreach (Plant p in plants.Keys)
             {
@@ -183,12 +207,16 @@ public class Tile : MonoBehaviour
             }
 
             Debug.Log(toPrint);
+
+
         }
         else if (Input.GetMouseButtonUp(1) && !eventSystem.IsPointerOverGameObject())
         {
             if (biome.biomeType != BiomeType.OCEAN)
             {
                 Dropdown entityType = GameObject.Find("Type selector").GetComponent<Dropdown>();
+
+                Debug.Log(entityType);
 
                 InputField speciesNameField = GameObject.Find("Species Name").GetComponent<InputField>();
                 

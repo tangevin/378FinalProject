@@ -9,7 +9,7 @@ public class World : MonoBehaviour
 
     private GameObject[,] map;
     public int height, width;
-    public GameObject tilePrefab, worldPrefab;
+    public GameObject tilePrefab, worldPrefab, worldStatsPrefab;
     public HashSet<int> speciesIDs = new HashSet<int>();
 
     private Vector3 dragOrigin;
@@ -32,6 +32,7 @@ public class World : MonoBehaviour
     private bool accelerateSelected = false;
     public Sprite accelerateSelectedSprite;
     public Sprite accelerateUnselectedSprite;
+    public WorldStats worldStats;
 
     public GameObject mutatedPlantPopupPanel;
     public int numPlantMutationsToBeNamed { get; private set; }

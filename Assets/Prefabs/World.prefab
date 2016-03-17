@@ -80,6 +80,7 @@ MonoBehaviour:
   width: 37
   tilePrefab: {fileID: 148936, guid: aa38410eb0267d84fbc3c2188019707d, type: 2}
   worldPrefab: {fileID: 146610}
+  worldStatsPrefab: {fileID: 0}
   dragSpeed: 1
   scrollSpeed: 1
   pauseButton: {fileID: 0}
@@ -96,6 +97,8 @@ MonoBehaviour:
     type: 3}
   accelerateUnselectedSprite: {fileID: 21300000, guid: 4320236520a85fb459b5b3c8af2cbfaa,
     type: 3}
+  worldStats: {fileID: 0}
+  mutatedPlantPopupPanel: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

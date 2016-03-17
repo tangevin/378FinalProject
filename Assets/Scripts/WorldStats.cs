@@ -5,7 +5,9 @@ using System.Linq;
 
 public class WorldStats : MonoBehaviour {
 
-    private GameObject world;
+    private bool isShowing;
+    public int height, width; 
+
     private List<GameObject> gameTiles;
     private Dictionary<int, List<int>> animalPopHist;
     private Dictionary<Plant, List<int>> plantPopHist;
@@ -15,9 +17,19 @@ public class WorldStats : MonoBehaviour {
 
     void Start()
     {
-        gameTiles = world.GetComponent<World>().getAllTiles();
+        //world.GetComponent<World>().getAllTiles();
         animalPopHist = new Dictionary<int, List<int>>();
         plantPopHist = new Dictionary<Plant, List<int>>();
+        isShowing = false;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown("w"))
+        {
+            isShowing = !isShowing;
+            //menu.SetActive(isShowing);
+        }
     }
 
     void updatePopulations()

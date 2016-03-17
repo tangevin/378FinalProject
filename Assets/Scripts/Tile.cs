@@ -176,12 +176,14 @@ public class Tile : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0) && !eventSystem.IsPointerOverGameObject())
         {
+            Debug.Log("Diong shit");
             tilePanel.SetActive(true);
 
             foreach (Image img in tilePanel.GetComponentsInChildren<Image>())
             {
                 if (img.name.Equals("Biome sprite"))
                 {
+                    Debug.Log("doing sprite");
                     img.overrideSprite = sprite.sprite;
                 }
             }
@@ -190,6 +192,7 @@ public class Tile : MonoBehaviour
             {
                 if (txt.name.Equals("Tile biome"))
                 {
+                    Debug.Log("doing biome");
                     txt.text = biome.biomeType.ToString();
                 }
             }

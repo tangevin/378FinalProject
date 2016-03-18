@@ -22,12 +22,12 @@ public class ParameterDropdownHandling : MonoBehaviour
 
         if (animalsSelected)
         {
-            fieldSpot.anchoredPosition = new Vector2(fieldSpot.anchoredPosition.x, -475);
+            fieldSpot.anchoredPosition = new Vector2(fieldSpot.anchoredPosition.x, -445);
             backSpot.anchoredPosition = new Vector2(backSpot.anchoredPosition.x, 0);
         } else
         {
             fieldSpot.anchoredPosition = new Vector2(fieldSpot.anchoredPosition.x, -365);
-            backSpot.anchoredPosition = new Vector2(backSpot.anchoredPosition.x, 110);
+            backSpot.anchoredPosition = new Vector2(backSpot.anchoredPosition.x, 80);
         }
 
     }

@@ -4756,7 +4756,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 33, y: 33}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &359373608
 MonoBehaviour:
@@ -4829,7 +4829,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: d02974a93ea150d4ca413b4ffd3ea034, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d9c4548f4e5482b4e9c2b6bcb8754f4f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7126,6 +7126,36 @@ Prefab:
       propertyPath: mutatedPlantPopupPanel
       value: 
       objectReference: {fileID: 134256, guid: 7c29af1864c9210428fd03d16962712d, type: 2}
+    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: pauseSelectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b032ac35669378241a4608c245127567,
+        type: 3}
+    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: pauseUnselectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 55429475037c7ca4180f33a0983ccedd,
+        type: 3}
+    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: playSelectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d9c4548f4e5482b4e9c2b6bcb8754f4f,
+        type: 3}
+    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: playUnselectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ab8fae0a2a43a674ba8fb6ad43a25a35,
+        type: 3}
+    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: accelerateSelectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 04a97c8cd18164043888a0289a55854d,
+        type: 3}
+    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: accelerateUnselectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 18e40f3ff0c48874bb75bd9b71012c9c,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
   m_IsPrefabParent: 0
@@ -10169,8 +10199,8 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 45, y: 0}
-  m_SizeDelta: {x: 33, y: 33}
+  m_AnchoredPosition: {x: 50, y: 0}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &854814687
 MonoBehaviour:
@@ -10243,7 +10273,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 4320236520a85fb459b5b3c8af2cbfaa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 18e40f3ff0c48874bb75bd9b71012c9c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15900,7 +15930,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -75, y: 30}
+  m_AnchoredPosition: {x: -75, y: 25}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1451927245
@@ -19909,8 +19939,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -45, y: 0}
-  m_SizeDelta: {x: 33, y: 33}
+  m_AnchoredPosition: {x: -50, y: 0}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1824759438
 MonoBehaviour:
@@ -19983,7 +20013,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: b0f6a0ce2c61f1242817b457029c85ea, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 55429475037c7ca4180f33a0983ccedd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20654,6 +20684,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

@@ -7,10 +7,9 @@ public class World : MonoBehaviour
 {
     new public Camera camera;
 
-    private bool isShowing;
     private GameObject[,] map;
     public int height, width;
-    public GameObject tilePrefab, worldPrefab;
+    public GameObject tilePrefab, worldPrefab, worldStatsPrefab;
     public HashSet<int> speciesIDs = new HashSet<int>();
 
     private Vector3 dragOrigin;
@@ -33,20 +32,14 @@ public class World : MonoBehaviour
     private bool accelerateSelected = false;
     public Sprite accelerateSelectedSprite;
     public Sprite accelerateUnselectedSprite;
-
     public WorldStats worldStats;
-    private int worldStatsCounter; 
 
     public GameObject mutatedPlantPopupPanel;
     public int numPlantMutationsToBeNamed { get; private set; }
 
-    public GameObject worldStatsPanel;
-
     // Use this for initialization
     void Start()
     {
-        worldStatsCounter = 10;
-        isShowing = false;
         tickSpeed = startingTickSpeed;
         paused = false;
 
@@ -82,8 +75,6 @@ public class World : MonoBehaviour
                 curTile.InitializeBiome(this, GetTilesInRange(curTile.x, curTile.y, 1), random);
             }
         }
-        worldStats.initialize();
-        worldStatsPanel.gameObject.SetActive(false);
     }
 
     public List<GameObject> getAllTiles()
@@ -96,7 +87,6 @@ public class World : MonoBehaviour
 
     void Update()
     {
-
         if (tickCounter == tickSpeed && !paused)
         {
             updateWorld();
@@ -133,46 +123,10 @@ public class World : MonoBehaviour
         {
             tickCounter++;
         }
-
-        if (Input.GetKeyDown("w"))
-        {
-            isShowing = !isShowing;
-            worldStats.UpdateLargest();
-            if (pauseSelected && worldStatsPanel.gameObject.active)
-                play();
-            else if (playSelected && ! worldStatsPanel.gameObject.active)
-                pause();
-            if (worldStats.animalPanelVis)
-            {
-                worldStats.animalPanelVis = false;
-                worldStats.animalPanel.gameObject.SetActive(false);
-                worldStats.popAnimal.gameObject.SetActive(true);
-                worldStats.popAnimalN.gameObject.SetActive(true);
-                worldStats.popPlant.gameObject.SetActive(true);
-                worldStats.popPlantN.gameObject.SetActive(true);
-            }
-            if (worldStats.plantPanelVis)
-            {
-                worldStats.plantPanelVis = false;
-                worldStats.plantPanel.gameObject.SetActive(false);
-                worldStats.popAnimal.gameObject.SetActive(true);
-                worldStats.popAnimalN.gameObject.SetActive(true);
-                worldStats.popPlant.gameObject.SetActive(true);
-                worldStats.popPlantN.gameObject.SetActive(true);
-            }
-            worldStatsPanel.gameObject.SetActive(isShowing);
-        }
-        
     }
 
     private void updateWorld()
     {
-        if (worldStatsCounter++ == 10)
-        {
-            worldStats.UpdatePopulations();
-            worldStatsCounter = 0;
-        }
-
         if (!paused)
         {
             foreach (GameObject tileObject in map)

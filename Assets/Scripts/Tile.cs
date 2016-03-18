@@ -25,13 +25,31 @@ public class Tile : MonoBehaviour
     public Dictionary<Animal, int> animals = new Dictionary<Animal, int>();
 
     static GameObject tilePanel;
+    static GameObject objPrefab;
+    static GameObject canvas;
+    static List<GameObject> objs;
 
     void Start()
     {
-        if (tilePanel == null) {
-            tilePanel = GameObject.Find("Tile select panel");
-             tilePanel.SetActive(false);
+        if (canvas == null)
+        {
+            canvas = GameObject.Find("Canvas");
         }
+        if (objs == null)
+        {
+            objs = new List<GameObject>();
+        }
+        if (objPrefab == null)
+        {
+            objPrefab = GameObject.Find("Object prefab");
+            objPrefab.SetActive(false);
+        }
+        if (tilePanel == null)
+        {
+            tilePanel = GameObject.Find("Tile select panel");
+            tilePanel.SetActive(false);
+        }
+
         sprite = GetComponent<SpriteRenderer>();
         active = false;
         initialized = false;
@@ -138,7 +156,7 @@ public class Tile : MonoBehaviour
         }
     }
 
-    void Update() 
+    void Update()
     {
         int numPlants = plants.Keys.Count;
         int numAnimals = animals.Keys.Count;
@@ -176,15 +194,22 @@ public class Tile : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0) && !eventSystem.IsPointerOverGameObject())
         {
-            //Debug.Log("Diong shit");
+            foreach (GameObject obj in objs)
+            {
+                obj.SetActive(false);
+                Destroy(obj);
+            }
+            objs.Clear();
+
+            // Debug.Log("Diong shit");
             tilePanel.SetActive(true);
 
             foreach (Image img in tilePanel.GetComponentsInChildren<Image>())
             {
                 if (img.name.Equals("Biome sprite"))
                 {
-                    //Debug.Log("doing sprite");
-                    img.overrideSprite = sprite.sprite;
+                    // Debug.Log("doing sprite");
+                    img.overrideSprite = spriteHandler.biomeSprites[(int)biome.biomeType];
                 }
             }
 
@@ -192,24 +217,61 @@ public class Tile : MonoBehaviour
             {
                 if (txt.name.Equals("Tile biome"))
                 {
-                    //Debug.Log("doing biome");
+                    // Debug.Log("doing biome");
                     txt.text = biome.biomeType.ToString();
                 }
             }
 
+            int count = 0;
+            foreach (Animal a in animals.Keys)
+            {
+                GameObject obj = Instantiate(objPrefab);
+                obj.GetComponentsInChildren<Image>()[1].sprite = a.typeSprite;
+                Debug.Log(obj.GetComponentsInChildren<Image>()[1]);
+                Debug.Log(obj.GetComponentsInChildren<Image>()[1].sprite);
+                Debug.Log(obj.GetComponentInChildren<Text>());
+                obj.GetComponentInChildren<Text>().text = a.name + " (" + animals[a] + ")";
+                obj.SetActive(true);
+                obj.transform.SetParent(canvas.transform);
+                Vector2 position = new Vector2(objPrefab.GetComponent<RectTransform>().anchoredPosition.x, objPrefab.GetComponent<RectTransform>().anchoredPosition.y - 60 * count++);
+                obj.GetComponent<RectTransform>().anchoredPosition = position;
+                objs.Add(obj);
+            }
+
+            foreach (Plant p in plants.Keys)
+            {
+                GameObject obj = Instantiate(objPrefab);
+                obj.GetComponentsInChildren<Image>()[1].sprite = p.typeSprite;
+                Debug.Log(obj.GetComponentsInChildren<Image>()[1]);
+                Debug.Log(obj.GetComponentsInChildren<Image>()[1].sprite);
+                Debug.Log(obj.GetComponentInChildren<Text>());
+                obj.GetComponentInChildren<Text>().text = p.name + " (" + plants[p] + ")";
+                obj.SetActive(true);
+                obj.transform.SetParent(canvas.transform);
+                Vector2 position = new Vector2(objPrefab.GetComponent<RectTransform>().anchoredPosition.x, objPrefab.GetComponent<RectTransform>().anchoredPosition.y - 60 * count++);
+                obj.GetComponent<RectTransform>().anchoredPosition = position;
+                objs.Add(obj);
+            }
+
+
+
+
+
+
+
+            /*
             string toPrint = "Plants: ";
             foreach (Plant p in plants.Keys)
             {
                 toPrint += p.name + " " + plants[p] + ", ";
             }
-
             toPrint += "Animals: ";
             foreach (Animal a in animals.Keys)
             {
                 toPrint += a.name + " " + animals[a] + ", ";
             }
-
             Debug.Log(toPrint);
+            */
 
 
         }
@@ -218,12 +280,9 @@ public class Tile : MonoBehaviour
             if (biome.biomeType != BiomeType.OCEAN)
             {
                 Dropdown entityType = GameObject.Find("Type selector").GetComponent<Dropdown>();
-
-                //Debug.Log(entityType);
-
                 InputField speciesNameField = GameObject.Find("Species Name").GetComponent<InputField>();
-                
-                string speciesName = speciesNameField.text;                
+
+                string speciesName = speciesNameField.text;
 
                 if (entityType.value == 0)
                 {
@@ -232,11 +291,10 @@ public class Tile : MonoBehaviour
 
                     try
                     {
-                        Debug.Log("Trying to add animal");
+                        // Debug.Log("Trying to add animal");
                         Dropdown aggression = GameObject.Find("Aggression").GetComponent<Dropdown>();
                         Dropdown appetite = GameObject.Find("Appetite").GetComponent<Dropdown>();
-                        Dropdown diet = GameObject.Find("Diet").GetComponent<Dropdown>();
-                        Dropdown legs = GameObject.Find("Legs").GetComponent<Dropdown>();
+                        Dropdown sprite = GameObject.Find("Sprite").GetComponent<Dropdown>();
                         Dropdown size = GameObject.Find("Size").GetComponent<Dropdown>();
                         Dropdown gender = GameObject.Find("Gender").GetComponent<Dropdown>();
                         Dropdown vision = GameObject.Find("Vision distance").GetComponent<Dropdown>();
@@ -249,8 +307,12 @@ public class Tile : MonoBehaviour
 
                         Aggression aggr = ParseEnum<Aggression>(aggression.options.ToArray()[aggression.value].text);
                         FoodNeeded fatness = ParseEnum<FoodNeeded>(appetite.options.ToArray()[appetite.value].text);
-                        FoodType vegan = ParseEnum<FoodType>(diet.options.ToArray()[diet.value].text);
-                        BodyType triped = ParseEnum<BodyType>(legs.options.ToArray()[legs.value].text);
+                        String typeText = sprite.options.ToArray()[sprite.value].text;
+                        int space = typeText.IndexOf(' ');
+                        String foodType = typeText.Substring(space, typeText.Length - space);
+                        String legCount = typeText.Substring(0, space);
+                        FoodType vegan = ParseEnum<FoodType>(foodType);
+                        BodyType triped = ParseEnum<BodyType>(legCount);
                         AnimalSize giants = ParseEnum<AnimalSize>(size.options.ToArray()[size.value].text);
                         Gender genitalia = ParseEnum<Gender>(gender.options.ToArray()[gender.value].text);
                         Perception vis = ParseEnum<Perception>(vision.options.ToArray()[vision.value].text);
@@ -280,10 +342,10 @@ public class Tile : MonoBehaviour
                         }
 
                         a.initialize(speciesName, aggr, fatness, vegan, triped, giants, genitalia,
-                            vis, gesttime, sonic, babycount, humids, temps, lifetime, id);
+                            vis, gesttime, sonic, babycount, humids, temps, lifetime, id, GameObject.Find("Sprite selected").GetComponent<Image>().sprite);
 
                         addAnimal(a);
-                        Debug.Log("Added animal.");
+                        // Debug.Log("Added animal.");
                     }
                     catch
                     {
@@ -331,7 +393,7 @@ public class Tile : MonoBehaviour
                             }
 
                             p.initialize(speciesName, spread, plantType, poisonous, waterNeeded, spaceNeeded, canSurviveInMountain,
-                                canSurviveInDesert, humidityTolerance, temperatureTolerance, lifespan);
+                                canSurviveInDesert, humidityTolerance, temperatureTolerance, lifespan, GameObject.Find("Plant Sprite selected").GetComponent<Image>().sprite);
 
                             addPlant(p, 1);
                         }
@@ -380,7 +442,7 @@ public class Tile : MonoBehaviour
                 List<GameObject> closeTiles = world.GetComponent<World>().GetTilesInRange(x, y, (int)a.perception + 1);
                 closeTiles.Remove(gameObject);
                 Dictionary<int, GameObject> dec = makeDec(a, closeTiles);
-    
+
                 if (dec.ContainsKey((int)dictKeys.ANIMAL))
                 {
                     Animal other = dec[(int)dictKeys.ANIMAL].GetComponent<Animal>();
@@ -656,7 +718,7 @@ public class Tile : MonoBehaviour
                     if (evolvePlant != null)
                     {
                         numGrowth--;
-                        //Debug.Log("Evolve Plant: " + evolvePlant.name);
+                        Debug.Log("Evolve Plant: " + evolvePlant.name);
                         world.GetComponent<World>().showPlantMutationPopup(evolvePlant, this);
                     }
 
@@ -667,7 +729,7 @@ public class Tile : MonoBehaviour
                         if (mutatePlant != null)
                         {
                             numGrowth--;
-                            //Debug.Log("Mutate Plant: " + mutatePlant.name);
+                            Debug.Log("Mutate Plant: " + mutatePlant.name);
                             world.GetComponent<World>().showPlantMutationPopup(mutatePlant, this);
                         }
                     }
@@ -679,7 +741,7 @@ public class Tile : MonoBehaviour
                     if (mutatePlant != null)
                     {
                         numGrowth--;
-                        //Debug.Log("Mutate Plant: " + mutatePlant.name);
+                        Debug.Log("Mutate Plant: " + mutatePlant.name);
                         world.GetComponent<World>().showPlantMutationPopup(mutatePlant, this);
                     }
 
@@ -690,7 +752,7 @@ public class Tile : MonoBehaviour
                         if (evolvePlant != null)
                         {
                             numGrowth--;
-                           //Debug.Log("Evolve Plant: " + evolvePlant.name);
+                            Debug.Log("Evolve Plant: " + evolvePlant.name);
                             world.GetComponent<World>().showPlantMutationPopup(evolvePlant, this);
                         }
                     }
@@ -767,10 +829,10 @@ public class Tile : MonoBehaviour
 
     public void addAnimal(Animal a)
     {
-        //Debug.Log("Animal is here? " + animals.ContainsKey(a));
+        // Debug.Log("Animal is here? " + animals.ContainsKey(a));
         if (animals.ContainsKey(a))
             animals[a] += 1;
-        else 
+        else
             animals.Add(a, 1);
     }
 }

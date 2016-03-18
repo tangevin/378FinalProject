@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
 
-public class WorldStats : MonoBehaviour {
+public class WorldStats : MonoBehaviour
+{
 
     public Text anAggression;
     public Text anSpeed;
@@ -50,7 +51,7 @@ public class WorldStats : MonoBehaviour {
     private List<Plant> plantsInGame;
     public Dictionary<int, List<int>> animalPopHist;
     private Dictionary<Plant, List<int>> plantPopHist;
-    private enum AnimalParams {AGGRESSION, APPETITE, DIET, SIZE, GENDER, BODYTYPE, LITTER, GESTATION, PERCEPTION, SPEED};
+    private enum AnimalParams { AGGRESSION, APPETITE, DIET, SIZE, GENDER, BODYTYPE, LITTER, GESTATION, PERCEPTION, SPEED };
 
     public void initialize()
     {
@@ -83,7 +84,7 @@ public class WorldStats : MonoBehaviour {
 
     void Start()
     {
-        
+
 
     }
 
@@ -103,7 +104,7 @@ public class WorldStats : MonoBehaviour {
 
     void Update()
     {
-        
+
     }
 
     void AnimalPan(string name)
@@ -114,15 +115,15 @@ public class WorldStats : MonoBehaviour {
         if (plantPanelVis)
         {
             plantPanel.gameObject.SetActive(false);
-            plantPanelVis = ! plantPanelVis;
+            plantPanelVis = !plantPanelVis;
         }
-        animalPanelVis = ! animalPanelVis;
+        animalPanelVis = !animalPanelVis;
         animalPanel.gameObject.SetActive(animalPanelVis);
         popAnimal.gameObject.SetActive(false);
         popAnimalN.gameObject.SetActive(false);
         popPlant.gameObject.SetActive(false);
         popPlantN.gameObject.SetActive(false);
-        foreach(int key in animalsInGame.Keys)
+        foreach (int key in animalsInGame.Keys)
         {
             if (animalsInGame[key].name.Equals(name))
                 anm = key;
@@ -142,13 +143,13 @@ public class WorldStats : MonoBehaviour {
             animalPanel.gameObject.SetActive(false);
             animalPanelVis = !animalPanelVis;
         }
-        plantPanelVis = ! plantPanelVis;
+        plantPanelVis = !plantPanelVis;
         plantPanel.gameObject.SetActive(plantPanelVis);
         popAnimal.gameObject.SetActive(false);
         popAnimalN.gameObject.SetActive(false);
         popPlant.gameObject.SetActive(false);
         popPlantN.gameObject.SetActive(false);
-        foreach(Plant p in plantsInGame)
+        foreach (Plant p in plantsInGame)
         {
             if (p.name.Equals(name))
             {
@@ -165,12 +166,12 @@ public class WorldStats : MonoBehaviour {
         Dictionary<Plant, int> plantList;
         Dictionary<int, int> toAdd = new Dictionary<int, int>();
         Dictionary<Plant, int> toAddP = new Dictionary<Plant, int>();
-       
-        foreach(GameObject tile in gameTiles)
+
+        foreach (GameObject tile in gameTiles)
         {
             animalList = tile.GetComponent<Tile>().animals;
             plantList = tile.GetComponent<Tile>().plants;
-            foreach(Animal a in animalList.Keys)
+            foreach (Animal a in animalList.Keys)
             {
                 if (!animalsInGame.Keys.ToList<int>().Contains(a.speciesID))
                 {
@@ -182,7 +183,7 @@ public class WorldStats : MonoBehaviour {
                 else
                     toAdd.Add(a.speciesID, animalList[a]);
             }
-            foreach(Plant p in plantList.Keys)
+            foreach (Plant p in plantList.Keys)
             {
                 if (!plantsInGame.Contains(p))
                 {
@@ -325,7 +326,8 @@ public class WorldStats : MonoBehaviour {
                       animals[0].humidityTol,
                       animals[0].tempTol,
                       animals[0].lifespan,
-                      animals[0].speciesID);
+                      animals[0].speciesID,
+                      animals[0].typeSprite);
         return an;
     }
 
@@ -340,7 +342,7 @@ public class WorldStats : MonoBehaviour {
             if (curPops[p] == val)
                 ret = p;
         return ret;
-    } 
+    }
 
     Animal MostCommonAnimal()
     {

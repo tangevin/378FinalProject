@@ -39,6 +39,8 @@ public class WorldStats : MonoBehaviour
     public Dropdown AnimalDropdown;
     public Dropdown PlantDropdown;
 
+    public Button Pan;
+
     public GameObject animalPanel;
     public GameObject plantPanel;
 
@@ -72,14 +74,7 @@ public class WorldStats : MonoBehaviour
         PlantDropdown.options.Clear();
         PlantDropdown.options.Add(new Dropdown.OptionData() { text = "None" });
 
-        AnimalDropdown.onValueChanged.AddListener(delegate
-        {
-            myAnimalDropdownValueChangedHandler(AnimalDropdown);
-        });
-        PlantDropdown.onValueChanged.AddListener(delegate
-        {
-            myPlantDropdownValueChangedHandler(PlantDropdown);
-        });
+        Pan.onClick.AddListener(delegate { UpdatePanel(); } );
     }
 
     void Start()
@@ -88,23 +83,54 @@ public class WorldStats : MonoBehaviour
 
     }
 
-    private int myPlantDropdownValueChangedHandler(Dropdown target)
+    void UpdatePanel()
     {
-        if (!PlantDropdown.options[PlantDropdown.value].text.Equals("None"))
-            PlantPan(PlantDropdown.options[PlantDropdown.value].text);
-        return 0;
-    }
-
-    private int myAnimalDropdownValueChangedHandler(Dropdown target)
-    {
-        if (!AnimalDropdown.options[AnimalDropdown.value].text.Equals("None"))
+        //Debug.Log("An: " + AnimalDropdown.options[AnimalDropdown.value].text);
+        //Debug.Log("Pl: " + PlantDropdown.options[PlantDropdown.value].text);
+        animalPanel.gameObject.SetActive(false);
+        plantPanel.gameObject.SetActive(false);
+        plantPanelVis = false;
+        animalPanelVis = false;
+        if ((PlantDropdown.options[PlantDropdown.value].text.Equals("None") &&
+            AnimalDropdown.options[AnimalDropdown.value].text.Equals("None")) ||
+            (!PlantDropdown.options[PlantDropdown.value].text.Equals("None") &&
+            !AnimalDropdown.options[AnimalDropdown.value].text.Equals("None")))
+        {
+            animalPanel.gameObject.SetActive(false);
+            plantPanel.gameObject.SetActive(false);
+            plantPanelVis = false;
+            animalPanelVis = false;
+            popAnimal.gameObject.SetActive(true);
+            popAnimalN.gameObject.SetActive(true);
+            popPlant.gameObject.SetActive(true);
+            popPlantN.gameObject.SetActive(true);
+        }
+        else if (PlantDropdown.options[PlantDropdown.value].text.Equals("None"))
+        {
+            //Debug.Log("DOIN IT");
             AnimalPan(AnimalDropdown.options[AnimalDropdown.value].text);
-        return 0;
+        }
+        else if (AnimalDropdown.options[AnimalDropdown.value].text.Equals("None"))
+            PlantPan(PlantDropdown.options[PlantDropdown.value].text);
     }
 
     void Update()
     {
+        
+    }
 
+    private int myAnimalDropdownValueChangedHandler()
+    {
+        if (!AnimalDropdown.options[AnimalDropdown.value].text.Equals("None"))
+            AnimalPan(AnimalDropdown.options[AnimalDropdown.value].text);
+        else
+        {
+            animalPanel.gameObject.SetActive(false);
+            plantPanel.gameObject.SetActive(false);
+            plantPanelVis = false;
+            animalPanelVis = false;
+        }
+        return 1;
     }
 
     void AnimalPan(string name)
@@ -312,7 +338,7 @@ public class WorldStats : MonoBehaviour
         //Create a new animal and return it for display
         GameObject newAnimal = (GameObject)Instantiate(animals[0].gameObject, animals[0].transform.position, Quaternion.identity);
         Animal an = newAnimal.GetComponent<Animal>();
-        an.initialize(animals[0].name,
+        an.initialize(animalsInGame[id].name,
                       (Aggression)mostCommonParams[(int)AnimalParams.AGGRESSION],
                       (FoodNeeded)mostCommonParams[(int)AnimalParams.APPETITE],
                       (FoodType)mostCommonParams[(int)AnimalParams.DIET],
@@ -323,11 +349,11 @@ public class WorldStats : MonoBehaviour
                       (int)mostCommonParams[(int)AnimalParams.GESTATION],
                       (Speed)mostCommonParams[(int)AnimalParams.SPEED],
                       (Babies)mostCommonParams[(int)AnimalParams.LITTER],
-                      animals[0].humidityTol,
-                      animals[0].tempTol,
-                      animals[0].lifespan,
-                      animals[0].speciesID,
-                      animals[0].typeSprite);
+                      animalsInGame[id].humidityTol,
+                      animalsInGame[id].tempTol,
+                      animalsInGame[id].lifespan,
+                      animalsInGame[id].speciesID,
+                      animalsInGame[id].typeSprite);
         return an;
     }
 

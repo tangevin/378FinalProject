@@ -22,13 +22,11 @@ public class AnimalRandomize : MonoBehaviour {
 
     void randomize()
     {
-        Debug.Log("Stuff");
         List<Dropdown> dropdowns = new List<Dropdown>();
 
         dropdowns.Add(GameObject.Find("Aggression").GetComponent<Dropdown>());
         dropdowns.Add(GameObject.Find("Appetite").GetComponent<Dropdown>());
-        dropdowns.Add(GameObject.Find("Diet").GetComponent<Dropdown>());
-        dropdowns.Add(GameObject.Find("Legs").GetComponent<Dropdown>());
+        dropdowns.Add(GameObject.Find("Sprite").GetComponent<Dropdown>());
         dropdowns.Add(GameObject.Find("Size").GetComponent<Dropdown>());
         dropdowns.Add(GameObject.Find("Gender").GetComponent<Dropdown>());
         dropdowns.Add(GameObject.Find("Vision distance").GetComponent<Dropdown>());

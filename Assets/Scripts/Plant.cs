@@ -297,7 +297,7 @@ public class Plant : Organism
 
         if (random.Next(mutateOutOf) < mutateChance * numGrown)
         {
-            List<System.Type> parameters = new List<System.Type>() {typeof(Spread), typeof(PlantType), typeof(Poisonous), typeof(WaterNeeded), 
+            List<System.Type> parameters = new List<System.Type>() {typeof(Spread), typeof(Poisonous), typeof(WaterNeeded), 
             typeof(SpaceNeeded), typeof(TemperatureTolerance), typeof(HumidityTolerance), typeof(bool), typeof(bool)};
             
             int mutateParameter = random.Next(9);
@@ -316,19 +316,6 @@ public class Plant : Organism
                 Spread newSpread = spreadValues[random.Next(spreadValues.Count)];
 
                 p.initialize(name, newSpread, plantType, poisonous, waterNeeded,
-                            spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
-                            tempTol, lifespan, typeSprite);
-            }
-            else if (paramType.Equals(typeof(PlantType)))
-            {
-                List<PlantType> plantTypeValues = Enum.GetValues(typeof(PlantType)).Cast<PlantType>().ToList();
-
-                plantTypeValues.RemoveAt((int)plantType);
-
-                PlantType newPlantType = plantTypeValues[random.Next(plantTypeValues.Count)];
-
-                // TODO set sprite to new sprite
-                p.initialize(name, spread, newPlantType, poisonous, waterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
                             tempTol, lifespan, typeSprite);
             }

@@ -194,6 +194,7 @@ public class Tile : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0) && !eventSystem.IsPointerOverGameObject())
         {
+            world.GetComponent<World>().setCurrentlySelectedTile(this);
             foreach (GameObject obj in objs)
             {
                 obj.SetActive(false);
@@ -201,7 +202,6 @@ public class Tile : MonoBehaviour
             }
             objs.Clear();
 
-            // Debug.Log("Diong shit");
             tilePanel.SetActive(true);
 
             foreach (Image img in tilePanel.GetComponentsInChildren<Image>())
@@ -252,28 +252,6 @@ public class Tile : MonoBehaviour
                 obj.GetComponent<RectTransform>().anchoredPosition = position;
                 objs.Add(obj);
             }
-
-
-
-
-
-
-
-            /*
-            string toPrint = "Plants: ";
-            foreach (Plant p in plants.Keys)
-            {
-                toPrint += p.name + " " + plants[p] + ", ";
-            }
-            toPrint += "Animals: ";
-            foreach (Animal a in animals.Keys)
-            {
-                toPrint += a.name + " " + animals[a] + ", ";
-            }
-            Debug.Log(toPrint);
-            */
-
-
         }
         else if (Input.GetMouseButtonUp(1) && !eventSystem.IsPointerOverGameObject())
         {
@@ -834,5 +812,15 @@ public class Tile : MonoBehaviour
             animals[a] += 1;
         else
             animals.Add(a, 1);
+    }
+
+    public void hideTilePanel() {
+        foreach (GameObject obj in objs) {
+            obj.SetActive(false);
+            Destroy(obj);
+        }
+        objs.Clear();
+
+        tilePanel.SetActive(false);
     }
 }

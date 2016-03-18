@@ -41,6 +41,8 @@ public class World : MonoBehaviour
     public GameObject mutatedPlantPopupPanel;
     public int numPlantMutationsToBeNamed { get; private set; }
 
+    private Tile currentTile;
+
     // Use this for initialization
     void Start()
     {
@@ -95,7 +97,7 @@ public class World : MonoBehaviour
 
     void Update()
     {
-        if (tickCounter == tickSpeed && !paused)
+        if (tickCounter >= tickSpeed && !paused)
         {
             updateWorld();
         }
@@ -138,8 +140,9 @@ public class World : MonoBehaviour
             worldStats.UpdateLargest();
             if (pauseSelected && worldStatsPanel.gameObject.active)
                 play();
-            else if (playSelected && !worldStatsPanel.gameObject.active)
+            else if ((playSelected || accelerateSelected) && !worldStatsPanel.gameObject.active)
                 pause();
+
             if (worldStats.animalPanelVis)
             {
                 worldStats.animalPanelVis = false;
@@ -164,7 +167,7 @@ public class World : MonoBehaviour
 
     private void updateWorld()
     {
-
+        Debug.Log("World tick");
         if (!paused)
         {
             if (worldStatsCounter++ == 10)
@@ -336,5 +339,13 @@ public class World : MonoBehaviour
 
     public void resolveMutation() {
         this.numPlantMutationsToBeNamed--;
+    }
+
+    public void setCurrentlySelectedTile(Tile currentTile) {
+        this.currentTile = currentTile;
+    }
+
+    public void hideCurrentlySelectedTilePanel() {
+        this.currentTile.hideTilePanel();
     }
 }

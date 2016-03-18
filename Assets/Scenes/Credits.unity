@@ -572,13 +572,10 @@ MonoBehaviour:
     All art is original and property of Nate Diamond
 
 
-    Background music found at:
+    Background music found at: https://www.youtube.com/watch?v=O_TcGPoFwPo
 
 
-    Sound effects found at:
-
-
-    Game can be downloaded at:'
+    Game can be downloaded at: http://users.csc.calpoly.edu/~tangevin/IAmBecomeGod/IAmBecomeGod.html'
 --- !u!222 &1459496471
 CanvasRenderer:
   m_ObjectHideFlags: 0

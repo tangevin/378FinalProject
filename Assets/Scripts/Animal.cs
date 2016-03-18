@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
 
 public class Animal : Organism
 {
@@ -37,6 +38,8 @@ public class Animal : Organism
     public bool pregnant { get; private set; }
     public HashSet<Animal> spawn { get; private set; }
 
+    public Sprite typeSprite { get; private set; }
+
     // Use this for initialization--
     void Start()
     {
@@ -44,7 +47,7 @@ public class Animal : Organism
     }
 
     public void initialize(string pName, Aggression agr, FoodNeeded fdNd, FoodType fType, BodyType bType, AnimalSize anSize, Gender gndr, Perception perc, int gest,
-                Speed spd, Babies bbies, HumidityTolerance humid, TemperatureTolerance tempTol, Lifespan lfs, int specID)
+                Speed spd, Babies bbies, HumidityTolerance humid, TemperatureTolerance tempTol, Lifespan lfs, int specID, Sprite dispImage)
     {
         name = pName;
         age = 0;
@@ -63,6 +66,7 @@ public class Animal : Organism
         babies = bbies;
         hunger = hungerMax;
         base.initialize(humid, tempTol, lfs);
+        typeSprite = dispImage;
     }
 
     // Update is called once per frame
@@ -90,6 +94,7 @@ public class Animal : Organism
         System.Array spd = new Speed[2] { father.speed, mother.speed };
         System.Array babes = new Babies[2] { father.babies, mother.babies };
         System.Array gnd = new Gender[2] { father.gender, mother.gender };
+        System.Array dispImage = new Sprite[2] { father.typeSprite, mother.typeSprite };
 
         GameObject newAnimal = (GameObject)Instantiate(mother.gameObject, mother.transform.position, Quaternion.identity);
         Animal a = newAnimal.GetComponent<Animal>();
@@ -107,7 +112,8 @@ public class Animal : Organism
                           base.humidityTol,
                           base.tempTol,
                           base.lifespan,
-                          speciesID);
+                          speciesID,
+                          (Sprite)dispImage.GetValue(random.Next(dispImage.Length)));
 
         return a;
     }

@@ -25,13 +25,31 @@ public class Tile : MonoBehaviour
     public Dictionary<Animal, int> animals = new Dictionary<Animal, int>();
 
     static GameObject tilePanel;
+    static GameObject objPrefab;
+    static GameObject canvas;
+    static List<GameObject> objs;
 
     void Start()
     {
-        if (tilePanel == null) {
-            tilePanel = GameObject.Find("Tile select panel");
-             tilePanel.SetActive(false);
+        if (canvas == null)
+        {
+            canvas = GameObject.Find("Canvas");
         }
+        if (objs == null)
+        {
+            objs = new List<GameObject>();
+        }
+        if (objPrefab == null)
+        {
+            objPrefab = GameObject.Find("Object prefab");
+            objPrefab.SetActive(false);
+        }
+        if (tilePanel == null)
+        {
+            tilePanel = GameObject.Find("Tile select panel");
+            tilePanel.SetActive(false);
+        }
+
         sprite = GetComponent<SpriteRenderer>();
         active = false;
         initialized = false;
@@ -176,15 +194,22 @@ public class Tile : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0) && !eventSystem.IsPointerOverGameObject())
         {
-            Debug.Log("Diong shit");
+            foreach (GameObject obj in objs)
+            {
+                obj.SetActive(false);
+                Destroy(obj);
+            }
+            objs.Clear();
+
+            // Debug.Log("Diong shit");
             tilePanel.SetActive(true);
 
             foreach (Image img in tilePanel.GetComponentsInChildren<Image>())
             {
                 if (img.name.Equals("Biome sprite"))
                 {
-                    Debug.Log("doing sprite");
-                    img.overrideSprite = sprite.sprite;
+                    // Debug.Log("doing sprite");
+                    img.overrideSprite = spriteHandler.biomeSprites[(int)biome.biomeType];
                 }
             }
 
@@ -192,11 +217,49 @@ public class Tile : MonoBehaviour
             {
                 if (txt.name.Equals("Tile biome"))
                 {
-                    Debug.Log("doing biome");
+                    // Debug.Log("doing biome");
                     txt.text = biome.biomeType.ToString();
                 }
             }
 
+            int count = 0;
+            foreach (Animal a in animals.Keys)
+            {
+                GameObject obj = Instantiate(objPrefab);
+                obj.GetComponentsInChildren<Image>()[1].sprite = a.typeSprite;
+                Debug.Log(obj.GetComponentsInChildren<Image>()[1]);
+                Debug.Log(obj.GetComponentsInChildren<Image>()[1].sprite);
+                Debug.Log(obj.GetComponentInChildren<Text>());
+                obj.GetComponentInChildren<Text>().text = a.name + " (" + animals[a] + ")";
+                obj.SetActive(true);
+                obj.transform.SetParent(canvas.transform);
+                Vector2 position = new Vector2(objPrefab.GetComponent<RectTransform>().anchoredPosition.x, objPrefab.GetComponent<RectTransform>().anchoredPosition.y - 60 * count++);
+                obj.GetComponent<RectTransform>().anchoredPosition = position;
+                objs.Add(obj);
+            }
+
+            foreach (Plant p in plants.Keys)
+            {
+                GameObject obj = Instantiate(objPrefab);
+                obj.GetComponentsInChildren<Image>()[1].sprite = p.typeSprite;
+                Debug.Log(obj.GetComponentsInChildren<Image>()[1]);
+                Debug.Log(obj.GetComponentsInChildren<Image>()[1].sprite);
+                Debug.Log(obj.GetComponentInChildren<Text>());
+                obj.GetComponentInChildren<Text>().text = p.name + " (" + plants[p] + ")";
+                obj.SetActive(true);
+                obj.transform.SetParent(canvas.transform);
+                Vector2 position = new Vector2(objPrefab.GetComponent<RectTransform>().anchoredPosition.x, objPrefab.GetComponent<RectTransform>().anchoredPosition.y - 60 * count++);
+                obj.GetComponent<RectTransform>().anchoredPosition = position;
+                objs.Add(obj);
+            }
+
+
+
+
+
+
+
+            /*
             string toPrint = "Plants: ";
             foreach (Plant p in plants.Keys)
             {
@@ -210,6 +273,7 @@ public class Tile : MonoBehaviour
             }
 
             Debug.Log(toPrint);
+            */
 
 
         }
@@ -218,9 +282,6 @@ public class Tile : MonoBehaviour
             if (biome.biomeType != BiomeType.OCEAN)
             {
                 Dropdown entityType = GameObject.Find("Type selector").GetComponent<Dropdown>();
-
-                Debug.Log(entityType);
-
                 InputField speciesNameField = GameObject.Find("Species Name").GetComponent<InputField>();
                 
                 string speciesName = speciesNameField.text;                
@@ -232,7 +293,7 @@ public class Tile : MonoBehaviour
 
                     try
                     {
-                        Debug.Log("Trying to add animal");
+                        // Debug.Log("Trying to add animal");
                         Dropdown aggression = GameObject.Find("Aggression").GetComponent<Dropdown>();
                         Dropdown appetite = GameObject.Find("Appetite").GetComponent<Dropdown>();
                         Dropdown sprite = GameObject.Find("Sprite").GetComponent<Dropdown>();
@@ -283,10 +344,10 @@ public class Tile : MonoBehaviour
                         }
 
                         a.initialize(speciesName, aggr, fatness, vegan, triped, giants, genitalia,
-                            vis, gesttime, sonic, babycount, humids, temps, lifetime, id);
+                            vis, gesttime, sonic, babycount, humids, temps, lifetime, id, GameObject.Find("Sprite selected").GetComponent<Image>().sprite);
 
                         addAnimal(a);
-                        Debug.Log("Added animal.");
+                        // Debug.Log("Added animal.");
                     }
                     catch
                     {
@@ -334,7 +395,7 @@ public class Tile : MonoBehaviour
                             }
 
                             p.initialize(speciesName, spread, plantType, poisonous, waterNeeded, spaceNeeded, canSurviveInMountain,
-                                canSurviveInDesert, humidityTolerance, temperatureTolerance, lifespan);
+                                canSurviveInDesert, humidityTolerance, temperatureTolerance, lifespan, GameObject.Find("Plant Sprite selected").GetComponent<Image>().sprite);
 
                             addPlant(p, 1);
                         }
@@ -770,7 +831,7 @@ public class Tile : MonoBehaviour
 
     public void addAnimal(Animal a)
     {
-        Debug.Log("Animal is here? " + animals.ContainsKey(a));
+        // Debug.Log("Animal is here? " + animals.ContainsKey(a));
         if (animals.ContainsKey(a))
             animals[a] += 1;
         else 

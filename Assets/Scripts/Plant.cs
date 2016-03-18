@@ -20,9 +20,11 @@ public class Plant : Organism
     public bool canSurviveInMountains { get; private set; }
     public bool canSurviveInDesert { get; private set; }
 
+    public Sprite typeSprite { get; private set; }
+
     public void initialize(string name, Spread spread, PlantType plantType, Poisonous poisonous, WaterNeeded waterNeeded, 
         SpaceNeeded spaceNeeded, bool canSurviveInMountains, bool canSurviveInDesert, HumidityTolerance humidityTolerance, 
-        TemperatureTolerance tempTolerance, Lifespan lifespan) 
+        TemperatureTolerance tempTolerance, Lifespan lifespan, Sprite dispImage) 
     {
         this.name = name;
         this.spread = spread;
@@ -32,6 +34,8 @@ public class Plant : Organism
         this.spaceNeeded = spaceNeeded;
         this.canSurviveInMountains = canSurviveInMountains;
         this.canSurviveInDesert = canSurviveInDesert;
+
+        typeSprite = dispImage;
 
         initialize(humidityTolerance, tempTolerance, lifespan);
     }
@@ -141,7 +145,7 @@ public class Plant : Organism
 
                             p.initialize(name, spread, plantType, poisonous, waterNeeded - 1,
                                 spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
-                                tempTol, lifespan);
+                                tempTol, lifespan, typeSprite);
 
                             return p;
                         }
@@ -157,7 +161,7 @@ public class Plant : Organism
 
                         p.initialize(name, spread, plantType, poisonous, waterNeeded,
                             spaceNeeded - 1, canSurviveInMountains, canSurviveInDesert, humidityTol,
-                            tempTol, lifespan);
+                            tempTol, lifespan, typeSprite);
 
                         return p;
                     }
@@ -187,7 +191,7 @@ public class Plant : Organism
 
                         p.initialize(name, spread, plantType, poisonous, waterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
-                            tempTolerance, lifespan);
+                            tempTolerance, lifespan, typeSprite);
 
                         return p;
                     }
@@ -217,7 +221,7 @@ public class Plant : Organism
 
                         p.initialize(name, spread, plantType, poisonous, waterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTolerance,
-                            tempTol, lifespan);
+                            tempTol, lifespan, typeSprite);
 
                         return p;
                     }
@@ -276,7 +280,7 @@ public class Plant : Organism
 
                         p.initialize(name, spread, plantType, poisonous, waterNeeded,
                             spaceNeeded, mountainSurvival, desertSurvival, humidityTol,
-                            tempTol, lifespan);
+                            tempTol, lifespan, typeSprite);
 
                         return p;
                     }
@@ -313,7 +317,7 @@ public class Plant : Organism
 
                 p.initialize(name, newSpread, plantType, poisonous, waterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
-                            tempTol, lifespan);
+                            tempTol, lifespan, typeSprite);
             }
             else if (paramType.Equals(typeof(PlantType)))
             {
@@ -323,9 +327,10 @@ public class Plant : Organism
 
                 PlantType newPlantType = plantTypeValues[random.Next(plantTypeValues.Count)];
 
+                // TODO set sprite to new sprite
                 p.initialize(name, spread, newPlantType, poisonous, waterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
-                            tempTol, lifespan);
+                            tempTol, lifespan, typeSprite);
             }
             else if (paramType.Equals(typeof(Poisonous)))
             {
@@ -350,7 +355,7 @@ public class Plant : Organism
 
                 p.initialize(name, spread, plantType, newPoisonous, waterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
-                            tempTol, lifespan);
+                            tempTol, lifespan, typeSprite);
             }
             else if (paramType.Equals(typeof(WaterNeeded)))
             {
@@ -362,7 +367,7 @@ public class Plant : Organism
 
                 p.initialize(name, spread, plantType, poisonous, newWaterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
-                            tempTol, lifespan);
+                            tempTol, lifespan, typeSprite);
             }
             else if (paramType.Equals(typeof(SpaceNeeded)))
             {
@@ -374,7 +379,7 @@ public class Plant : Organism
 
                 p.initialize(name, spread, plantType, poisonous, waterNeeded,
                             newSpaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
-                            tempTol, lifespan);
+                            tempTol, lifespan, typeSprite);
             }
             else if (paramType.Equals(typeof(TemperatureTolerance)))
             {
@@ -387,7 +392,7 @@ public class Plant : Organism
 
                 p.initialize(name, spread, plantType, poisonous, waterNeeded,
                             spaceNeeded, canSurviveInMountains, canSurviveInDesert, humidityTol,
-                            newTempTolerance, lifespan);
+                            newTempTolerance, lifespan, typeSprite);
             }
             else if (paramType.Equals(typeof(HumidityTolerance)))
             {
@@ -400,7 +405,7 @@ public class Plant : Organism
 
                 p.initialize(name, spread, plantType, poisonous, waterNeeded,
                     spaceNeeded, canSurviveInMountains, canSurviveInDesert, newHumidityTolerance,
-                    tempTol, lifespan);
+                    tempTol, lifespan, typeSprite);
             }
             else
             {
@@ -408,13 +413,13 @@ public class Plant : Organism
                 {
                     p.initialize(name, spread, plantType, poisonous, waterNeeded,
                         spaceNeeded, !canSurviveInMountains, canSurviveInDesert, humidityTol,
-                        tempTol, lifespan);
+                        tempTol, lifespan, typeSprite);
                 }
                 else
                 {
                     p.initialize(name, spread, plantType, poisonous, waterNeeded,
                         spaceNeeded, canSurviveInMountains, !canSurviveInDesert, humidityTol,
-                        tempTol, lifespan);
+                        tempTol, lifespan, typeSprite);
                 }
             }
 

@@ -22,7 +22,6 @@ public class AnimalRandomize : MonoBehaviour {
 
     void randomize()
     {
-        Debug.Log("Stuff");
         List<Dropdown> dropdowns = new List<Dropdown>();
 
         dropdowns.Add(GameObject.Find("Aggression").GetComponent<Dropdown>());

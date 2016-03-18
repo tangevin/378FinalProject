@@ -2,5 +2,5 @@
 
 public enum BodyType
 {
-    BIPED, QUADRUPED
+    BIPED, QUADPED
 }

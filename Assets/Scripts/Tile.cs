@@ -235,8 +235,7 @@ public class Tile : MonoBehaviour
                         Debug.Log("Trying to add animal");
                         Dropdown aggression = GameObject.Find("Aggression").GetComponent<Dropdown>();
                         Dropdown appetite = GameObject.Find("Appetite").GetComponent<Dropdown>();
-                        Dropdown diet = GameObject.Find("Diet").GetComponent<Dropdown>();
-                        Dropdown legs = GameObject.Find("Legs").GetComponent<Dropdown>();
+                        Dropdown sprite = GameObject.Find("Sprite").GetComponent<Dropdown>();
                         Dropdown size = GameObject.Find("Size").GetComponent<Dropdown>();
                         Dropdown gender = GameObject.Find("Gender").GetComponent<Dropdown>();
                         Dropdown vision = GameObject.Find("Vision distance").GetComponent<Dropdown>();
@@ -249,8 +248,12 @@ public class Tile : MonoBehaviour
 
                         Aggression aggr = ParseEnum<Aggression>(aggression.options.ToArray()[aggression.value].text);
                         FoodNeeded fatness = ParseEnum<FoodNeeded>(appetite.options.ToArray()[appetite.value].text);
-                        FoodType vegan = ParseEnum<FoodType>(diet.options.ToArray()[diet.value].text);
-                        BodyType triped = ParseEnum<BodyType>(legs.options.ToArray()[legs.value].text);
+                        String typeText = sprite.options.ToArray()[sprite.value].text;
+                        int space = typeText.IndexOf(' ');
+                        String foodType = typeText.Substring(space, typeText.Length - space);
+                        String legCount = typeText.Substring(0, space);
+                        FoodType vegan = ParseEnum<FoodType>(foodType);
+                        BodyType triped = ParseEnum<BodyType>(legCount);
                         AnimalSize giants = ParseEnum<AnimalSize>(size.options.ToArray()[size.value].text);
                         Gender genitalia = ParseEnum<Gender>(gender.options.ToArray()[gender.value].text);
                         Perception vis = ParseEnum<Perception>(vision.options.ToArray()[vision.value].text);

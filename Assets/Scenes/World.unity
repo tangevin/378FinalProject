@@ -2505,7 +2505,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Animal type
 --- !u!222 &139511942
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7876,73 +7876,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 585813588}
---- !u!1 &586556805
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 224: {fileID: 586556806}
-  - 222: {fileID: 586556808}
-  - 114: {fileID: 586556807}
-  m_Layer: 0
-  m_Name: Sprite in dropdown
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &586556806
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 586556805}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1023991274}
-  m_RootOrder: 3
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &586556807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 586556805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!222 &586556808
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 586556805}
 --- !u!1 &587509799
 GameObject:
   m_ObjectHideFlags: 0
@@ -12554,7 +12487,6 @@ RectTransform:
   - {fileID: 139511940}
   - {fileID: 1214130216}
   - {fileID: 1473800739}
-  - {fileID: 586556806}
   - {fileID: 1453352036}
   m_Father: {fileID: 279397616}
   m_RootOrder: 0
@@ -12600,19 +12532,27 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 1023991276}
   m_Template: {fileID: 1473800739}
-  m_CaptionText: {fileID: 139511941}
+  m_CaptionText: {fileID: 0}
   m_CaptionImage: {fileID: 1453352037}
   m_ItemText: {fileID: 196923117}
   m_ItemImage: {fileID: 0}
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: 
-      m_Image: {fileID: 21300000, guid: a5b7d2f3f476cb34b96c0f6e964abf5d, type: 3}
-    - m_Text: 
-      m_Image: {fileID: 21300000, guid: 78fc9c9c5cf52d647a15afa72540e5e7, type: 3}
-    - m_Text: 
-      m_Image: {fileID: 21300000, guid: da893eda7680f0543a870ef59f9d21e9, type: 3}
+    - m_Text: Animal type
+      m_Image: {fileID: 0}
+    - m_Text: Biped Herbivore
+      m_Image: {fileID: 21300000, guid: 07fbb61ea49ab6043a26ea53aca08e68, type: 3}
+    - m_Text: Biped Omnivore
+      m_Image: {fileID: 21300000, guid: 289de803079f9f345abb117e99fd3552, type: 3}
+    - m_Text: Biped Carnivore
+      m_Image: {fileID: 21300000, guid: 92d436904dc75244db1bd5760649688d, type: 3}
+    - m_Text: Quadped Herbivore
+      m_Image: {fileID: 21300000, guid: 254663f874edba54bba4ef44b8e82c9f, type: 3}
+    - m_Text: Quadped Omnivore
+      m_Image: {fileID: 21300000, guid: ee71322b8eb96624fa10b107ed08e829, type: 3}
+    - m_Text: Quadped Carnivore
+      m_Image: {fileID: 21300000, guid: 6fa472821dc2db84a92ef48f428de2c4, type: 3}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -16509,10 +16449,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1023991274}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 30, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1453352037
@@ -16521,7 +16461,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1453352035}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
@@ -16534,7 +16474,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a5b7d2f3f476cb34b96c0f6e964abf5d, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -21467,7 +21407,6 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

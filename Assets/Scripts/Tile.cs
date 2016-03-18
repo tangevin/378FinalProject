@@ -176,14 +176,14 @@ public class Tile : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0) && !eventSystem.IsPointerOverGameObject())
         {
-            Debug.Log("Diong shit");
+            //Debug.Log("Diong shit");
             tilePanel.SetActive(true);
 
             foreach (Image img in tilePanel.GetComponentsInChildren<Image>())
             {
                 if (img.name.Equals("Biome sprite"))
                 {
-                    Debug.Log("doing sprite");
+                    //Debug.Log("doing sprite");
                     img.overrideSprite = sprite.sprite;
                 }
             }
@@ -192,7 +192,7 @@ public class Tile : MonoBehaviour
             {
                 if (txt.name.Equals("Tile biome"))
                 {
-                    Debug.Log("doing biome");
+                    //Debug.Log("doing biome");
                     txt.text = biome.biomeType.ToString();
                 }
             }
@@ -219,7 +219,7 @@ public class Tile : MonoBehaviour
             {
                 Dropdown entityType = GameObject.Find("Type selector").GetComponent<Dropdown>();
 
-                Debug.Log(entityType);
+                //Debug.Log(entityType);
 
                 InputField speciesNameField = GameObject.Find("Species Name").GetComponent<InputField>();
                 
@@ -656,7 +656,7 @@ public class Tile : MonoBehaviour
                     if (evolvePlant != null)
                     {
                         numGrowth--;
-                        Debug.Log("Evolve Plant: " + evolvePlant.name);
+                        //Debug.Log("Evolve Plant: " + evolvePlant.name);
                         world.GetComponent<World>().showPlantMutationPopup(evolvePlant, this);
                     }
 
@@ -667,7 +667,7 @@ public class Tile : MonoBehaviour
                         if (mutatePlant != null)
                         {
                             numGrowth--;
-                            Debug.Log("Mutate Plant: " + mutatePlant.name);
+                            //Debug.Log("Mutate Plant: " + mutatePlant.name);
                             world.GetComponent<World>().showPlantMutationPopup(mutatePlant, this);
                         }
                     }
@@ -679,7 +679,7 @@ public class Tile : MonoBehaviour
                     if (mutatePlant != null)
                     {
                         numGrowth--;
-                        Debug.Log("Mutate Plant: " + mutatePlant.name);
+                        //Debug.Log("Mutate Plant: " + mutatePlant.name);
                         world.GetComponent<World>().showPlantMutationPopup(mutatePlant, this);
                     }
 
@@ -690,7 +690,7 @@ public class Tile : MonoBehaviour
                         if (evolvePlant != null)
                         {
                             numGrowth--;
-                            Debug.Log("Evolve Plant: " + evolvePlant.name);
+                           //Debug.Log("Evolve Plant: " + evolvePlant.name);
                             world.GetComponent<World>().showPlantMutationPopup(evolvePlant, this);
                         }
                     }
@@ -767,7 +767,7 @@ public class Tile : MonoBehaviour
 
     public void addAnimal(Animal a)
     {
-        Debug.Log("Animal is here? " + animals.ContainsKey(a));
+        //Debug.Log("Animal is here? " + animals.ContainsKey(a));
         if (animals.ContainsKey(a))
             animals[a] += 1;
         else 

@@ -379,7 +379,343 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 164952, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 166840, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsAnimalDropdown
+      objectReference: {fileID: 0}
+    - target: {fileID: 161240, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsPlantDropdown
+      objectReference: {fileID: 0}
+    - target: {fileID: 110420, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsAnimalSelect
+      objectReference: {fileID: 0}
+    - target: {fileID: 121056, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsPlantSelect
+      objectReference: {fileID: 0}
+    - target: {fileID: 102504, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsTitle
+      objectReference: {fileID: 0}
+    - target: {fileID: 139852, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsText
+      objectReference: {fileID: 0}
+    - target: {fileID: 106246, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsMostPopulousAnimal
+      objectReference: {fileID: 0}
+    - target: {fileID: 116892, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsMostPopAnimalName
+      objectReference: {fileID: 0}
+    - target: {fileID: 114198, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsMostPopulousPlant
+      objectReference: {fileID: 0}
+    - target: {fileID: 127910, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsMostPopulousPlantName
+      objectReference: {fileID: 0}
+    - target: {fileID: 184420, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsAnimel
+      objectReference: {fileID: 0}
+    - target: {fileID: 151812, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsMCS
+      objectReference: {fileID: 0}
+    - target: {fileID: 131878, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsAnimalName
+      objectReference: {fileID: 0}
+    - target: {fileID: 180496, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsGrowthRate
+      objectReference: {fileID: 0}
+    - target: {fileID: 147780, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsFoodNeeded
+      objectReference: {fileID: 0}
+    - target: {fileID: 162122, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsFoodType
+      objectReference: {fileID: 0}
+    - target: {fileID: 144676, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsSize
+      objectReference: {fileID: 0}
+    - target: {fileID: 171958, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsGender
+      objectReference: {fileID: 0}
+    - target: {fileID: 188094, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsBodyType
+      objectReference: {fileID: 0}
+    - target: {fileID: 122456, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsBabies
+      objectReference: {fileID: 0}
+    - target: {fileID: 172464, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsGestation
+      objectReference: {fileID: 0}
+    - target: {fileID: 193820, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 162980, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsPerception
+      objectReference: {fileID: 0}
+    - target: {fileID: 184278, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsGrowthRateVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 146992, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsFoodNeededVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 145908, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsSizeVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 185458, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsFoodTypeVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 117536, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsGenderVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 173092, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsBodyTypeVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 172920, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsBabiesVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 188802, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsGestationVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 196438, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsPerceptionVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 132434, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsSpeedVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 166294, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsPlanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 199112, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsStats
+      objectReference: {fileID: 0}
+    - target: {fileID: 128438, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsPlantName
+      objectReference: {fileID: 0}
+    - target: {fileID: 176994, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsGrowthRate
+      objectReference: {fileID: 0}
+    - target: {fileID: 111020, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsType
+      objectReference: {fileID: 0}
+    - target: {fileID: 117662, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsSpread
+      objectReference: {fileID: 0}
+    - target: {fileID: 167436, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsPoison
+      objectReference: {fileID: 0}
+    - target: {fileID: 130324, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsWaterNeeded
+      objectReference: {fileID: 0}
+    - target: {fileID: 186246, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsSpaceNeeded
+      objectReference: {fileID: 0}
+    - target: {fileID: 142908, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsHumidityTolerance
+      objectReference: {fileID: 0}
+    - target: {fileID: 168414, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsTempTolerance
+      objectReference: {fileID: 0}
+    - target: {fileID: 193776, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsGrowthRateVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 197526, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsSpreadVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 176208, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsPoisonVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 156262, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsTypeVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 165170, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsWaterNeededVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 111476, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsSpaceNeededVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 138198, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsTempToleranceVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 114938, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_Name
+      value: WorldStatsHumidityToleranceVal
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: popPlantN
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: popAnimalN
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: AnimalDropdown
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: PlantDropdown
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: animalPanel
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: plantPanel
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: growthAnimal
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: anFoodNeed
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: anGest
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: anPerception
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: anName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: anBabies
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: anBodyType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: anGender
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: anSize
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: anFoodType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: anAggression
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: anSpeed
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 184420, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: popAnimal
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: popPlant
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: plName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 22412586, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 22417426, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: plSpread
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: plType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: plPoison
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: plWater
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: plSpace
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: plTemp
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: plHumid
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11432036, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+      propertyPath: growthPlant
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
@@ -7237,17 +7573,7 @@ Prefab:
       propertyPath: mutatedPlantPopupPanel
       value: 
       objectReference: {fileID: 134256, guid: 7c29af1864c9210428fd03d16962712d, type: 2}
-<<<<<<< HEAD
     - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
-<<<<<<< HEAD
-      propertyPath: worldStatsPanel
-      value: 
-      objectReference: {fileID: 1513842819}
-    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
-      propertyPath: worldStats
-      value: 
-      objectReference: {fileID: 1513842820}
-=======
       propertyPath: pauseSelectedSprite
       value: 
       objectReference: {fileID: 21300000, guid: b032ac35669378241a4608c245127567,
@@ -7277,9 +7603,14 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 18e40f3ff0c48874bb75bd9b71012c9c,
         type: 3}
->>>>>>> origin/master
-=======
->>>>>>> parent of 0f34b69... Welcome to the World Congress:  We Will Judge You
+    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: worldStats
+      value: 
+      objectReference: {fileID: 1340322755}
+    - target: {fileID: 11470688, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
+      propertyPath: worldStatsPanel
+      value: 
+      objectReference: {fileID: 1340322753}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f8d3643f4d6f44d4cb8d8ad920147d3c, type: 2}
   m_IsPrefabParent: 0
@@ -9063,85 +9394,6 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 1
-<<<<<<< HEAD
---- !u!1 &689252624
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 224: {fileID: 689252625}
-  - 222: {fileID: 689252627}
-  - 114: {fileID: 689252626}
-  m_Layer: 0
-  m_Name: Handle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &689252625
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 689252624}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 280179462}
-  m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.2}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 20}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &689252626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 689252624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!222 &689252627
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 689252624}
-<<<<<<< HEAD
---- !u!114 &695722503 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11497806, guid: 051cdb6e13862224495e90c4e6ee7959,
-    type: 2}
-  m_PrefabInternal: {fileID: 5164401}
-  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-=======
->>>>>>> origin/master
-=======
->>>>>>> parent of 0f34b69... Welcome to the World Congress:  We Will Judge You
 --- !u!1 &698204563
 GameObject:
   m_ObjectHideFlags: 0
@@ -14899,6 +15151,21 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1330662217}
+--- !u!1 &1340322753 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 194902, guid: 051cdb6e13862224495e90c4e6ee7959, type: 2}
+  m_PrefabInternal: {fileID: 5164401}
+--- !u!224 &1340322754 stripped
+RectTransform:
+  m_PrefabParentObject: {fileID: 22411606, guid: 051cdb6e13862224495e90c4e6ee7959,
+    type: 2}
+  m_PrefabInternal: {fileID: 5164401}
+--- !u!114 &1340322755 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11455556, guid: 051cdb6e13862224495e90c4e6ee7959,
+    type: 2}
+  m_PrefabInternal: {fileID: 5164401}
+  m_Script: {fileID: 11500000, guid: 7d9fa583a2182e7478e995b06d436300, type: 3}
 --- !u!1 &1355939895
 GameObject:
   m_ObjectHideFlags: 0
@@ -17012,11 +17279,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1542097233}
---- !u!224 &1570407664 stripped
-RectTransform:
-  m_PrefabParentObject: {fileID: 22405732, guid: 051cdb6e13862224495e90c4e6ee7959,
-    type: 2}
-  m_PrefabInternal: {fileID: 5164401}
 --- !u!1 &1576084122
 GameObject:
   m_ObjectHideFlags: 0
@@ -19919,119 +20181,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1805747562}
-<<<<<<< HEAD
-<<<<<<< HEAD
---- !u!114 &1806657000 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11467650, guid: 051cdb6e13862224495e90c4e6ee7959,
-    type: 2}
-  m_PrefabInternal: {fileID: 5164401}
-  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-=======
->>>>>>> parent of 0f34b69... Welcome to the World Congress:  We Will Judge You
---- !u!1 &1813812525
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 224: {fileID: 1813812526}
-  - 222: {fileID: 1813812529}
-  - 114: {fileID: 1813812528}
-  - 114: {fileID: 1813812527}
-  m_Layer: 0
-  m_Name: Template
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &1813812526
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1813812525}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1391112158}
-  - {fileID: 506066241}
-  m_Father: {fileID: 2022681789}
-  m_RootOrder: 2
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2}
-  m_SizeDelta: {x: 0, y: 150}
-  m_Pivot: {x: 0.5, y: 1}
---- !u!114 &1813812527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1813812525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1367256648, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Content: {fileID: 1950577264}
-  m_Horizontal: 0
-  m_Vertical: 1
-  m_MovementType: 2
-  m_Elasticity: 0.1
-  m_Inertia: 1
-  m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
-  m_Viewport: {fileID: 1391112158}
-  m_HorizontalScrollbar: {fileID: 0}
-  m_VerticalScrollbar: {fileID: 506066242}
-  m_HorizontalScrollbarVisibility: 0
-  m_VerticalScrollbarVisibility: 2
-  m_HorizontalScrollbarSpacing: 0
-  m_VerticalScrollbarSpacing: -3
-  m_OnValueChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1813812528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1813812525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!222 &1813812529
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1813812525}
-=======
->>>>>>> origin/master
 --- !u!1 &1813930560
 GameObject:
   m_ObjectHideFlags: 0
@@ -21005,7 +21154,6 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -21022,7 +21170,7 @@ RectTransform:
   - {fileID: 1128003206}
   - {fileID: 1448038174}
   - {fileID: 189599962}
-  - {fileID: 1570407664}
+  - {fileID: 1340322754}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
@@ -24283,17 +24431,4 @@ CanvasRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 2132566213}
-<<<<<<< HEAD
---- !u!114 &2145277356 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11462994, guid: 051cdb6e13862224495e90c4e6ee7959,
-    type: 2}
-  m_PrefabInternal: {fileID: 5164401}
-  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-=======
   m_GameObject: {fileID: 2134757670}
->>>>>>> origin/master
-=======
->>>>>>> parent of 0f34b69... Welcome to the World Congress:  We Will Judge You
